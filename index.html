@@ -9,7 +9,10 @@
   <meta name="description" content="Bisontes DUX es un club de fútbol con sede en Madrid, fundado en 2025. Compromiso, equipo y pasión. Únete a la manada." />
   <meta name="keywords" content="Bisontes DUX, club de fútbol Madrid, fútbol aficionado Madrid, Bisontes, DUX, equipo de fútbol Madrid 2025" />
   <meta name="robots" content="index, follow" />
+  <meta name="application-name" content="Bisontes DUX" />
+  <meta name="thumbnail" content="https://urpito.github.io/BisontesDUX/assets/logo.png" />
   <link rel="canonical" href="https://urpito.github.io/BisontesDUX/" />
+  <link rel="image_src" href="https://urpito.github.io/BisontesDUX/assets/logo.png" />
 
   <!-- Open Graph (WhatsApp, Facebook, LinkedIn) -->
   <meta property="og:type" content="website" />
@@ -17,6 +20,10 @@
   <meta property="og:title" content="Bisontes DUX — Club de Fútbol en Madrid" />
   <meta property="og:description" content="Club de fútbol con sede en Madrid, fundado en 2025. Compromiso, equipo y pasión. Únete a la manada." />
   <meta property="og:image" content="https://urpito.github.io/BisontesDUX/assets/logo.png" />
+  <meta property="og:image:secure_url" content="https://urpito.github.io/BisontesDUX/assets/logo.png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta property="og:image:alt" content="Logo oficial de Bisontes DUX" />
   <meta property="og:locale" content="es_ES" />
   <meta property="og:site_name" content="Bisontes DUX" />
 
@@ -25,12 +32,14 @@
   <meta name="twitter:title" content="Bisontes DUX — Club de Fútbol en Madrid" />
   <meta name="twitter:description" content="Club de fútbol con sede en Madrid, fundado en 2025. Compromiso, equipo y pasión." />
   <meta name="twitter:image" content="https://urpito.github.io/BisontesDUX/assets/logo.png" />
+  <meta name="twitter:image:alt" content="Logo oficial de Bisontes DUX" />
 
   <!-- Schema.org JSON-LD: organización deportiva -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "SportsOrganization",
+    "@id": "https://urpito.github.io/BisontesDUX/#organization",
     "name": "Bisontes DUX",
     "alternateName": "Bisontes DUX FC",
     "url": "https://urpito.github.io/BisontesDUX/",
@@ -49,6 +58,45 @@
       "addressLocality": "Madrid",
       "addressCountry": "ES"
     }
+  }
+  </script>
+
+  <!-- Schema.org JSON-LD: nombre del sitio e imagen preferente para Google -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://urpito.github.io/BisontesDUX/#website",
+        "url": "https://urpito.github.io/BisontesDUX/",
+        "name": "Bisontes DUX",
+        "alternateName": [
+          "Bisontes DUX Club de Fútbol",
+          "Bisontes DUX Madrid"
+        ],
+        "publisher": {
+          "@id": "https://urpito.github.io/BisontesDUX/#organization"
+        }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://urpito.github.io/BisontesDUX/#webpage",
+        "url": "https://urpito.github.io/BisontesDUX/",
+        "name": "Bisontes DUX — Club de Fútbol en Madrid",
+        "isPartOf": {
+          "@id": "https://urpito.github.io/BisontesDUX/#website"
+        },
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://urpito.github.io/BisontesDUX/assets/logo.png",
+          "width": 512,
+          "height": 512,
+          "caption": "Logo oficial de Bisontes DUX"
+        },
+        "thumbnailUrl": "https://urpito.github.io/BisontesDUX/assets/logo.png"
+      }
+    ]
   }
   </script>
 
@@ -124,7 +172,7 @@
     </div>
 
     <!-- RIGHT: jugador protagonista -->
-    <div class="hero-visual">
+    <div class="hero-visual" data-nosnippet>
       <span class="hero-ghost" aria-hidden="true">DUX</span>
 
       <span class="hero-pill">♟ Temporada 2026</span>
