@@ -3,6 +3,38 @@
    ============================================================ */
 
 /* ----------------------------------------------------------
+   CONFIG — FORMULARIOS
+   --
+   Pega aquí tu Access Key de https://web3forms.com  (es gratis).
+   1. Entra en web3forms.com, pon el email del club y te llega la clave.
+   2. Sustituye el texto de abajo por tu clave.
+   Los formularios "Quiero jugar" y "Newsletter" la usan automáticamente.
+   ---------------------------------------------------------- */
+const WEB3FORMS_KEY = '17baff50-6d30-42f0-b53e-b4f62c5bf730';
+
+/* NEWSLETTER con BREVO (recomendado para enviar campañas "Partido vs X").
+   Cuando crees tu formulario en Brevo te darán una URL con esta forma:
+       https://XXXXX.sibforms.com/serve/YYYYY
+   Pégala aquí (entre las comillas) y los suscriptores entrarán SOLOS en
+   tu lista de Brevo. Mientras siga como está, las altas te llegan al correo. */
+const BREVO_FORM_ACTION = 'TU_URL_DE_BREVO_AQUI';
+
+/* Helpers de formulario */
+function postWeb3Forms(data) {
+  return fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(r => r.json());
+}
+
+function setFormStatus(el, type, msg) {
+  if (!el) return;
+  el.textContent = msg || '';
+  el.className = 'form-status' + (type ? ' form-status--' + type : '');
+}
+
+/* ----------------------------------------------------------
    MODAL GENÉRICO
    ---------------------------------------------------------- */
 function openModal(html) {
@@ -204,6 +236,25 @@ function initNavbar() {
   onScroll();
 }
 
+/* Resalta el enlace del menú de la sección que se está viendo */
+function initScrollSpy() {
+  const links = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
+  const map = links
+    .map(a => ({ a, sec: document.querySelector(a.getAttribute('href')) }))
+    .filter(x => x.sec);
+  if (!map.length) return;
+
+  const onScroll = () => {
+    const y = window.scrollY + 120;
+    let current = map[0];
+    map.forEach(item => { if (item.sec.offsetTop <= y) current = item; });
+    links.forEach(a => a.classList.remove('active'));
+    current.a.classList.add('active');
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
+
 /* ----------------------------------------------------------
    SMOOTH SCROLL
    ---------------------------------------------------------- */
@@ -221,30 +272,165 @@ function initSmoothScroll() {
 /* ----------------------------------------------------------
    JOIN FORM
    ---------------------------------------------------------- */
+function renderJoinForm() {
+  const wrap = document.getElementById('join-fields');
+  if (!wrap || typeof joinFormFields === 'undefined') return;
+
+  wrap.innerHTML = joinFormFields.map(f => {
+    const id   = 'f-' + f.name;
+    const full = f.full ? ' form-field--full' : '';
+    const req  = f.required ? ' required' : '';
+    const ph   = f.placeholder ? ` placeholder="${f.placeholder}"` : '';
+
+    let control;
+    if (f.type === 'textarea') {
+      control = `<textarea id="${id}" name="${f.name}" rows="4"${ph}${req}></textarea>`;
+    } else if (f.type === 'select') {
+      const opts = ['<option value="" disabled selected>Selecciona…</option>']
+        .concat((f.options || []).map(o => `<option value="${o}">${o}</option>`))
+        .join('');
+      control = `<select id="${id}" name="${f.name}"${req}>${opts}</select>`;
+    } else {
+      control = `<input type="${f.type || 'text'}" id="${id}" name="${f.name}"${ph}${req} />`;
+    }
+
+    return `<div class="form-field${full}"><label for="${id}">${f.label}</label>${control}</div>`;
+  }).join('');
+}
+
 function initJoinForm() {
   const form = document.getElementById('join-form');
   if (!form) return;
-  form.addEventListener('submit', e => {
+  const btn    = form.querySelector('button[type="submit"]');
+  const status = document.getElementById('join-status');
+
+  form.addEventListener('submit', async e => {
     e.preventDefault();
-    const btn = form.querySelector('button[type="submit"]');
-    btn.innerHTML = '✓ ¡Recibido! Nos ponemos en contacto';
-    btn.disabled  = true;
-    btn.style.background = '#3a9e5f';
+
+    if (WEB3FORMS_KEY.startsWith('TU_')) {
+      setFormStatus(status, 'warn', 'Falta configurar la clave de Web3Forms en js/main.js (línea WEB3FORMS_KEY).');
+      return;
+    }
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+
+    const original = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = 'Enviando…';
+    setFormStatus(status, '', '');
+
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    try {
+      const res = await postWeb3Forms({
+        access_key: WEB3FORMS_KEY,
+        subject: 'Nuevo jugador quiere unirse — Bisontes DUX',
+        from_name: 'Web Bisontes DUX',
+        ...data
+      });
+      if (!res.success) throw new Error(res.message || 'error');
+      form.reset();
+      btn.innerHTML = '✓ ¡Recibido!';
+      btn.style.background = '#3a9e5f';
+      setFormStatus(status, 'ok', '¡Gracias! Hemos recibido tus datos. Nos pondremos en contacto contigo pronto.');
+    } catch (err) {
+      btn.disabled = false;
+      btn.innerHTML = original;
+      setFormStatus(status, 'err', 'No se pudo enviar. Inténtalo de nuevo o escríbenos a bisontes.dux@gmail.com');
+    }
   });
 }
 
 /* ----------------------------------------------------------
    NEWSLETTER FORM
    ---------------------------------------------------------- */
+/* iframe oculto donde Brevo recibe el envío sin que la página recargue */
+function ensureBrevoSink() {
+  let f = document.getElementById('brevo_sink');
+  if (!f) {
+    f = document.createElement('iframe');
+    f.id = 'brevo_sink';
+    f.name = 'brevo_sink';
+    f.style.display = 'none';
+    document.body.appendChild(f);
+  }
+  return f;
+}
+
 function initNewsletter() {
   const form = document.getElementById('newsletter-form');
   if (!form) return;
-  form.addEventListener('submit', e => {
+  const btn    = form.querySelector('.btn-submit');
+  const status = document.getElementById('newsletter-status');
+
+  const brevoReady = !BREVO_FORM_ACTION.startsWith('TU_');
+  const web3Ready  = !WEB3FORMS_KEY.startsWith('TU_');
+
+  form.addEventListener('submit', async e => {
     e.preventDefault();
-    const btn = form.querySelector('.btn-submit');
-    btn.textContent = '¡Suscrito!';
-    btn.disabled = true;
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+
+    /* Opción 1 — Brevo: el suscriptor entra solo en tu lista */
+    if (brevoReady) {
+      ensureBrevoSink();
+      form.action = BREVO_FORM_ACTION;
+      form.method = 'POST';
+      form.target = 'brevo_sink';
+      btn.disabled = true;
+      btn.textContent = 'Enviando…';
+      setFormStatus(status, '', '');
+      form.submit();
+      setTimeout(() => {
+        form.reset();
+        btn.disabled = false;
+        btn.textContent = '¡Suscrito! ✓';
+        setFormStatus(status, 'ok', '¡Gracias! Revisa tu correo para confirmar la suscripción.');
+      }, 900);
+      return;
+    }
+
+    /* Opción 2 — Web3Forms: las altas llegan a tu buzón (fallback) */
+    if (web3Ready) {
+      const original = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Enviando…';
+      setFormStatus(status, '', '');
+      const data = Object.fromEntries(new FormData(form).entries());
+      try {
+        const res = await postWeb3Forms({
+          access_key: WEB3FORMS_KEY,
+          subject: 'Nueva suscripción a la newsletter — Bisontes DUX',
+          from_name: 'Web Bisontes DUX',
+          ...data
+        });
+        if (!res.success) throw new Error(res.message || 'error');
+        form.reset();
+        btn.textContent = '¡Suscrito! ✓';
+        setFormStatus(status, 'ok', '¡Gracias por suscribirte! Pronto tendrás noticias del club.');
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = original;
+        setFormStatus(status, 'err', 'No se pudo completar. Inténtalo de nuevo.');
+      }
+      return;
+    }
+
+    setFormStatus(status, 'warn', 'Falta configurar la newsletter en js/main.js.');
   });
+}
+
+/* ----------------------------------------------------------
+   BARRA DE PROGRESO DE SCROLL
+   ---------------------------------------------------------- */
+function initScrollProgress() {
+  const bar = document.getElementById('scroll-progress');
+  if (!bar) return;
+  const update = () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+  };
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
 }
 
 /* ----------------------------------------------------------
@@ -252,10 +438,13 @@ function initNewsletter() {
    ---------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
+  initScrollSpy();
   initSmoothScroll();
   initScrollReveal();
+  initScrollProgress();
   renderPlayers();
   renderSponsors();
+  renderJoinForm();
   initJoinForm();
   initNewsletter();
 });

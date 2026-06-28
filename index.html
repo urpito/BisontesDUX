@@ -60,6 +60,8 @@
 </head>
 <body>
 
+<div id="scroll-progress" aria-hidden="true"></div>
+
 <!-- ============================================================
      NAVBAR
      ============================================================ -->
@@ -86,101 +88,58 @@
      ============================================================ -->
 <section id="hero" aria-label="Portada">
 
-  <div class="hero-bar" aria-hidden="true"></div>
+  <div class="hero-aurora" aria-hidden="true"></div>
   <div class="hero-grid-overlay" aria-hidden="true"></div>
+  <div class="hero-blade" aria-hidden="true"></div>
 
-  <!-- LEFT -->
-  <div class="hero-content">
-    <div class="hero-badge">
-      <span class="hero-badge-ping-wrap">
-        <span class="hero-badge-ping"></span>
-        <span class="hero-badge-dot"></span>
-      </span>
-      Club de Fútbol · Madrid
-    </div>
+  <div class="hero-inner">
 
-    <img src="assets/logo.png" alt="Bisontes DUX" class="hero-logo" />
-
-    <h1 class="font-display hero-title">
-      Bisontes<br>
-      <span class="pink">DUX</span>
-    </h1>
-
-    <div class="hero-divider"></div>
-    <p class="hero-sub">Temporada 2026 · Madrid · España</p>
-
-    <div class="hero-actions">
-      <a href="#join" class="btn btn-primary">
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-          <path d="M2 7.5h11M9 3l4 4.5L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Únete al club
-      </a>
-      <a href="#plantilla" class="btn btn-ghost">Ver plantilla</a>
-    </div>
-  </div>
-
-  <!-- RIGHT: glassmorphism card -->
-  <div class="hero-right">
-    <span class="hero-bg-text" aria-hidden="true">DUX</span>
-
-    <div class="hero-glass-card">
-      <div class="hero-glass-glow" aria-hidden="true"></div>
-
-      <div class="hero-glass-top">
-        <div class="hero-glass-icon" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 2a14.5 14.5 0 0 0 0 20"/>
-            <path d="M2 12h20"/>
-          </svg>
-        </div>
-        <div>
-          <div class="hero-glass-bignum">20+</div>
-          <div class="hero-glass-bignumlabel">Jugadores en plantilla</div>
-        </div>
-      </div>
-
-      <div class="hero-glass-progress-wrap">
-        <div class="hero-glass-progress-header">
-          <span>Compromiso del equipo</span>
-          <span>100%</span>
-        </div>
-        <div class="hero-glass-bar">
-          <div class="hero-glass-bar-fill"></div>
-        </div>
-      </div>
-
-      <div class="hero-glass-sep"></div>
-
-      <div class="hero-glass-mini-stats">
-        <div class="hero-glass-mini-stat">
-          <span class="hero-glass-mini-val">2025</span>
-          <span class="hero-glass-mini-key">Fundación</span>
-        </div>
-        <div class="hero-glass-mini-div"></div>
-        <div class="hero-glass-mini-stat">
-          <span class="hero-glass-mini-val">Madrid</span>
-          <span class="hero-glass-mini-key">Ciudad</span>
-        </div>
-        <div class="hero-glass-mini-div"></div>
-        <div class="hero-glass-mini-stat">
-          <span class="hero-glass-mini-val">11</span>
-          <span class="hero-glass-mini-key">Titulares</span>
-        </div>
-      </div>
-
-      <div class="hero-glass-pills">
-        <span class="hero-glass-pill">
-          <span class="hero-glass-ping-wrap">
-            <span class="hero-glass-ping"></span>
-            <span class="hero-glass-ping-dot"></span>
-          </span>
-          ACTIVO
+    <!-- LEFT -->
+    <div class="hero-content">
+      <img src="assets/logo.png" alt="Escudo Bisontes DUX" class="hero-crest" />
+      <div class="hero-badge">
+        <span class="hero-badge-ping-wrap">
+          <span class="hero-badge-ping"></span>
+          <span class="hero-badge-dot"></span>
         </span>
-        <span class="hero-glass-pill">♟ TEMPORADA 2026</span>
+        Club de fútbol · Madrid
+      </div>
+
+      <h1 class="font-display hero-title">
+        <span class="hero-title-line">Bisontes</span>
+        <span class="hero-title-line"><span class="pink">DUX</span></span>
+      </h1>
+
+      <p class="hero-sub">La manada · Temporada 2026 · Madrid · España</p>
+
+      <div class="hero-actions">
+        <a href="#join" class="btn btn-primary">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+            <path d="M2 7.5h11M9 3l4 4.5L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Únete al club
+        </a>
+        <a href="#plantilla" class="btn btn-ghost">Ver plantilla</a>
       </div>
     </div>
+
+    <!-- RIGHT: jugador protagonista -->
+    <div class="hero-visual">
+      <span class="hero-ghost" aria-hidden="true">DUX</span>
+
+      <span class="hero-pill">♟ Temporada 2026</span>
+
+      <img src="assets/jugador10.png" alt="Jugador de Bisontes DUX" class="hero-player" />
+
+      <div class="hero-playercard">
+        <span class="hero-playercard-num">10</span>
+        <div class="hero-playercard-info">
+          <span class="hero-playercard-name">Tekiela</span>
+          <span class="hero-playercard-pos">Delantero centro</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <div class="hero-scroll" aria-hidden="true">
@@ -325,22 +284,62 @@
      5. INSTAGRAM
      ============================================================ -->
 <section id="instagram">
-  <div class="instagram-inner reveal">
-    <div class="section-head-line"></div>
-    <p class="eyebrow">Síguenos en Instagram</p>
-    <h2 class="font-display instagram-title">Únete a<br>la manada</h2>
-    <a href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" class="instagram-handle">
-      @bisontes.dux
-    </a>
-    <p>Resultados en directo, convocatorias, momentos del vestuario y la vida del club. Todo en nuestro Instagram.</p>
-    <a href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" class="btn btn-primary">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2"/>
-        <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
-        <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
-      </svg>
-      Ver en Instagram
-    </a>
+  <div class="instagram-layout">
+
+    <div class="instagram-inner reveal">
+      <div class="section-head-line"></div>
+      <p class="eyebrow">Síguenos en Instagram</p>
+      <h2 class="font-display instagram-title">Únete a<br>la manada</h2>
+      <a href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" class="instagram-handle">
+        @bisontes.dux
+      </a>
+      <p>Resultados en directo, convocatorias, momentos del vestuario y la vida del club. Todo en nuestro Instagram.</p>
+      <a href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+        </svg>
+        Ver en Instagram
+      </a>
+    </div>
+
+    <!-- ============================================================
+         FEED DE INSTAGRAM
+         Ahora muestra fotos del club como adelanto. Para que se vean
+         tus ÚLTIMAS PUBLICACIONES REALES y se actualicen solas:
+           1. Entra en snapwidget.com (o behold.so) — gratis.
+           2. Conecta tu cuenta @bisontes.dux y crea un widget tipo "Grid".
+           3. Te dan un código <script>/<iframe>: pégalo DENTRO de este
+              div (sustituyendo los <a class="ig-tile"> de abajo).
+         ============================================================ -->
+    <div class="ig-feed reveal" id="ig-feed">
+      <a class="ig-tile" href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" aria-label="Ver en Instagram">
+        <img src="assets/jugador10.png" alt="Publicación de Bisontes DUX" loading="lazy" />
+        <span class="ig-tile-overlay"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></span>
+      </a>
+      <a class="ig-tile" href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" aria-label="Ver en Instagram">
+        <img src="assets/jugador9.png" alt="Publicación de Bisontes DUX" loading="lazy" />
+        <span class="ig-tile-overlay"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></span>
+      </a>
+      <a class="ig-tile" href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" aria-label="Ver en Instagram">
+        <img src="assets/jugador7.png" alt="Publicación de Bisontes DUX" loading="lazy" />
+        <span class="ig-tile-overlay"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></span>
+      </a>
+      <a class="ig-tile" href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" aria-label="Ver en Instagram">
+        <img src="assets/jugador99.png" alt="Publicación de Bisontes DUX" loading="lazy" />
+        <span class="ig-tile-overlay"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></span>
+      </a>
+      <a class="ig-tile" href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" aria-label="Ver en Instagram">
+        <img src="assets/jugador11.png" alt="Publicación de Bisontes DUX" loading="lazy" />
+        <span class="ig-tile-overlay"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></span>
+      </a>
+      <a class="ig-tile" href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" aria-label="Ver en Instagram">
+        <img src="assets/jugador15.png" alt="Publicación de Bisontes DUX" loading="lazy" />
+        <span class="ig-tile-overlay"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></span>
+      </a>
+    </div>
+
   </div>
 </section>
 
@@ -353,16 +352,15 @@
     <h2 class="font-display newsletter-title">Mantente al día</h2>
     <p class="newsletter-sub">Convocatorias, eventos y resultados directo a tu email.</p>
 
-    <!--
-      TODO: Mailchimp embed
-      1. Mailchimp → Audience → Signup forms → Embedded forms
-      2. Copia el <form> que te dan y pégalo aquí sustituyendo el formulario de abajo
-      3. Ajusta el CSS si hace falta (las clases .newsletter-form ya están preparadas)
-    -->
     <form id="newsletter-form" class="newsletter-form" novalidate>
       <input type="email" name="EMAIL" placeholder="tu@email.com" required aria-label="Email" />
       <button type="submit" class="btn-submit">Suscríbete</button>
+      <!-- honeypots anti-spam (ocultos): botcheck=Web3Forms, email_address_check=Brevo -->
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <input type="text" name="email_address_check" value="" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <input type="hidden" name="locale" value="es" />
     </form>
+    <p class="form-status" id="newsletter-status" role="status" aria-live="polite"></p>
   </div>
 </section>
 
@@ -382,42 +380,17 @@
   </div>
 
   <div class="join-wrap reveal">
-    <!--
-      TODO: backend
-      - Opción A (más fácil) — Formspree:
-          1. Regístrate en formspree.io → nuevo formulario
-          2. Añade action="https://formspree.io/f/TU_ID" method="POST" al <form>
-          3. Elimina el preventDefault() en main.js
-
-      - Opción B — Supabase:
-          1. Crea tabla "applications" en tu proyecto Supabase
-          2. Llama a supabase.from('applications').insert({...}) en main.js
-    -->
     <form id="join-form" novalidate>
-      <div class="form-grid">
-        <div class="form-field form-field--full">
-          <label for="f-nombre">Nombre completo</label>
-          <input type="text" id="f-nombre" name="nombre" placeholder="Tu nombre y apellidos" required />
-        </div>
-        <div class="form-field">
-          <label for="f-email">Email</label>
-          <input type="email" id="f-email" name="email" placeholder="tu@email.com" required />
-        </div>
-        <div class="form-field">
-          <label for="f-tel">Teléfono</label>
-          <input type="tel" id="f-tel" name="telefono" placeholder="600 000 000" />
-        </div>
-        <div class="form-field form-field--full">
-          <label for="f-pos">Posición</label>
-          <input type="text" id="f-pos" name="posicion" placeholder="ej: Portero, Defensa central, Extremo derecho…" />
-        </div>
-      </div>
+      <!-- Las preguntas se generan desde data/joinForm.js -->
+      <div class="form-grid" id="join-fields"></div>
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
       <button type="submit" class="btn btn-primary join-btn">
         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
           <path d="M2 7.5h11M9 3l4 4.5L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         Quiero jugar
       </button>
+      <p class="form-status" id="join-status" role="status" aria-live="polite"></p>
     </form>
   </div>
 </section>
@@ -425,66 +398,17 @@
 <!-- ============================================================
      8. FOOTER
      ============================================================ -->
-<footer>
-  <div class="footer-top-accent" aria-hidden="true"></div>
-
-  <div class="footer-grid">
-
-    <div class="footer-brand">
-      <div class="footer-brand-logo">
-        <img src="assets/logo.png" alt="Bisontes DUX" class="footer-logo-img" />
-        <div class="footer-brand-text">
-          <span class="footer-brand-name">Bisontes <strong>DUX</strong></span>
-          <span class="footer-brand-city">Madrid · España</span>
-        </div>
-      </div>
-      <p class="footer-tagline">Club de fútbol con sede en Madrid. Compromiso, equipo y pasión desde 2025.</p>
-      <a href="mailto:bisontes.dux@gmail.com" class="footer-email">bisontes.dux@gmail.com</a>
-    </div>
-
-    <div class="footer-col">
-      <h4>Club</h4>
-      <ul>
-        <li><a href="#plantilla">Plantilla</a></li>
-        <li><a href="#valores">Valores</a></li>
-        <li><a href="#sponsors">Sponsors</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h4>Únete</h4>
-      <ul>
-        <li><a href="#join">Quiero jugar</a></li>
-        <li><a href="#newsletter">Newsletter</a></li>
-        <li><a href="mailto:bisontes.dux@gmail.com">Contacto</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h4>Redes</h4>
-      <div class="footer-social-links">
-        <a href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" class="footer-social-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2"/>
-            <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
-            <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
-          </svg>
-          @bisontes.dux
-        </a>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="footer-bottom">
-    <p>© 2026 Bisontes DUX — Todos los derechos reservados</p>
-    <p><a href="#">Aviso legal</a> · <a href="#">Privacidad</a></p>
-  </div>
+<footer class="footer-min">
+  <p>© 2026 Bisontes DUX — Todos los derechos reservados</p>
+  <p class="footer-min-links">
+    <a href="aviso-legal.html">Aviso legal</a> · <a href="privacidad.html">Privacidad</a>
+  </p>
 </footer>
 
 <!-- Scripts: data primero, luego main -->
 <script src="data/players.js"></script>
 <script src="data/sponsors.js"></script>
+<script src="data/joinForm.js"></script>
 <script src="js/main.js"></script>
 
 <script>
