@@ -9,6 +9,8 @@
  *   age      → Edad (OPCIONAL)
  *   nationality → Nacionalidad (OPCIONAL)
  *   bio      → Descripción breve (OPCIONAL)
+ *   stats    → Estadísticas reales en formato { etiqueta: valor } (OPCIONAL)
+ *   socials  → Redes en formato { instagram, x, tiktok, facebook } (OPCIONAL)
  *
  * Ejemplo:
  *   { dorsal: 10, name: "García, Juan", position: "Mediapunta" }
@@ -23,7 +25,7 @@ const players = [
   { dorsal: 3,  name: "Navas, Bruno",           position: "DFC" },
   { dorsal: 4,  name: "Arias, Miguel",          position: "MC"  },
   { dorsal: 5,  name: "Ossama",                 position: "LD"  },
-  { dorsal: 7,  name: "Galvez, Alan",           position: "EI"  },
+  { dorsal: 7,  name: "Gálvez, Alan",           position: "EI"  },
   { dorsal: 9,  name: "Bebia, Eduardo",         position: "ED"  },
   { dorsal: 10, name: "Tekiela, Filip",         position: "DC"  },
   { dorsal: 11, name: "Salas, Luis",            position: "ED"  },

@@ -66,14 +66,27 @@ function renderPlayers() {
   const grid = document.getElementById('players-grid');
   if (!grid || typeof players === 'undefined') return;
 
+  /* El HTML estático generado es rastreable y funciona sin JavaScript. */
+  if (grid.children.length) {
+    observeElements(grid.querySelectorAll('.reveal'));
+    fitPlayerNames();
+    return;
+  }
+
   grid.innerHTML = players.map((player, index) => {
     const dorsal  = player.dorsal !== undefined ? player.dorsal : index + 1;
     const imgPath = player.photo || `assets/jugador${dorsal}.png`;
     const delay   = (index % 4) * 0.08;
     const dorsalClass = isNaN(dorsal) ? 'player-card__dorsal player-card__dorsal--text' : 'player-card__dorsal';
 
+    const fullName = player.name.includes(',')
+      ? player.name.split(',').map(part => part.trim()).reverse().join(' ')
+      : player.name;
+    const slug = (player.slug || fullName).normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
     return `
-      <div class="player-card reveal" style="transition-delay:${delay}s" data-player-index="${index}">
+      <a class="player-card reveal" href="jugadores/${slug}/" style="transition-delay:${delay}s" data-player-index="${index}">
         <div class="player-card__img-wrap" style="width:100%;height:100%;position:relative;">
           <img
             src="${imgPath}"
@@ -92,45 +105,10 @@ function renderPlayers() {
         <div class="player-card__info">
           <span class="player-card__pos">${player.position}</span>
           <h3 class="player-card__name">${player.name}</h3>
+          <span class="player-card__profile-link">Ver ficha oficial &rarr;</span>
         </div>
-      </div>`;
+      </a>`;
   }).join('');
-
-  grid.querySelectorAll('.player-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const idx    = parseInt(card.dataset.playerIndex);
-      const player = players[idx];
-      const dorsal  = player.dorsal !== undefined ? player.dorsal : idx + 1;
-      const imgPath = player.photo || `assets/jugador${dorsal}.png`;
-      const pmDorsalClass = isNaN(dorsal) ? 'pm-dorsal pm-dorsal--text' : 'pm-dorsal';
-
-      openModal(`
-        <div class="pm-card">
-          <div class="pm-photo-wrap">
-            <img src="${imgPath}" alt="${player.name}" class="pm-photo"
-              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-            <div class="pm-silhouette">
-              <svg viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:40%;opacity:.15;">
-                <circle cx="50" cy="32" r="22" fill="#fff"/>
-                <path d="M12 140 Q12 78 50 78 Q88 78 88 140Z" fill="#fff"/>
-              </svg>
-            </div>
-            <span class="${pmDorsalClass}">${dorsal}</span>
-            <div class="pm-info">
-              <span class="pm-position">${player.position}</span>
-              <h2 class="pm-name">${player.name}</h2>
-              ${(player.age || player.nationality) ? `
-              <div class="pm-stats-row">
-                ${player.age         ? `<div class="pm-stat"><span class="pm-stat-label">Edad</span><span class="pm-stat-val">${player.age}</span></div>` : ''}
-                ${player.nationality ? `<div class="pm-stat"><span class="pm-stat-label">Nac.</span><span class="pm-stat-val">${player.nationality}</span></div>` : ''}
-              </div>` : ''}
-              ${player.bio ? `<p class="pm-bio">${player.bio}</p>` : ''}
-            </div>
-          </div>
-        </div>
-      `);
-    });
-  });
 
   observeElements(grid.querySelectorAll('.reveal'));
   fitPlayerNames();

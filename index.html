@@ -8,7 +8,8 @@
   <title>Bisontes DUX — Club de Fútbol en Madrid</title>
   <meta name="description" content="Bisontes DUX es un club de fútbol con sede en Madrid, fundado en 2025. Compromiso, equipo y pasión. Únete a la manada." />
   <meta name="keywords" content="Bisontes DUX, club de fútbol Madrid, fútbol aficionado Madrid, Bisontes, DUX, equipo de fútbol Madrid 2025" />
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#222222" />
   <meta name="application-name" content="Bisontes DUX" />
   <meta name="thumbnail" content="https://urpito.github.io/BisontesDUX/assets/logo.png" />
   <link rel="canonical" href="https://urpito.github.io/BisontesDUX/" />
@@ -21,25 +22,25 @@
   <meta property="og:description" content="Club de fútbol con sede en Madrid, fundado en 2025. Compromiso, equipo y pasión. Únete a la manada." />
   <meta property="og:image" content="https://urpito.github.io/BisontesDUX/assets/logo.png" />
   <meta property="og:image:secure_url" content="https://urpito.github.io/BisontesDUX/assets/logo.png" />
-  <meta property="og:image:width" content="512" />
-  <meta property="og:image:height" content="512" />
+  <meta property="og:image:width" content="500" />
+  <meta property="og:image:height" content="500" />
   <meta property="og:image:alt" content="Logo oficial de Bisontes DUX" />
   <meta property="og:locale" content="es_ES" />
   <meta property="og:site_name" content="Bisontes DUX" />
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Bisontes DUX — Club de Fútbol en Madrid" />
   <meta name="twitter:description" content="Club de fútbol con sede en Madrid, fundado en 2025. Compromiso, equipo y pasión." />
   <meta name="twitter:image" content="https://urpito.github.io/BisontesDUX/assets/logo.png" />
   <meta name="twitter:image:alt" content="Logo oficial de Bisontes DUX" />
 
-  <!-- Schema.org JSON-LD: organización deportiva -->
+  <!-- Schema.org JSON-LD: equipo deportivo -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "SportsOrganization",
-    "@id": "https://urpito.github.io/BisontesDUX/#organization",
+    "@type": "SportsTeam",
+    "@id": "https://urpito.github.io/BisontesDUX/#team",
     "name": "Bisontes DUX",
     "alternateName": "Bisontes DUX FC",
     "url": "https://urpito.github.io/BisontesDUX/",
@@ -76,7 +77,7 @@
           "Bisontes DUX Madrid"
         ],
         "publisher": {
-          "@id": "https://urpito.github.io/BisontesDUX/#organization"
+          "@id": "https://urpito.github.io/BisontesDUX/#team"
         }
       },
       {
@@ -104,9 +105,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="icon" type="image/png" sizes="512x512" href="https://urpito.github.io/BisontesDUX/favicon.png" />
+  <link rel="icon" type="image/png" sizes="500x500" href="https://urpito.github.io/BisontesDUX/favicon.png" />
   <link rel="shortcut icon" href="https://urpito.github.io/BisontesDUX/favicon.png" />
   <link rel="apple-touch-icon" href="https://urpito.github.io/BisontesDUX/favicon.png" />
+  <noscript><style>.reveal,.reveal-left,.reveal-right{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
 
@@ -116,14 +118,15 @@
      NAVBAR
      ============================================================ -->
 <nav id="navbar">
-  <a href="#hero" class="nav-brand">
-    <img src="assets/logo.png" alt="Bisontes DUX" class="nav-logo-img" />
+  <a href="./" class="nav-brand">
+    <img src="assets/logo.png" alt="Escudo de Bisontes DUX" class="nav-logo-img" width="500" height="500" />
     <span class="nav-brand-name">Bisontes <strong>DUX</strong></span>
   </a>
   <ul class="nav-links" id="nav-links">
-    <li><a href="#plantilla">Plantilla</a></li>
+    <li><a href="plantilla/">Plantilla</a></li>
     <li><a href="#valores">Valores</a></li>
     <li><a href="#sponsors">Sponsors</a></li>
+    <li><a href="patrocina-bisontes-dux/">Patrocina</a></li>
     <li><a href="#instagram">Instagram</a></li>
     <li><a href="#join">Únete</a></li>
   </ul>
@@ -146,7 +149,7 @@
 
     <!-- LEFT -->
     <div class="hero-content">
-      <img src="assets/logo.png" alt="Escudo Bisontes DUX" class="hero-crest" />
+      <img src="assets/logo.png" alt="Escudo de Bisontes DUX" class="hero-crest" width="500" height="500" fetchpriority="high" />
       <div class="hero-badge">
         <span class="hero-badge-ping-wrap">
           <span class="hero-badge-ping"></span>
@@ -169,7 +172,7 @@
           </svg>
           Únete al club
         </a>
-        <a href="#plantilla" class="btn btn-ghost">Ver plantilla</a>
+        <a href="plantilla/" class="btn btn-ghost">Ver plantilla</a>
       </div>
     </div>
 
@@ -179,7 +182,7 @@
 
       <span class="hero-pill">♟ Temporada 2026</span>
 
-      <img src="assets/jugador10.png" alt="Jugador de Bisontes DUX" class="hero-player" />
+      <img src="assets/optimized/jugador10.webp" alt="Filip Tekiela, delantero centro de Bisontes DUX" class="hero-player" width="720" height="900" fetchpriority="high" />
 
       <div class="hero-playercard">
         <span class="hero-playercard-num">10</span>
@@ -253,9 +256,247 @@
       <span class="eyebrow">Temporada 2025</span>
       <h2 class="font-display section-title">La Plantilla</h2>
     </div>
-    <!-- Edit players in data/players.js -->
+    <a class="section-link" href="plantilla/">Ver plantilla completa →</a>
   </div>
-  <div id="players-grid"></div>
+  <p class="roster-intro">Jugadores y cuerpo técnico forman la plantilla de Bisontes DUX. Cada tarjeta enlaza a su ficha oficial con dorsal, posición y datos disponibles.</p>
+  <div id="players-grid">
+    <!-- GENERATED-ROSTER:START -->
+<a class="player-card reveal" href="jugadores/ben-gunduz/" data-track="player_card_click" data-player="Ben Gunduz">
+    <div class="player-card__img-wrap">
+      <div class="player-card__silhouette player-card__silhouette--visible" aria-hidden="true"><svg viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="50" cy="32" r="22" fill="currentColor"/><path d="M12 140 Q12 78 50 78 Q88 78 88 140Z" fill="currentColor"/>
+  </svg></div>
+      <span class="player-card__dorsal player-card__dorsal--text" aria-hidden="true">COACH</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">entrenador</span>
+      <h3 class="player-card__name">Ben Gunduz</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/flavio-chicaiza/" data-track="player_card_click" data-player="Flavio Chicaiza">
+    <div class="player-card__img-wrap">
+      <div class="player-card__silhouette player-card__silhouette--visible" aria-hidden="true"><svg viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="50" cy="32" r="22" fill="currentColor"/><path d="M12 140 Q12 78 50 78 Q88 78 88 140Z" fill="currentColor"/>
+  </svg></div>
+      <span class="player-card__dorsal player-card__dorsal--text" aria-hidden="true">COACH</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">segundo entrenador</span>
+      <h3 class="player-card__name">Flavio Chicaiza</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/alejandro-copa/" data-track="player_card_click" data-player="Alejandro Copa">
+    <div class="player-card__img-wrap">
+      <img src="assets/optimized/jugador1.webp" alt="Retrato de Alejandro Copa, portero de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />
+      <span class="player-card__dorsal" aria-hidden="true">1</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">portero</span>
+      <h3 class="player-card__name">Alejandro Copa</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/fabio-loi/" data-track="player_card_click" data-player="Fabio Loi">
+    <div class="player-card__img-wrap">
+      <img src="assets/optimized/jugador2.webp" alt="Retrato de Fabio Loi, lateral izquierdo de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />
+      <span class="player-card__dorsal" aria-hidden="true">2</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">lateral izquierdo</span>
+      <h3 class="player-card__name">Fabio Loi</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/bruno-navas/" data-track="player_card_click" data-player="Bruno Navas">
+    <div class="player-card__img-wrap">
+      <img src="assets/optimized/jugador3.webp" alt="Retrato de Bruno Navas, defensa central de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />
+      <span class="player-card__dorsal" aria-hidden="true">3</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">defensa central</span>
+      <h3 class="player-card__name">Bruno Navas</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/miguel-arias/" data-track="player_card_click" data-player="Miguel Arias">
+    <div class="player-card__img-wrap">
+      <div class="player-card__silhouette player-card__silhouette--visible" aria-hidden="true"><svg viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="50" cy="32" r="22" fill="currentColor"/><path d="M12 140 Q12 78 50 78 Q88 78 88 140Z" fill="currentColor"/>
+  </svg></div>
+      <span class="player-card__dorsal" aria-hidden="true">4</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">mediocentro</span>
+      <h3 class="player-card__name">Miguel Arias</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/ossama/" data-track="player_card_click" data-player="Ossama">
+    <div class="player-card__img-wrap">
+      <img src="assets/optimized/jugador5.webp" alt="Retrato de Ossama, lateral derecho de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />
+      <span class="player-card__dorsal" aria-hidden="true">5</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">lateral derecho</span>
+      <h3 class="player-card__name">Ossama</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/alan-galvez/" data-track="player_card_click" data-player="Alan Gálvez">
+    <div class="player-card__img-wrap">
+      <img src="assets/optimized/jugador7.webp" alt="Retrato de Alan Gálvez, extremo izquierdo de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />
+      <span class="player-card__dorsal" aria-hidden="true">7</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">extremo izquierdo</span>
+      <h3 class="player-card__name">Alan Gálvez</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/eduardo-bebia/" data-track="player_card_click" data-player="Eduardo Bebia">
+    <div class="player-card__img-wrap">
+      <img src="assets/optimized/jugador9.webp" alt="Retrato de Eduardo Bebia, extremo derecho de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />
+      <span class="player-card__dorsal" aria-hidden="true">9</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">extremo derecho</span>
+      <h3 class="player-card__name">Eduardo Bebia</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/filip-tekiela/" data-track="player_card_click" data-player="Filip Tekiela">
+    <div class="player-card__img-wrap">
+      <img src="assets/optimized/jugador10.webp" alt="Retrato de Filip Tekiela, delantero centro de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />
+      <span class="player-card__dorsal" aria-hidden="true">10</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">delantero centro</span>
+      <h3 class="player-card__name">Filip Tekiela</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/luis-salas/" data-track="player_card_click" data-player="Luis Salas">
+    <div class="player-card__img-wrap">
+      <img src="assets/optimized/jugador11.webp" alt="Retrato de Luis Salas, extremo derecho de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />
+      <span class="player-card__dorsal" aria-hidden="true">11</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">extremo derecho</span>
+      <h3 class="player-card__name">Luis Salas</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/taiyang-arick/" data-track="player_card_click" data-player="Taiyang Arick">
+    <div class="player-card__img-wrap">
+      <div class="player-card__silhouette player-card__silhouette--visible" aria-hidden="true"><svg viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="50" cy="32" r="22" fill="currentColor"/><path d="M12 140 Q12 78 50 78 Q88 78 88 140Z" fill="currentColor"/>
+  </svg></div>
+      <span class="player-card__dorsal" aria-hidden="true">13</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">mediocentro ofensivo</span>
+      <h3 class="player-card__name">Taiyang Arick</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/arturo-constantine/" data-track="player_card_click" data-player="Arturo Constantine">
+    <div class="player-card__img-wrap">
+      <img src="assets/optimized/jugador15.webp" alt="Retrato de Arturo Constantine, extremo izquierdo de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />
+      <span class="player-card__dorsal" aria-hidden="true">15</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">extremo izquierdo</span>
+      <h3 class="player-card__name">Arturo Constantine</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/jeanca/" data-track="player_card_click" data-player="Jeanca">
+    <div class="player-card__img-wrap">
+      <div class="player-card__silhouette player-card__silhouette--visible" aria-hidden="true"><svg viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="50" cy="32" r="22" fill="currentColor"/><path d="M12 140 Q12 78 50 78 Q88 78 88 140Z" fill="currentColor"/>
+  </svg></div>
+      <span class="player-card__dorsal" aria-hidden="true">18</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">lateral derecho</span>
+      <h3 class="player-card__name">Jeanca</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/yacouba-diarra/" data-track="player_card_click" data-player="Yacouba Diarra">
+    <div class="player-card__img-wrap">
+      <img src="assets/optimized/jugador19.webp" alt="Retrato de Yacouba Diarra, mediocentro ofensivo de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />
+      <span class="player-card__dorsal" aria-hidden="true">19</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">mediocentro ofensivo</span>
+      <h3 class="player-card__name">Yacouba Diarra</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/elias-naharro/" data-track="player_card_click" data-player="Elías Naharro">
+    <div class="player-card__img-wrap">
+      <img src="assets/optimized/jugador21.webp" alt="Retrato de Elías Naharro, lateral izquierdo de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />
+      <span class="player-card__dorsal" aria-hidden="true">21</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">lateral izquierdo</span>
+      <h3 class="player-card__name">Elías Naharro</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/mario-comas/" data-track="player_card_click" data-player="Mario Comas">
+    <div class="player-card__img-wrap">
+      <div class="player-card__silhouette player-card__silhouette--visible" aria-hidden="true"><svg viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="50" cy="32" r="22" fill="currentColor"/><path d="M12 140 Q12 78 50 78 Q88 78 88 140Z" fill="currentColor"/>
+  </svg></div>
+      <span class="player-card__dorsal" aria-hidden="true">22</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">lateral derecho</span>
+      <h3 class="player-card__name">Mario Comas</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/nicolas-chicaiza/" data-track="player_card_click" data-player="Nicolás Chicaiza">
+    <div class="player-card__img-wrap">
+      <div class="player-card__silhouette player-card__silhouette--visible" aria-hidden="true"><svg viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="50" cy="32" r="22" fill="currentColor"/><path d="M12 140 Q12 78 50 78 Q88 78 88 140Z" fill="currentColor"/>
+  </svg></div>
+      <span class="player-card__dorsal" aria-hidden="true">23</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">delantero centro</span>
+      <h3 class="player-card__name">Nicolás Chicaiza</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/francisco-daza/" data-track="player_card_click" data-player="Francisco Daza">
+    <div class="player-card__img-wrap">
+      <img src="assets/optimized/jugador25.webp" alt="Retrato de Francisco Daza, defensa central de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />
+      <span class="player-card__dorsal" aria-hidden="true">25</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">defensa central</span>
+      <h3 class="player-card__name">Francisco Daza</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<a class="player-card reveal" href="jugadores/diego-arrufat/" data-track="player_card_click" data-player="Diego Arrufat">
+    <div class="player-card__img-wrap">
+      <img src="assets/optimized/jugador99.webp" alt="Retrato de Diego Arrufat, mediocentro ofensivo de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />
+      <span class="player-card__dorsal" aria-hidden="true">99</span>
+    </div>
+    <div class="player-card__info">
+      <span class="player-card__pos">mediocentro ofensivo</span>
+      <h3 class="player-card__name">Diego Arrufat</h3>
+      <span class="player-card__profile-link">Ver ficha oficial →</span>
+    </div>
+  </a>
+<!-- GENERATED-ROSTER:END -->
+  </div>
 </section>
 
 <!-- ============================================================
@@ -326,7 +567,7 @@
   <div id="sponsors-grid"></div>
 
   <p class="sponsor-cta">
-    ¿Tu empresa quiere apoyar al club? <a href="mailto:bisontes.dux@gmail.com">Escríbenos</a>
+    ¿Tu empresa quiere apoyar al club? <a href="patrocina-bisontes-dux/" data-track="sponsor_page_click">Descubre cómo patrocinar Bisontes DUX</a>
   </p>
 </section>
 
@@ -365,27 +606,27 @@
          ============================================================ -->
     <div class="ig-feed reveal" id="ig-feed">
       <a class="ig-tile" href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" aria-label="Ver en Instagram">
-        <img src="assets/jugador10.png" alt="Publicación de Bisontes DUX" loading="lazy" />
+        <img src="assets/optimized/jugador10.webp" alt="Filip Tekiela, jugador de Bisontes DUX" width="720" height="900" loading="lazy" decoding="async" />
         <span class="ig-tile-overlay"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></span>
       </a>
       <a class="ig-tile" href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" aria-label="Ver en Instagram">
-        <img src="assets/jugador9.png" alt="Publicación de Bisontes DUX" loading="lazy" />
+        <img src="assets/optimized/jugador9.webp" alt="Eduardo Bebia, jugador de Bisontes DUX" width="720" height="900" loading="lazy" decoding="async" />
         <span class="ig-tile-overlay"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></span>
       </a>
       <a class="ig-tile" href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" aria-label="Ver en Instagram">
-        <img src="assets/jugador7.png" alt="Publicación de Bisontes DUX" loading="lazy" />
+        <img src="assets/optimized/jugador7.webp" alt="Alan Gálvez, jugador de Bisontes DUX" width="720" height="900" loading="lazy" decoding="async" />
         <span class="ig-tile-overlay"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></span>
       </a>
       <a class="ig-tile" href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" aria-label="Ver en Instagram">
-        <img src="assets/jugador99.png" alt="Publicación de Bisontes DUX" loading="lazy" />
+        <img src="assets/optimized/jugador99.webp" alt="Diego Arrufat, jugador de Bisontes DUX" width="720" height="900" loading="lazy" decoding="async" />
         <span class="ig-tile-overlay"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></span>
       </a>
       <a class="ig-tile" href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" aria-label="Ver en Instagram">
-        <img src="assets/jugador11.png" alt="Publicación de Bisontes DUX" loading="lazy" />
+        <img src="assets/optimized/jugador11.webp" alt="Luis Salas, jugador de Bisontes DUX" width="720" height="900" loading="lazy" decoding="async" />
         <span class="ig-tile-overlay"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></span>
       </a>
       <a class="ig-tile" href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener" aria-label="Ver en Instagram">
-        <img src="assets/jugador15.png" alt="Publicación de Bisontes DUX" loading="lazy" />
+        <img src="assets/optimized/jugador15.webp" alt="Arturo Constantine, jugador de Bisontes DUX" width="720" height="900" loading="lazy" decoding="async" />
         <span class="ig-tile-overlay"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></span>
       </a>
     </div>
@@ -451,6 +692,7 @@
 <footer class="footer-min">
   <p>© 2026 Bisontes DUX — Todos los derechos reservados</p>
   <p class="footer-min-links">
+    <a href="plantilla/">Plantilla</a> · <a href="patrocina-bisontes-dux/">Patrocina Bisontes DUX</a> ·
     <a href="aviso-legal.html">Aviso legal</a> · <a href="privacidad.html">Privacidad</a>
   </p>
 </footer>
@@ -460,6 +702,7 @@
 <script src="data/sponsors.js"></script>
 <script src="data/joinForm.js"></script>
 <script src="js/main.js"></script>
+<script src="js/site.js"></script>
 
 <script>
   /* Mobile nav toggle */
