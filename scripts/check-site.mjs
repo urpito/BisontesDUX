@@ -80,12 +80,12 @@ if (playerPages.length !== expectedPlayers) errors.push(`hay ${playerPages.lengt
 
 const sitemap = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]);
-if (sitemapUrls.length !== expectedPlayers + 3) errors.push(`sitemap: ${sitemapUrls.length} URLs; se esperaban ${expectedPlayers + 3}`);
+if (sitemapUrls.length !== expectedPlayers + 4) errors.push(`sitemap: ${sitemapUrls.length} URLs; se esperaban ${expectedPlayers + 4}`);
 if (new Set(sitemapUrls).size !== sitemapUrls.length) errors.push('sitemap: contiene URLs duplicadas');
 for (const url of sitemapUrls) if (!url.startsWith(SITE_URL)) errors.push(`sitemap: URL fuera del subdirectorio: ${url}`);
 
 const home = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
-const crawlablePlayerLinks = (home.match(/href="jugadores\//g) || []).length;
+const crawlablePlayerLinks = (home.match(/href="\/BisontesDUX\/jugadores\/[^"/]+\/"/g) || []).length;
 if (crawlablePlayerLinks !== expectedPlayers) errors.push(`home: ${crawlablePlayerLinks} enlaces rastreables a fichas; se esperaban ${expectedPlayers}`);
 
 if (warnings.length) console.warn(warnings.join('\n'));

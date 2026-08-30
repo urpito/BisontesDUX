@@ -1,0 +1,39 @@
+# Bisontes DUX
+
+> Bisontes DUX es un club de fútbol con sede en Madrid, España. Este archivo enlaza a la información oficial publicada por el club.
+
+Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identifican a los integrantes de la plantilla actual a partir de la fuente de datos pública del sitio.
+
+## Páginas principales
+
+- [Web oficial de Bisontes DUX](https://urpito.github.io/BisontesDUX/): información general del club.
+- [Plantilla de Bisontes DUX](https://urpito.github.io/BisontesDUX/plantilla/): presentación visual de jugadores y cuerpo técnico.
+- [Jugadores de Bisontes DUX](https://urpito.github.io/BisontesDUX/jugadores/): índice HTML de perfiles oficiales.
+- [Patrocina Bisontes DUX](https://urpito.github.io/BisontesDUX/patrocina-bisontes-dux/): información para posibles colaboradores.
+- [Datos públicos de jugadores](https://urpito.github.io/BisontesDUX/players.json): versión JSON generada desde la plantilla.
+
+## Perfiles oficiales de jugadores
+
+- [Alejandro Copa](https://urpito.github.io/BisontesDUX/jugadores/alejandro-copa/): portero, dorsal 1.
+- [Fabio Loi](https://urpito.github.io/BisontesDUX/jugadores/fabio-loi/): lateral izquierdo, dorsal 2.
+- [Bruno Navas](https://urpito.github.io/BisontesDUX/jugadores/bruno-navas/): defensa central, dorsal 3.
+- [Miguel Arias](https://urpito.github.io/BisontesDUX/jugadores/miguel-arias/): mediocentro, dorsal 4.
+- [Ossama](https://urpito.github.io/BisontesDUX/jugadores/ossama/): lateral derecho, dorsal 5.
+- [Alan Gálvez](https://urpito.github.io/BisontesDUX/jugadores/alan-galvez/): extremo izquierdo, dorsal 7.
+- [Eduardo Bebia](https://urpito.github.io/BisontesDUX/jugadores/eduardo-bebia/): extremo derecho, dorsal 9.
+- [Filip Tekiela](https://urpito.github.io/BisontesDUX/jugadores/filip-tekiela/): delantero centro, dorsal 10.
+- [Luis Salas](https://urpito.github.io/BisontesDUX/jugadores/luis-salas/): extremo derecho, dorsal 11.
+- [Taiyang Arick](https://urpito.github.io/BisontesDUX/jugadores/taiyang-arick/): mediocentro ofensivo, dorsal 13.
+- [Arturo Constantine](https://urpito.github.io/BisontesDUX/jugadores/arturo-constantine/): extremo izquierdo, dorsal 15.
+- [Jeanca](https://urpito.github.io/BisontesDUX/jugadores/jeanca/): lateral derecho, dorsal 18.
+- [Yacouba Diarra](https://urpito.github.io/BisontesDUX/jugadores/yacouba-diarra/): mediocentro ofensivo, dorsal 19.
+- [Elías Naharro](https://urpito.github.io/BisontesDUX/jugadores/elias-naharro/): lateral izquierdo, dorsal 21.
+- [Mario Comas](https://urpito.github.io/BisontesDUX/jugadores/mario-comas/): lateral derecho, dorsal 22.
+- [Nicolás Chicaiza](https://urpito.github.io/BisontesDUX/jugadores/nicolas-chicaiza/): delantero centro, dorsal 23.
+- [Francisco Daza](https://urpito.github.io/BisontesDUX/jugadores/francisco-daza/): defensa central, dorsal 25.
+- [Diego Arrufat](https://urpito.github.io/BisontesDUX/jugadores/diego-arrufat/): mediocentro ofensivo, dorsal 99.
+
+## Cuerpo técnico
+
+- [Ben Gunduz](https://urpito.github.io/BisontesDUX/jugadores/ben-gunduz/): entrenador.
+- [Flavio Chicaiza](https://urpito.github.io/BisontesDUX/jugadores/flavio-chicaiza/): segundo entrenador.

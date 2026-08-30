@@ -1332,6 +1332,7 @@ footer .footer-bottom { position:relative; z-index:1; }
 .profile-content { padding:clamp(36px,6vw,74px); }
 .profile-content h1 { margin:8px 0 18px; font-size:clamp(48px,7vw,92px); line-height:0.96; }
 .profile-statement { color:rgba(255,255,255,0.82); font-size:clamp(1.05rem,2vw,1.26rem); line-height:1.7; }
+.profile-context { margin-top:16px; color:rgba(255,255,255,0.58); font-size:0.94rem; line-height:1.75; }
 .profile-bio { margin-top:18px; color:rgba(255,255,255,0.58); line-height:1.75; }
 .profile-facts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; margin:32px 0; overflow:hidden; border:1px solid rgba(255,255,255,0.08); border-radius:10px; background:rgba(255,255,255,0.08); }
 .profile-facts > div { padding:17px 18px; background:var(--dark-2); }
@@ -1348,6 +1349,20 @@ footer .footer-bottom { position:relative; z-index:1; }
 .profile-socials a:hover, .share-buttons a:hover, .share-buttons button:hover { border-color:var(--pink); color:var(--pink-light); }
 .share-help { margin-top:10px; color:rgba(255,255,255,0.35); font-size:0.72rem; line-height:1.5; }
 .profile-back { margin-top:38px; padding:13px 22px; font-size:0.78rem; }
+.profile-navigation { display:flex; align-items:center; flex-wrap:wrap; gap:18px; margin-top:38px; }
+.profile-navigation .profile-back { margin-top:0; }
+.profile-home-link { color:var(--pink-light); font-size:0.76rem; font-weight:700; letter-spacing:0.05em; }
+
+.player-index-page { max-width:1100px; min-height:75vh; margin:0 auto; padding:0 var(--pad) 90px; }
+.player-directory { margin-bottom:62px; }
+.player-directory > h2 { margin-bottom:24px; font-size:clamp(34px,5vw,58px); }
+.player-index-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; list-style:none; }
+.player-index-list a { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:18px 20px; border:1px solid rgba(255,255,255,0.08); border-radius:9px; background:rgba(255,255,255,0.025); transition:border-color .2s,background .2s,transform .2s; }
+.player-index-list a:hover { transform:translateY(-2px); border-color:rgba(232,160,180,.4); background:rgba(232,160,180,.06); }
+.player-index-list strong { color:#fff; font-size:0.92rem; }
+.player-index-list span { color:rgba(255,255,255,.42); font-size:0.72rem; text-align:right; }
+.player-index-list--staff { grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
+.directory-back a { color:var(--pink-light); font-weight:700; }
 
 .sponsor-opportunities, .current-sponsors { padding:30px 0 76px; }
 .sponsor-opportunities > h2, .current-sponsors > h2, .sponsor-contact h2 { margin-bottom:28px; font-size:clamp(38px,6vw,68px); }
@@ -1394,6 +1409,9 @@ footer .footer-bottom { position:relative; z-index:1; }
   .profile-card { grid-template-columns:1fr; }
   .profile-photo, .profile-silhouette { min-height:470px; }
   .profile-facts { grid-template-columns:1fr; }
+  .player-index-list { grid-template-columns:1fr; }
+  .player-index-list a { align-items:flex-start; flex-direction:column; gap:5px; }
+  .player-index-list span { text-align:left; }
   .opportunity-grid { grid-template-columns:1fr; }
   .roster-intro { margin-top:-10px; }
 }

@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build": "node scripts/generate-site.mjs",
-    "check": "node scripts/check-site.mjs"
+    "check": "node scripts/check-site.mjs && node scripts/check-seo.mjs",
+    "check:live": "node scripts/check-seo.mjs --live"
   }
 }

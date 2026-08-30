@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITE_URL = 'https://urpito.github.io/BisontesDUX/';
+const SITE_PATH = '/BisontesDUX/';
 const TEAM_ID = `${SITE_URL}#team`;
 const TODAY = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Madrid' }).format(new Date());
 
@@ -74,13 +75,18 @@ function playerData(player) {
   const photo = displayPhoto(player);
   const imageUrl = new URL(originalPhoto || 'assets/logo.png', SITE_URL).href;
   const statement = coach
-    ? `${name} forma parte del cuerpo técnico de Bisontes DUX como ${position}.`
-    : `${name} es jugador de Bisontes DUX. Juega como ${position} y utiliza el dorsal ${player.dorsal}.`;
-  const title = coach ? `${name} | Cuerpo técnico de Bisontes DUX` : `${name} | Jugador de Bisontes DUX`;
+    ? `${name} forma parte del cuerpo técnico de Bisontes DUX, club de fútbol con sede en Madrid, España. Ejerce como ${position}.`
+    : `${name} es futbolista y jugador de Bisontes DUX, club de fútbol con sede en Madrid, España. Juega como ${position} y utiliza el dorsal ${player.dorsal}.`;
+  const supportingText = coach
+    ? `${name} pertenece al cuerpo técnico actual de Bisontes DUX. Esta es su ficha oficial dentro del sitio web del club.`
+    : `${name} forma parte de la plantilla actual de Bisontes DUX. Esta es su ficha oficial dentro del sitio web del club, donde se recoge la información pública disponible sobre el jugador.`;
+  const title = coach
+    ? `${name} - Cuerpo técnico de Bisontes DUX | Perfil oficial`
+    : `${name} - Jugador de Bisontes DUX | Perfil oficial`;
   const description = coach
-    ? `Perfil oficial de ${name}, ${position} de Bisontes DUX. Consulta su función y trayectoria en el club.`
-    : `Perfil oficial de ${name}, jugador de Bisontes DUX. Consulta su posición, dorsal, estadísticas y trayectoria en el club.`;
-  return { ...player, name, coach, position, slug, pageUrl, photo, imageUrl, hasPortrait, statement, title, description };
+    ? `Perfil oficial de ${name}, miembro del cuerpo técnico de Bisontes DUX. Información sobre su función en el club.`
+    : `Perfil oficial de ${name}, jugador de Bisontes DUX. Información sobre su participación en la plantilla, posición y dorsal.`;
+  return { ...player, name, coach, position, slug, pageUrl, photo, imageUrl, hasPortrait, statement, supportingText, title, description };
 }
 
 const roster = players.map(playerData);
@@ -120,14 +126,15 @@ function head({ title, description, canonical, image, type = 'website', prefix =
 
 function header(prefix) {
   return `<header class="legal-top subpage-top">
-    <a href="${prefix}" class="legal-brand">
+    <a href="${SITE_PATH}" class="legal-brand">
       <img src="${prefix}assets/logo.png" width="42" height="42" alt="Escudo de Bisontes DUX" />
       <span>Bisontes <strong>DUX</strong></span>
     </a>
     <nav class="subpage-nav" aria-label="Navegación principal">
-      <a href="${prefix}plantilla/">Plantilla</a>
-      <a href="${prefix}patrocina-bisontes-dux/">Patrocina</a>
-      <a href="${prefix}#join">Quiero jugar</a>
+      <a href="${SITE_PATH}plantilla/">Plantilla</a>
+      <a href="${SITE_PATH}jugadores/">Jugadores</a>
+      <a href="${SITE_PATH}patrocina-bisontes-dux/">Patrocina</a>
+      <a href="${SITE_PATH}#join">Quiero jugar</a>
     </nav>
   </header>`;
 }
@@ -136,10 +143,11 @@ function footer(prefix) {
   return `<footer class="footer-min">
     <p>© 2026 Bisontes DUX — Todos los derechos reservados</p>
     <p class="footer-min-links">
-      <a href="${prefix}plantilla/">Plantilla</a> ·
-      <a href="${prefix}patrocina-bisontes-dux/">Patrocina Bisontes DUX</a> ·
-      <a href="${prefix}aviso-legal.html">Aviso legal</a> ·
-      <a href="${prefix}privacidad.html">Privacidad</a>
+      <a href="${SITE_PATH}plantilla/">Plantilla</a> ·
+      <a href="${SITE_PATH}jugadores/">Jugadores</a> ·
+      <a href="${SITE_PATH}patrocina-bisontes-dux/">Patrocina Bisontes DUX</a> ·
+      <a href="${SITE_PATH}aviso-legal.html">Aviso legal</a> ·
+      <a href="${SITE_PATH}privacidad.html">Privacidad</a>
     </p>
   </footer>`;
 }
@@ -152,10 +160,10 @@ function silhouette() {
 
 function rosterCard(player, prefix = '') {
   const image = player.hasPortrait
-    ? `<img src="${prefix}${player.photo}" alt="Retrato de ${escapeHtml(player.name)}, ${escapeHtml(player.position)} de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />`
+    ? `<img src="${SITE_PATH}${player.photo}" alt="Retrato de ${escapeHtml(player.name)}, ${escapeHtml(player.position)} de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />`
     : `<div class="player-card__silhouette player-card__silhouette--visible" aria-hidden="true">${silhouette()}</div>`;
   const dorsalClass = player.coach ? 'player-card__dorsal player-card__dorsal--text' : 'player-card__dorsal';
-  return `<a class="player-card reveal" href="${prefix}jugadores/${player.slug}/" data-track="player_card_click" data-player="${escapeHtml(player.name)}">
+  return `<a class="player-card reveal" href="${SITE_PATH}jugadores/${player.slug}/" data-track="player_card_click" data-player="${escapeHtml(player.name)}">
     <div class="player-card__img-wrap">
       ${image}
       <span class="${dorsalClass}" aria-hidden="true">${escapeHtml(player.dorsal)}</span>
@@ -172,7 +180,7 @@ function playerPage(player) {
   const prefix = '../../';
   const personId = `${player.pageUrl}#person`;
   const facts = [
-    ['Equipo', `<a href="${prefix}">Bisontes DUX</a>`],
+    ['Equipo', `<a href="${SITE_PATH}">Bisontes DUX</a>`],
     ['Función', escapeHtml(player.position)],
     ...(!player.coach ? [['Dorsal', escapeHtml(player.dorsal)]] : []),
     ...(player.age ? [['Edad', escapeHtml(player.age)]] : []),
@@ -200,8 +208,10 @@ function playerPage(player) {
       },
       {
         '@type': 'Person', '@id': personId, name: player.name,
+        url: player.pageUrl,
         jobTitle: player.coach ? player.position : 'Futbolista',
-        description: player.bio || player.statement,
+        description: player.bio || `${player.statement} ${player.supportingText}`,
+        mainEntityOfPage: { '@id': `${player.pageUrl}#profilepage` },
         ...(player.hasPortrait ? { image: player.imageUrl } : {}),
         memberOf: { '@id': TEAM_ID, '@type': 'SportsTeam', name: 'Bisontes DUX', sport: 'Fútbol', url: SITE_URL },
         ...(player.socials ? { sameAs: Object.values(player.socials) } : {})
@@ -210,7 +220,8 @@ function playerPage(player) {
         '@type': 'BreadcrumbList', '@id': `${player.pageUrl}#breadcrumb`, itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE_URL },
           { '@type': 'ListItem', position: 2, name: 'Plantilla', item: `${SITE_URL}plantilla/` },
-          { '@type': 'ListItem', position: 3, name: player.name, item: player.pageUrl }
+          { '@type': 'ListItem', position: 3, name: 'Jugadores', item: `${SITE_URL}jugadores/` },
+          { '@type': 'ListItem', position: 4, name: player.name, item: player.pageUrl }
         ]
       }
     ]
@@ -224,13 +235,14 @@ function playerPage(player) {
 <body class="subpage-body">
   ${header(prefix)}
   <main class="profile-page">
-    <nav class="breadcrumbs" aria-label="Migas de pan"><a href="${prefix}">Inicio</a><span>/</span><a href="${prefix}plantilla/">Plantilla</a><span>/</span><span aria-current="page">${escapeHtml(player.name)}</span></nav>
+    <nav class="breadcrumbs" aria-label="Migas de pan"><a href="${SITE_PATH}">Inicio</a><span>/</span><a href="${SITE_PATH}plantilla/">Plantilla</a><span>/</span><a href="${SITE_PATH}jugadores/">Jugadores</a><span>/</span><span aria-current="page">${escapeHtml(player.name)}</span></nav>
     <article class="profile-card">
       <div class="profile-photo">${imageMarkup}<span class="profile-dorsal" aria-hidden="true">${escapeHtml(player.dorsal)}</span></div>
       <div class="profile-content">
         <p class="eyebrow">${player.coach ? 'Cuerpo técnico' : `Dorsal ${escapeHtml(player.dorsal)}`} · Bisontes DUX</p>
         <h1 class="font-display">${escapeHtml(player.name)}</h1>
         <p class="profile-statement">${escapeHtml(player.statement)}</p>
+        <p class="profile-context">${escapeHtml(player.supportingText)}</p>
         ${player.bio ? `<p class="profile-bio">${escapeHtml(player.bio)}</p>` : ''}
         <dl class="profile-facts">${facts.map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl>
         ${stats}${socials}
@@ -244,7 +256,7 @@ function playerPage(player) {
           </div>
           <p class="share-help">En móvil, «otras apps» permite compartir también mediante Instagram o TikTok si están instaladas.</p>
         </section>
-        <a class="btn btn-ghost profile-back" href="${prefix}plantilla/">← Volver a la plantilla</a>
+        <div class="profile-navigation"><a class="btn btn-ghost profile-back" href="${SITE_PATH}plantilla/">← Volver a la plantilla</a><a class="profile-home-link" href="${SITE_PATH}">Bisontes DUX · Web oficial</a></div>
       </div>
     </article>
   </main>
@@ -279,6 +291,42 @@ function rosterPage() {
 </body></html>`;
 }
 
+function playerIndexPage() {
+  const canonical = `${SITE_URL}jugadores/`;
+  const title = 'Jugadores de Bisontes DUX | Perfiles oficiales';
+  const description = 'Consulta los perfiles oficiales de los jugadores de Bisontes DUX y la información pública disponible sobre la plantilla del club.';
+  const footballers = roster.filter(player => !player.coach);
+  const staff = roster.filter(player => player.coach);
+  const listItems = footballers.map((player, index) => ({
+    '@type': 'ListItem', position: index + 1, url: player.pageUrl,
+    item: { '@type': 'Person', '@id': `${player.pageUrl}#person`, name: player.name, jobTitle: 'Futbolista', memberOf: { '@id': TEAM_ID } }
+  }));
+  const schema = {
+    '@context': 'https://schema.org', '@graph': [
+      { '@type': 'CollectionPage', '@id': `${canonical}#webpage`, url: canonical, name: title, description, inLanguage: 'es', isPartOf: { '@id': `${SITE_URL}#website` }, mainEntity: { '@id': `${canonical}#players` } },
+      { '@type': 'ItemList', '@id': `${canonical}#players`, name: 'Jugadores de Bisontes DUX', numberOfItems: footballers.length, itemListElement: listItems },
+      { '@type': 'SportsTeam', '@id': TEAM_ID, name: 'Bisontes DUX', sport: 'Fútbol', url: SITE_URL }
+    ]
+  };
+  const playerLinks = footballers.map(player => `<li><a href="${SITE_PATH}jugadores/${player.slug}/"><strong>${escapeHtml(player.name)}</strong><span>${escapeHtml(player.position)} · Dorsal ${escapeHtml(player.dorsal)}</span></a></li>`).join('\n');
+  const staffLinks = staff.map(player => `<li><a href="${SITE_PATH}jugadores/${player.slug}/"><strong>${escapeHtml(player.name)}</strong><span>${escapeHtml(player.position)}</span></a></li>`).join('\n');
+
+  return `<!DOCTYPE html>
+<html lang="es"><head>${head({ title, description, canonical, image: `${SITE_URL}assets/logo.png`, prefix: '../' })}
+  <script type="application/ld+json">${jsonLd(schema)}</script>
+</head><body class="subpage-body">
+  ${header('../')}
+  <main class="player-index-page">
+    <div class="subpage-hero"><p class="eyebrow">Perfiles oficiales · Bisontes DUX</p><h1 class="font-display">Jugadores de Bisontes DUX</h1><p>Consulta la plantilla y los perfiles oficiales de los jugadores de Bisontes DUX. Cada enlace lleva a una ficha HTML individual con la información pública disponible sobre el jugador.</p></div>
+    <section class="player-directory" aria-labelledby="lista-jugadores"><h2 id="lista-jugadores" class="font-display">Plantilla de jugadores</h2><ul class="player-index-list">${playerLinks}</ul></section>
+    <section class="player-directory" aria-labelledby="cuerpo-tecnico"><h2 id="cuerpo-tecnico" class="font-display">Cuerpo técnico</h2><ul class="player-index-list player-index-list--staff">${staffLinks}</ul></section>
+    <p class="directory-back"><a href="${SITE_PATH}plantilla/">← Ver la plantilla visual de Bisontes DUX</a></p>
+  </main>
+  ${footer('../')}
+  <script src="../js/site.js" defer></script>
+</body></html>`;
+}
+
 function sponsorPage() {
   const prefix = '../';
   const canonical = `${SITE_URL}patrocina-bisontes-dux/`;
@@ -306,6 +354,7 @@ function write(file, content) {
 
 for (const player of roster) write(`jugadores/${player.slug}/index.html`, playerPage(player));
 write('plantilla/index.html', rosterPage());
+write('jugadores/index.html', playerIndexPage());
 write('patrocina-bisontes-dux/index.html', sponsorPage());
 
 const indexPath = path.join(ROOT, 'index.html');
@@ -314,12 +363,63 @@ const generatedRoster = `<!-- GENERATED-ROSTER:START -->\n${roster.map(player =>
 const markerPattern = /<!-- GENERATED-ROSTER:START -->[\s\S]*?<!-- GENERATED-ROSTER:END -->/;
 if (!markerPattern.test(index)) throw new Error('No se encontraron los marcadores GENERATED-ROSTER en index.html');
 index = index.replace(markerPattern, generatedRoster);
+const teamSchema = {
+  '@context': 'https://schema.org', '@type': 'SportsTeam', '@id': TEAM_ID,
+  name: 'Bisontes DUX', alternateName: 'Bisontes DUX FC', url: SITE_URL,
+  logo: `${SITE_URL}assets/logo.png`, image: `${SITE_URL}assets/logo.png`,
+  description: 'Club de fútbol con sede en Madrid, fundado en 2025. Compromiso, equipo y pasión.',
+  sport: 'Fútbol', foundingDate: '2025', email: 'bisontes.dux@gmail.com',
+  sameAs: ['https://www.instagram.com/bisontes.dux', 'https://github.com/urpito/BisontesDUX'],
+  address: { '@type': 'PostalAddress', addressLocality: 'Madrid', addressCountry: 'ES' },
+  member: roster.map(player => ({
+    '@type': 'Person', '@id': `${player.pageUrl}#person`, name: player.name, url: player.pageUrl,
+    jobTitle: player.coach ? player.position : 'Futbolista'
+  }))
+};
+const generatedTeamSchema = `<!-- GENERATED-TEAM-SCHEMA:START -->\n  <script type="application/ld+json">${jsonLd(teamSchema)}</script>\n  <!-- GENERATED-TEAM-SCHEMA:END -->`;
+const teamMarkerPattern = /<!-- GENERATED-TEAM-SCHEMA:START -->[\s\S]*?<!-- GENERATED-TEAM-SCHEMA:END -->/;
+if (!teamMarkerPattern.test(index)) throw new Error('No se encontraron los marcadores GENERATED-TEAM-SCHEMA en index.html');
+index = index.replace(teamMarkerPattern, generatedTeamSchema);
 fs.writeFileSync(indexPath, index);
 
-const sitemapUrls = [SITE_URL, `${SITE_URL}plantilla/`, `${SITE_URL}patrocina-bisontes-dux/`, ...roster.map(player => player.pageUrl)];
+const sitemapUrls = [SITE_URL, `${SITE_URL}plantilla/`, `${SITE_URL}jugadores/`, `${SITE_URL}patrocina-bisontes-dux/`, ...roster.map(player => player.pageUrl)];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${sitemapUrls.map((url, index) => `  <url>\n    <loc>${url}</loc>\n    <lastmod>${TODAY}</lastmod>\n    <changefreq>${index === 0 ? 'weekly' : 'monthly'}</changefreq>\n    <priority>${index === 0 ? '1.0' : index < 3 ? '0.8' : '0.6'}</priority>\n  </url>`).join('\n')}
+${sitemapUrls.map((url, index) => `  <url>\n    <loc>${url}</loc>\n    <lastmod>${TODAY}</lastmod>\n    <changefreq>${index === 0 ? 'weekly' : 'monthly'}</changefreq>\n    <priority>${index === 0 ? '1.0' : index < 4 ? '0.8' : '0.6'}</priority>\n  </url>`).join('\n')}
 </urlset>`);
 
-console.log(`Generadas ${roster.length} fichas, plantilla, patrocinio y sitemap (${sitemapUrls.length} URLs).`);
+const footballers = roster.filter(player => !player.coach);
+const staff = roster.filter(player => player.coach);
+write('llms.txt', `# Bisontes DUX
+
+> Bisontes DUX es un club de fútbol con sede en Madrid, España. Este archivo enlaza a la información oficial publicada por el club.
+
+Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identifican a los integrantes de la plantilla actual a partir de la fuente de datos pública del sitio.
+
+## Páginas principales
+
+- [Web oficial de Bisontes DUX](${SITE_URL}): información general del club.
+- [Plantilla de Bisontes DUX](${SITE_URL}plantilla/): presentación visual de jugadores y cuerpo técnico.
+- [Jugadores de Bisontes DUX](${SITE_URL}jugadores/): índice HTML de perfiles oficiales.
+- [Patrocina Bisontes DUX](${SITE_URL}patrocina-bisontes-dux/): información para posibles colaboradores.
+- [Datos públicos de jugadores](${SITE_URL}players.json): versión JSON generada desde la plantilla.
+
+## Perfiles oficiales de jugadores
+
+${footballers.map(player => `- [${player.name}](${player.pageUrl}): ${player.position}, dorsal ${player.dorsal}.`).join('\n')}
+
+## Cuerpo técnico
+
+${staff.map(player => `- [${player.name}](${player.pageUrl}): ${player.position}.`).join('\n')}`);
+
+write('players.json', JSON.stringify({
+  team: { name: 'Bisontes DUX', url: SITE_URL, sport: 'Fútbol', location: 'Madrid, España' },
+  players: footballers.map(player => ({
+    name: player.name, url: player.pageUrl, position: player.position, dorsal: player.dorsal,
+    ...(player.hasPortrait ? { image: player.imageUrl } : {}),
+    ...(player.socials ? { socials: player.socials } : {})
+  })),
+  staff: staff.map(player => ({ name: player.name, url: player.pageUrl, role: player.position }))
+}, null, 2));
+
+console.log(`Generadas ${roster.length} fichas, índice de jugadores, plantilla, datos públicos y sitemap (${sitemapUrls.length} URLs).`);

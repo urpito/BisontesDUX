@@ -1,0 +1,143 @@
+{
+  "team": {
+    "name": "Bisontes DUX",
+    "url": "https://urpito.github.io/BisontesDUX/",
+    "sport": "Fútbol",
+    "location": "Madrid, España"
+  },
+  "players": [
+    {
+      "name": "Alejandro Copa",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/alejandro-copa/",
+      "position": "portero",
+      "dorsal": 1,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador1.png"
+    },
+    {
+      "name": "Fabio Loi",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/fabio-loi/",
+      "position": "lateral izquierdo",
+      "dorsal": 2,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador2.png"
+    },
+    {
+      "name": "Bruno Navas",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/bruno-navas/",
+      "position": "defensa central",
+      "dorsal": 3,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador3.png"
+    },
+    {
+      "name": "Miguel Arias",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/miguel-arias/",
+      "position": "mediocentro",
+      "dorsal": 4
+    },
+    {
+      "name": "Ossama",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/ossama/",
+      "position": "lateral derecho",
+      "dorsal": 5,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador5.png"
+    },
+    {
+      "name": "Alan Gálvez",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/alan-galvez/",
+      "position": "extremo izquierdo",
+      "dorsal": 7,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador7.png"
+    },
+    {
+      "name": "Eduardo Bebia",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/eduardo-bebia/",
+      "position": "extremo derecho",
+      "dorsal": 9,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador9.png"
+    },
+    {
+      "name": "Filip Tekiela",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/filip-tekiela/",
+      "position": "delantero centro",
+      "dorsal": 10,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador10.png"
+    },
+    {
+      "name": "Luis Salas",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/luis-salas/",
+      "position": "extremo derecho",
+      "dorsal": 11,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador11.png"
+    },
+    {
+      "name": "Taiyang Arick",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/taiyang-arick/",
+      "position": "mediocentro ofensivo",
+      "dorsal": 13
+    },
+    {
+      "name": "Arturo Constantine",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/arturo-constantine/",
+      "position": "extremo izquierdo",
+      "dorsal": 15,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador15.png"
+    },
+    {
+      "name": "Jeanca",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/jeanca/",
+      "position": "lateral derecho",
+      "dorsal": 18
+    },
+    {
+      "name": "Yacouba Diarra",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/yacouba-diarra/",
+      "position": "mediocentro ofensivo",
+      "dorsal": 19,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador19.png"
+    },
+    {
+      "name": "Elías Naharro",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/elias-naharro/",
+      "position": "lateral izquierdo",
+      "dorsal": 21,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador21.png"
+    },
+    {
+      "name": "Mario Comas",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/mario-comas/",
+      "position": "lateral derecho",
+      "dorsal": 22
+    },
+    {
+      "name": "Nicolás Chicaiza",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/nicolas-chicaiza/",
+      "position": "delantero centro",
+      "dorsal": 23
+    },
+    {
+      "name": "Francisco Daza",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/francisco-daza/",
+      "position": "defensa central",
+      "dorsal": 25,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador25.png"
+    },
+    {
+      "name": "Diego Arrufat",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/diego-arrufat/",
+      "position": "mediocentro ofensivo",
+      "dorsal": 99,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador99.png"
+    }
+  ],
+  "staff": [
+    {
+      "name": "Ben Gunduz",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/ben-gunduz/",
+      "role": "entrenador"
+    },
+    {
+      "name": "Flavio Chicaiza",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/flavio-chicaiza/",
+      "role": "segundo entrenador"
+    }
+  ]
+}
