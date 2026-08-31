@@ -224,10 +224,10 @@ function initScrollSpy() {
 
   const onScroll = () => {
     const y = window.scrollY + 120;
-    let current = map[0];
+    let current = null;
     map.forEach(item => { if (item.sec.offsetTop <= y) current = item; });
     links.forEach(a => a.classList.remove('active'));
-    current.a.classList.add('active');
+    if (current) current.a.classList.add('active');
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();

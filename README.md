@@ -13,6 +13,25 @@ Web oficial estática, publicada en GitHub Pages bajo `https://urpito.github.io/
 
 No hay dependencias de npm ni servidor: Node solo se usa para regenerar HTML estático. Los enlaces internos principales utilizan explícitamente el subdirectorio `/BisontesDUX/` de GitHub Pages.
 
+### Editar nacionalidad y trayectoria
+
+Todos los datos editables están en `data/players.js`. Dentro del jugador correspondiente puedes añadir una o dos nacionalidades y tantas líneas de trayectoria como necesites:
+
+```js
+{
+  dorsal: 10,
+  name: "García, Juan",
+  position: "MCO",
+  nationalities: ["España", "Argentina"],
+  trajectory: [
+    "2025–actualidad · Bisontes DUX",
+    "2023–2025 · Club anterior"
+  ]
+}
+```
+
+Usa una lista con un solo país si el jugador tiene una nacionalidad. Después ejecuta `npm run build`: las fichas HTML y `players.json` se actualizan automáticamente.
+
 `scripts/check-seo.mjs` comprueba por jugador: HTML inicial, H1, relación con Bisontes DUX, title, description, canonical, Open Graph, JSON-LD, enlaces desde plantilla e índice, sitemap y archivos machine-readable. Con `--live` comprueba además HTTP 200, ausencia de redirecciones y que cada URL pública sirva un HTML diferente.
 
 ## Analítica

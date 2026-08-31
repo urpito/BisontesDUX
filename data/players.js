@@ -7,14 +7,27 @@
  *   dorsal   → Número de camiseta o "COACH"
  *   photo    → Ruta a la foto (OPCIONAL — si no se pone, se busca assets/jugadorN.png)
  *   age      → Edad (OPCIONAL)
- *   nationality → Nacionalidad (OPCIONAL)
+ *   nationalities → Una o dos nacionalidades, en una lista (OPCIONAL)
+ *   trajectory   → Trayectoria, en orden de más reciente a más antigua (OPCIONAL)
  *   bio      → Descripción breve (OPCIONAL)
  *   stats    → Estadísticas reales en formato { etiqueta: valor } (OPCIONAL)
  *   socials  → Redes en formato { instagram, x, tiktok, facebook } (OPCIONAL)
  *
  * Ejemplo:
- *   { dorsal: 10, name: "García, Juan", position: "Mediapunta" }
+ *   {
+ *     dorsal: 10,
+ *     name: "García, Juan",
+ *     position: "Mediapunta",
+ *     nationalities: ["España", "Argentina"],
+ *     trajectory: [
+ *       "2025–actualidad · Bisontes DUX",
+ *       "2023–2025 · Club anterior"
+ *     ]
+ *   }
  *   { dorsal: "COACH", name: "Entrenador", position: "Entrenador", photo: "assets/coach.jpg" }
+ *
+ * Para una sola nacionalidad usa, por ejemplo: nationalities: ["España"]
+ * Si todavía no hay datos, omite el campo o utiliza una lista vacía: []
  */
 
 const players = [

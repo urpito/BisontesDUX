@@ -73,6 +73,14 @@ function playerData(player) {
   const hasPortrait = Boolean(sourcePhoto(player));
   const originalPhoto = sourcePhoto(player);
   const photo = displayPhoto(player);
+  const nationalities = (Array.isArray(player.nationalities)
+    ? player.nationalities
+    : player.nationality ? [player.nationality] : [])
+    .map(value => String(value).trim()).filter(Boolean).slice(0, 2);
+  const trajectory = (Array.isArray(player.trajectory)
+    ? player.trajectory
+    : player.trajectory ? [player.trajectory] : [])
+    .map(value => String(value).trim()).filter(Boolean);
   const imageUrl = new URL(originalPhoto || 'assets/logo.png', SITE_URL).href;
   const statement = coach
     ? `${name} forma parte del cuerpo técnico de Bisontes DUX, club de fútbol con sede en Madrid, España. Ejerce como ${position}.`
@@ -86,7 +94,7 @@ function playerData(player) {
   const description = coach
     ? `Perfil oficial de ${name}, miembro del cuerpo técnico de Bisontes DUX. Información sobre su función en el club.`
     : `Perfil oficial de ${name}, jugador de Bisontes DUX. Información sobre su participación en la plantilla, posición y dorsal.`;
-  return { ...player, name, coach, position, slug, pageUrl, photo, imageUrl, hasPortrait, statement, supportingText, title, description };
+  return { ...player, name, coach, position, slug, pageUrl, photo, imageUrl, hasPortrait, nationalities, trajectory, statement, supportingText, title, description };
 }
 
 const roster = players.map(playerData);
@@ -181,11 +189,14 @@ function playerPage(player) {
   const personId = `${player.pageUrl}#person`;
   const facts = [
     ['Equipo', `<a href="${SITE_PATH}">Bisontes DUX</a>`],
-    ['Función', escapeHtml(player.position)],
+    ['Función', escapeHtml(player.position.toLocaleUpperCase('es-ES'))],
     ...(!player.coach ? [['Dorsal', escapeHtml(player.dorsal)]] : []),
     ...(player.age ? [['Edad', escapeHtml(player.age)]] : []),
-    ...(player.nationality ? [['Nacionalidad', escapeHtml(player.nationality)]] : [])
+    ['Nacionalidad', player.nationalities.length ? escapeHtml(player.nationalities.join(' · ')) : '<span class="profile-empty">Por completar</span>']
   ];
+  const trajectory = `<section class="profile-section" aria-labelledby="trayectoria"><h2 id="trayectoria">Trayectoria</h2>${player.trajectory.length
+    ? `<ul class="profile-trajectory">${player.trajectory.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
+    : '<p class="profile-empty">Trayectoria pendiente de actualizar.</p>'}</section>`;
   const stats = player.stats && Object.keys(player.stats).length
     ? `<section class="profile-section" aria-labelledby="estadisticas"><h2 id="estadisticas">Estadísticas</h2><dl class="profile-stats">${Object.entries(player.stats).map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}</dl></section>`
     : '';
@@ -195,8 +206,6 @@ function playerPage(player) {
   const imageMarkup = player.hasPortrait
     ? `<img src="${prefix}${player.photo}" width="720" height="900" alt="Retrato oficial de ${escapeHtml(player.name)}, ${escapeHtml(player.position)} de Bisontes DUX" decoding="async" fetchpriority="high" />`
     : `<div class="profile-silhouette" role="img" aria-label="Bisontes DUX: imagen genérica para ${escapeHtml(player.name)}">${silhouette()}</div>`;
-  const shareText = encodeURIComponent(`${player.name} | Bisontes DUX`);
-  const shareUrl = encodeURIComponent(player.pageUrl);
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -213,6 +222,7 @@ function playerPage(player) {
         description: player.bio || `${player.statement} ${player.supportingText}`,
         mainEntityOfPage: { '@id': `${player.pageUrl}#profilepage` },
         ...(player.hasPortrait ? { image: player.imageUrl } : {}),
+        ...(player.nationalities.length ? { nationality: player.nationalities.map(name => ({ '@type': 'Country', name })) } : {}),
         memberOf: { '@id': TEAM_ID, '@type': 'SportsTeam', name: 'Bisontes DUX', sport: 'Fútbol', url: SITE_URL },
         ...(player.socials ? { sameAs: Object.values(player.socials) } : {})
       },
@@ -245,17 +255,7 @@ function playerPage(player) {
         <p class="profile-context">${escapeHtml(player.supportingText)}</p>
         ${player.bio ? `<p class="profile-bio">${escapeHtml(player.bio)}</p>` : ''}
         <dl class="profile-facts">${facts.map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl>
-        ${stats}${socials}
-        <section class="profile-section share-section" aria-labelledby="compartir">
-          <h2 id="compartir">Compartir ficha</h2>
-          <div class="share-buttons">
-            <a href="https://wa.me/?text=${shareText}%20${shareUrl}" target="_blank" rel="noopener" data-track="player_share" data-player="${escapeHtml(player.name)}" data-platform="whatsapp">WhatsApp</a>
-            <a href="https://twitter.com/intent/tweet?text=${shareText}&amp;url=${shareUrl}" target="_blank" rel="noopener" data-track="player_share" data-player="${escapeHtml(player.name)}" data-platform="x">X</a>
-            <a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener" data-track="player_share" data-player="${escapeHtml(player.name)}" data-platform="facebook">Facebook</a>
-            <button type="button" data-native-share data-share-title="${escapeHtml(player.title)}" data-share-url="${player.pageUrl}" data-track="player_share" data-player="${escapeHtml(player.name)}" data-platform="native">Compartir en otras apps</button>
-          </div>
-          <p class="share-help">En móvil, «otras apps» permite compartir también mediante Instagram o TikTok si están instaladas.</p>
-        </section>
+        ${trajectory}${stats}${socials}
         <div class="profile-navigation"><a class="btn btn-ghost profile-back" href="${SITE_PATH}plantilla/">← Volver a la plantilla</a><a class="profile-home-link" href="${SITE_PATH}">Bisontes DUX · Web oficial</a></div>
       </div>
     </article>
@@ -417,6 +417,8 @@ write('players.json', JSON.stringify({
   players: footballers.map(player => ({
     name: player.name, url: player.pageUrl, position: player.position, dorsal: player.dorsal,
     ...(player.hasPortrait ? { image: player.imageUrl } : {}),
+    ...(player.nationalities.length ? { nationalities: player.nationalities } : {}),
+    ...(player.trajectory.length ? { trajectory: player.trajectory } : {}),
     ...(player.socials ? { socials: player.socials } : {})
   })),
   staff: staff.map(player => ({ name: player.name, url: player.pageUrl, role: player.position }))
