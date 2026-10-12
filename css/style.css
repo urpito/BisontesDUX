@@ -145,6 +145,24 @@ a   { color: inherit; text-decoration: none; }
   box-shadow:0 0 32px rgba(232,160,180,0.5);
   transform:translateY(-1px);
 }
+/* Separador entre enlaces de scroll del index y páginas propias; Patrocina a la derecha como botón */
+.nav-links { align-items:center; }
+.nav-page--first { margin-left:6px; padding-left:24px; border-left:1px solid rgba(255,255,255,0.14); }
+.nav-links a[aria-current="page"] { color:#fff; }
+.nav-links a[aria-current="page"]::after { transform:scaleX(1); }
+.nav-page--cta a {
+  font-family:'Anton','Bebas Neue',Impact,sans-serif;
+  font-size:0.8rem; letter-spacing:0.14em; font-weight:700;
+  padding:10px 24px; background:var(--pink); color:#1a1a1a;
+  clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+  transition:background 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.nav-page--cta a::after { display:none; }
+.nav-page--cta a:hover, .nav-page--cta a[aria-current="page"] { background:#fff; color:#1a1a1a; box-shadow:0 0 32px rgba(232,160,180,0.5); }
+html { scroll-padding-top: 84px; }
+.subpage-body { padding-top: 76px; }
+.subpage-body #navbar { background: rgba(34,34,34,0.97); backdrop-filter: blur(20px); box-shadow: 0 1px 0 rgba(232,160,180,0.15); padding-top:10px; padding-bottom:10px; }
+
 .nav-toggle { display:none; background:none; border:none; cursor:pointer; flex-direction:column; gap:5px; padding:4px; }
 .nav-toggle span { display:block; width:22px; height:2px; background:#fff; transition:transform 0.3s, opacity 0.3s; }
 
@@ -1260,7 +1278,15 @@ footer .footer-bottom { position:relative; z-index:1; }
   color: rgba(255,255,255,0.4);
   letter-spacing: 0.04em;
 }
-.footer-min-links { margin-top: 8px; }
+.footer-min-links { margin-top: 8px; line-height: 1.9; }
+.footer-min-brand { display:inline-flex; align-items:center; gap:10px; margin-bottom:14px; }
+.footer-min-brand img { width:40px; height:40px; border-radius:50%; object-fit:contain; }
+.footer-min-brand span { font-family:'Anton','Bebas Neue',Impact,sans-serif; font-size:1rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.9); }
+.footer-min-brand strong { color:var(--pink); }
+.footer-min-contact { margin-top: 4px; }
+.footer-min-legal { margin-top: 14px; font-size:0.72rem!important; }
+.footer-min-legal a { color: rgba(255,255,255,0.45); }
+.footer-min-legal a:hover { color: var(--pink-light); }
 .footer-min-links a { color: rgba(255,255,255,0.55); transition: color 0.2s; }
 .footer-min-links a:hover { color: var(--pink-light); }
 
@@ -1382,11 +1408,68 @@ footer .footer-bottom { position:relative; z-index:1; }
 .sponsor-contact a { display:inline-block; margin-top:18px; color:var(--pink-light); font-weight:700; }
 
 /* ----------------------------------------------------------
+   SOBRE NOSOTROS
+   ---------------------------------------------------------- */
+.about-layout { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:clamp(32px,6vw,90px); align-items:start; max-width:1400px; margin:0 auto; }
+.about-text .section-title { margin-bottom:24px; }
+.about-text p { color:rgba(255,255,255,0.62); line-height:1.85; margin-bottom:16px; max-width:640px; }
+.about-text p.about-lead { color:rgba(255,255,255,0.88); font-size:clamp(1.05rem,1.8vw,1.25rem); }
+.about-text strong { color:var(--pink-light); }
+.about-text p a { color:var(--pink-light); text-decoration:underline; text-underline-offset:3px; }
+.about-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+.about-actions a.btn { text-decoration:none; }
+.about-facts { display:grid; gap:1px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.08); }
+.about-facts div { background:var(--dark-2); padding:18px 22px; }
+.about-facts dt { font-size:0.68rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--pink-light); font-weight:700; margin-bottom:6px; }
+.about-facts dd { color:rgba(255,255,255,0.85); line-height:1.6; }
+.about-facts dd a { color:inherit; text-decoration:underline; text-underline-offset:3px; }
+.about-facts dd a:hover { color:var(--pink-light); }
+
+/* ----------------------------------------------------------
+   BLOG
+   ---------------------------------------------------------- */
+.blog-page { max-width:1200px; min-height:75vh; margin:0 auto; padding:0 var(--pad) 90px; }
+.blog-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:24px; }
+.blog-card a { display:flex; flex-direction:column; height:100%; background:var(--dark-2); border:1px solid rgba(255,255,255,0.08); transition:border-color 0.2s, transform 0.2s; }
+.blog-card a:hover { border-color:rgba(232,160,180,0.5); transform:translateY(-3px); }
+.blog-card img { width:100%; aspect-ratio:16/9; object-fit:cover; }
+.blog-card__body { padding:24px; display:flex; flex-direction:column; gap:10px; flex:1; }
+.blog-card time { font-size:0.7rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--pink-light); font-weight:700; }
+.blog-card h2 { font-family:'Anton','Bebas Neue',Impact,sans-serif; font-size:1.6rem; letter-spacing:0.02em; line-height:1.1; color:#fff; }
+.blog-card p { color:rgba(255,255,255,0.6); line-height:1.7; font-size:0.92rem; }
+.blog-card__more { margin-top:auto; color:var(--pink-light); font-size:0.75rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; }
+.blog-empty { color:rgba(255,255,255,0.55); }
+.blog-post { max-width:760px; padding:clamp(40px,6vw,72px) 0 0; }
+.blog-post h1 { font-size:clamp(44px,8vw,96px); line-height:0.95; margin:10px 0 30px; }
+.blog-post h2 { font-size:1.15rem; color:var(--pink-light); margin:34px 0 10px; letter-spacing:0.02em; }
+.blog-post p { color:rgba(255,255,255,0.7); line-height:1.85; margin-bottom:16px; }
+.blog-post__cover { width:100%; margin-bottom:30px; }
+.blog-post__back { margin-top:40px; }
+
+/* ----------------------------------------------------------
    RESPONSIVE
    ---------------------------------------------------------- */
+.nav-links a { white-space:nowrap; }
+@media (max-width:1280px) and (min-width:1101px) {
+  .nav-links { gap:18px; }
+  .nav-page--first { padding-left:18px; }
+  .nav-links a { letter-spacing:0.12em; }
+}
+@media (max-width:1100px) {
+  .nav-links { display:none; flex-direction:column; position:fixed; top:70px; left:0; right:0; background:rgba(34,34,34,0.98); padding:16px 24px 24px; border-top:1px solid rgba(192,96,128,0.2); }
+  .nav-links.open { display:flex; }
+  .nav-links a { padding:13px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+  .nav-toggle { display:flex; }
+  .nav-cta { display:none; }
+  .nav-links { align-items:stretch; max-height:calc(100vh - 70px); overflow-y:auto; }
+  .nav-page--first { margin-left:0; padding-left:0; border-left:0; margin-top:10px; }
+  .nav-page--cta a { display:block; text-align:center; margin-top:14px; border-bottom:0; }
+}
 @media (max-width:1024px) {
   .footer-grid { grid-template-columns:1fr 1fr; }
   .values-grid { grid-template-columns:1fr; }
+  .about-layout { grid-template-columns:1fr; }
+
 }
 @media (max-width:680px) {
   .form-grid { grid-template-columns:1fr; }
@@ -1397,11 +1480,7 @@ footer .footer-bottom { position:relative; z-index:1; }
   #navbar { padding:12px 20px; }
   .nav-logo-img { height:44px; width:44px; }
   .nav-brand-name { font-size:1rem; }
-  .nav-links { display:none; flex-direction:column; position:fixed; top:70px; left:0; right:0; background:rgba(34,34,34,0.98); padding:16px 24px 24px; border-top:1px solid rgba(192,96,128,0.2); }
-  .nav-links.open { display:flex; }
-  .nav-links a { padding:13px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
-  .nav-toggle { display:flex; }
-  .nav-cta { display:none; }
+  .subpage-body { padding-top: 68px; }
 
   /* Hero más contenido en móvil */
   .hero-title { font-size: clamp(54px, 15vw, 100px); }
@@ -1409,7 +1488,6 @@ footer .footer-bottom { position:relative; z-index:1; }
 
   /* Feed de Instagram: 2 columnas en móviles pequeños */
   .ig-feed { grid-template-columns: repeat(2, 1fr); }
-  .subpage-nav a:not(:first-child) { display:none; }
   .profile-page { padding-top:32px; }
   .profile-card { grid-template-columns:1fr; }
   .profile-photo { min-height:0; }

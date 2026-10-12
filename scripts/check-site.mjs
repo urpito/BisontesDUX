@@ -80,7 +80,23 @@ if (playerPages.length !== expectedPlayers) errors.push(`hay ${playerPages.lengt
 
 const sitemap = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]);
-if (sitemapUrls.length !== expectedPlayers + 4) errors.push(`sitemap: ${sitemapUrls.length} URLs; se esperaban ${expectedPlayers + 4}`);
+const blogContext = {};
+vm.runInNewContext(`${fs.readFileSync(path.join(ROOT, 'data/blog.js'), 'utf8')}\nthis.__posts = posts;`, blogContext);
+const expectedPosts = blogContext.__posts.length;
+const expectedUrls = expectedPlayers + expectedPosts + 3; // home, patrocina, blog
+if (sitemapUrls.length !== expectedUrls) errors.push(`sitemap: ${sitemapUrls.length} URLs; se esperaban ${expectedUrls}`);
+
+/* Header y footer idénticos en todas las páginas (salvo los enlaces de scroll del index). */
+const pagesWithLayout = htmlFiles.filter(file => !/(?:^|[/\\])(?:plantilla|jugadores)[/\\]index\.html$/.test(path.relative(ROOT, file)));
+const footers = new Set();
+for (const file of pagesWithLayout) {
+  const html = fs.readFileSync(file, 'utf8');
+  const footer = html.match(/<!-- GENERATED-FOOTER:START -->[\s\S]*?<!-- GENERATED-FOOTER:END -->/)?.[0];
+  if (!footer) errors.push(`${path.relative(ROOT, file)}: falta el footer común`);
+  else footers.add(footer);
+  if (!/<!-- GENERATED-HEADER:START -->/.test(html)) errors.push(`${path.relative(ROOT, file)}: falta el header común`);
+}
+if (footers.size > 1) errors.push(`el footer no es idéntico en todas las páginas (${footers.size} variantes)`);
 if (new Set(sitemapUrls).size !== sitemapUrls.length) errors.push('sitemap: contiene URLs duplicadas');
 for (const url of sitemapUrls) if (!url.startsWith(SITE_URL)) errors.push(`sitemap: URL fuera del subdirectorio: ${url}`);
 

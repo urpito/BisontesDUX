@@ -132,32 +132,62 @@ function head({ title, description, canonical, image, type = 'website', prefix =
   <link rel="icon" type="image/png" href="${prefix}favicon.png" />`;
 }
 
-function header(prefix) {
-  return `<header class="legal-top subpage-top">
-    <a href="${SITE_PATH}" class="legal-brand">
-      <img src="${prefix}assets/logo.png" width="42" height="42" alt="Escudo de Bisontes DUX" />
-      <span>Bisontes <strong>DUX</strong></span>
-    </a>
-    <nav class="subpage-nav" aria-label="Navegación principal">
-      <a href="${SITE_PATH}plantilla/">Plantilla</a>
-      <a href="${SITE_PATH}jugadores/">Jugadores</a>
-      <a href="${SITE_PATH}patrocina-bisontes-dux/">Patrocina</a>
-      <a href="${SITE_PATH}#join">Quiero jugar</a>
-    </nav>
-  </header>`;
+/* Menú común: primero las secciones del index (scroll), luego las páginas propias. */
+const NAV_SECTIONS = [
+  ['sobre-nosotros', 'Sobre nosotros'],
+  ['plantilla', 'Plantilla'],
+  ['valores', 'Valores'],
+  ['sponsors', 'Sponsors'],
+  ['instagram', 'Instagram'],
+  ['join', 'Únete']
+];
+const NAV_PAGES = [
+  ['blog/', 'Blog'],
+  ['patrocina-bisontes-dux/', 'Patrocina']
+];
+
+function siteHeader({ home = false, current = '' } = {}) {
+  const sectionHref = id => (home ? `#${id}` : `${SITE_PATH}#${id}`);
+  const sections = NAV_SECTIONS.map(([id, label]) => `<li><a href="${sectionHref(id)}">${label}</a></li>`).join('\n    ');
+  const pages = NAV_PAGES.map(([href, label], index) => {
+    const isCurrent = current === href;
+    const classes = [index === 0 ? 'nav-page nav-page--first' : 'nav-page', index === NAV_PAGES.length - 1 ? 'nav-page--cta' : ''].filter(Boolean).join(' ');
+    return `<li class="${classes}"><a href="${SITE_PATH}${href}"${isCurrent ? ' aria-current="page"' : ''}>${label}</a></li>`;
+  }).join('\n    ');
+  return `<!-- GENERATED-HEADER:START -->
+<nav id="navbar" aria-label="Navegación principal">
+  <a href="${SITE_PATH}" class="nav-brand">
+    <img src="${SITE_PATH}assets/logo.png" alt="Escudo de Bisontes DUX" class="nav-logo-img" width="500" height="500" />
+    <span class="nav-brand-name">Bisontes <strong>DUX</strong></span>
+  </a>
+  <ul class="nav-links" id="nav-links">
+    ${sections}
+    ${pages}
+  </ul>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Menú" aria-expanded="false" aria-controls="nav-links">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<!-- GENERATED-HEADER:END -->`;
 }
 
-function footer(prefix) {
-  return `<footer class="footer-min">
-    <p>© 2026 Bisontes DUX — Todos los derechos reservados</p>
-    <p class="footer-min-links">
-      <a href="${SITE_PATH}plantilla/">Plantilla</a> ·
-      <a href="${SITE_PATH}jugadores/">Jugadores</a> ·
-      <a href="${SITE_PATH}patrocina-bisontes-dux/">Patrocina Bisontes DUX</a> ·
-      <a href="${SITE_PATH}aviso-legal.html">Aviso legal</a> ·
-      <a href="${SITE_PATH}privacidad.html">Privacidad</a>
-    </p>
-  </footer>`;
+function siteFooter() {
+  const sections = NAV_SECTIONS.map(([id, label]) => `<a href="${SITE_PATH}#${id}">${label}</a>`).join(' · ');
+  const pages = NAV_PAGES.map(([href, label]) => `<a href="${SITE_PATH}${href}">${label}</a>`).join(' · ');
+  return `<!-- GENERATED-FOOTER:START -->
+<footer class="footer-min">
+  <a href="${SITE_PATH}" class="footer-min-brand">
+    <img src="${SITE_PATH}assets/logo.png" alt="Escudo de Bisontes DUX" width="40" height="40" loading="lazy" decoding="async" />
+    <span>Bisontes <strong>DUX</strong></span>
+  </a>
+  <p class="footer-min-links">${sections} · ${pages}</p>
+  <p class="footer-min-links footer-min-contact">
+    <a href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener">Instagram @bisontes.dux</a> ·
+    <a href="mailto:bisontes.dux@gmail.com">bisontes.dux@gmail.com</a>
+  </p>
+  <p class="footer-min-legal">© 2026 Bisontes DUX — Todos los derechos reservados · <a href="${SITE_PATH}aviso-legal.html">Aviso legal</a> · <a href="${SITE_PATH}privacidad.html">Privacidad</a></p>
+</footer>
+<!-- GENERATED-FOOTER:END -->`;
 }
 
 function silhouette() {
@@ -229,9 +259,8 @@ function playerPage(player) {
       {
         '@type': 'BreadcrumbList', '@id': `${player.pageUrl}#breadcrumb`, itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE_URL },
-          { '@type': 'ListItem', position: 2, name: 'Plantilla', item: `${SITE_URL}plantilla/` },
-          { '@type': 'ListItem', position: 3, name: 'Jugadores', item: `${SITE_URL}jugadores/` },
-          { '@type': 'ListItem', position: 4, name: player.name, item: player.pageUrl }
+          { '@type': 'ListItem', position: 2, name: 'Plantilla', item: `${SITE_URL}#plantilla` },
+          { '@type': 'ListItem', position: 3, name: player.name, item: player.pageUrl }
         ]
       }
     ]
@@ -243,9 +272,9 @@ function playerPage(player) {
   <script type="application/ld+json">${jsonLd(schema)}</script>
 </head>
 <body class="subpage-body">
-  ${header(prefix)}
+  ${siteHeader()}
   <main class="profile-page">
-    <nav class="breadcrumbs" aria-label="Migas de pan"><a href="${SITE_PATH}">Inicio</a><span>/</span><a href="${SITE_PATH}plantilla/">Plantilla</a><span>/</span><a href="${SITE_PATH}jugadores/">Jugadores</a><span>/</span><span aria-current="page">${escapeHtml(player.name)}</span></nav>
+    <nav class="breadcrumbs" aria-label="Migas de pan"><a href="${SITE_PATH}">Inicio</a><span>/</span><a href="${SITE_PATH}#plantilla">Plantilla</a><span>/</span><span aria-current="page">${escapeHtml(player.name)}</span></nav>
     <article class="profile-card">
       <div class="profile-photo">${imageMarkup}<span class="profile-dorsal" aria-hidden="true">${escapeHtml(player.dorsal)}</span></div>
       <div class="profile-content">
@@ -256,74 +285,121 @@ function playerPage(player) {
         ${player.bio ? `<p class="profile-bio">${escapeHtml(player.bio)}</p>` : ''}
         <dl class="profile-facts">${facts.map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl>
         ${trajectory}${stats}${socials}
-        <div class="profile-navigation"><a class="btn btn-ghost profile-back" href="${SITE_PATH}plantilla/">← Volver a la plantilla</a><a class="profile-home-link" href="${SITE_PATH}">Bisontes DUX · Web oficial</a></div>
+        <div class="profile-navigation"><a class="btn btn-ghost profile-back" href="${SITE_PATH}#plantilla">← Volver a la plantilla</a><a class="profile-home-link" href="${SITE_PATH}">Bisontes DUX · Web oficial</a></div>
       </div>
     </article>
   </main>
-  ${footer(prefix)}
+  ${siteFooter()}
   <script src="${prefix}js/site.js" defer></script>
 </body>
 </html>`;
 }
 
-function rosterPage() {
-  const canonical = `${SITE_URL}plantilla/`;
-  const title = 'Plantilla de Bisontes DUX | Jugadores y cuerpo técnico';
-  const description = 'Consulta la plantilla oficial de Bisontes DUX: jugadores, dorsales, posiciones y cuerpo técnico del club de fútbol de Madrid.';
+/* Antiguas URLs (/plantilla/ y /jugadores/): la plantilla vive ahora en el index. */
+function redirectPage(title) {
+  const target = `${SITE_PATH}#plantilla`;
+  return `<!DOCTYPE html>
+<html lang="es"><head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${escapeHtml(title)}</title>
+  <meta name="description" content="La plantilla de Bisontes DUX está en la página principal del club." />
+  <meta name="robots" content="noindex, follow" />
+  <link rel="canonical" href="${SITE_URL}" />
+  <meta http-equiv="refresh" content="0; url=${target}" />
+  <script>location.replace('${target}');</script>
+</head><body>
+  <h1>${escapeHtml(title)}</h1>
+  <p><a href="${target}">Ir a la plantilla de Bisontes DUX</a></p>
+</body></html>`;
+}
+
+/* ---------------- BLOG ---------------- */
+const posts = readData('data/blog.js', 'posts')
+  .map(post => ({ ...post, slug: post.slug || slugify(post.title), url: `${SITE_URL}blog/${post.slug || slugify(post.title)}/` }))
+  .sort((a, b) => String(b.date).localeCompare(String(a.date)));
+
+function formatDate(value) {
+  return new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${value}T00:00:00Z`));
+}
+
+/* Cada bloque del cuerpo es un párrafo; si empieza por "## " es un subtítulo. */
+function postBody(blocks) {
+  return (blocks || []).map(block => block.startsWith('## ')
+    ? `<h2>${escapeHtml(block.slice(3))}</h2>`
+    : `<p>${escapeHtml(block)}</p>`).join('\n      ');
+}
+
+function postImage(post) {
+  return post.cover ? new URL(post.cover, SITE_URL).href : `${SITE_URL}assets/logo.png`;
+}
+
+function blogCard(post) {
+  return `<article class="blog-card">
+      <a href="${SITE_PATH}blog/${post.slug}/">
+        ${post.cover ? `<img src="${SITE_PATH}${escapeHtml(post.cover)}" alt="${escapeHtml(post.coverAlt || post.title)}" loading="lazy" decoding="async" />` : ''}
+        <div class="blog-card__body">
+          <time datetime="${post.date}">${formatDate(post.date)}</time>
+          <h2>${escapeHtml(post.title)}</h2>
+          <p>${escapeHtml(post.excerpt)}</p>
+          <span class="blog-card__more">Leer entrada →</span>
+        </div>
+      </a>
+    </article>`;
+}
+
+function blogIndexPage() {
+  const canonical = `${SITE_URL}blog/`;
+  const title = 'Blog de Bisontes DUX | Noticias y crónicas del club';
+  const description = 'Noticias, crónicas y novedades de Bisontes DUX, club de fútbol de Madrid.';
   const schema = {
-    '@context': 'https://schema.org', '@graph': [
-      { '@type': 'CollectionPage', '@id': `${canonical}#webpage`, url: canonical, name: title, description, inLanguage: 'es', isPartOf: { '@id': `${SITE_URL}#website` }, mainEntity: { '@id': `${canonical}#roster` } },
-      { '@type': 'ItemList', '@id': `${canonical}#roster`, name: 'Plantilla de Bisontes DUX', numberOfItems: roster.length, itemListElement: roster.map((player, index) => ({ '@type': 'ListItem', position: index + 1, url: player.pageUrl, item: { '@type': 'Person', '@id': `${player.pageUrl}#person`, name: player.name, jobTitle: player.coach ? player.position : 'Futbolista', memberOf: { '@id': TEAM_ID } } })) },
-      { '@type': 'SportsTeam', '@id': TEAM_ID, name: 'Bisontes DUX', sport: 'Fútbol', url: SITE_URL }
-    ]
+    '@context': 'https://schema.org', '@type': 'Blog', '@id': `${canonical}#blog`, url: canonical, name: 'Blog de Bisontes DUX', description, inLanguage: 'es',
+    publisher: { '@id': TEAM_ID, '@type': 'SportsTeam', name: 'Bisontes DUX', url: SITE_URL },
+    blogPost: posts.map(post => ({ '@type': 'BlogPosting', headline: post.title, url: post.url, datePublished: post.date }))
   };
   return `<!DOCTYPE html>
 <html lang="es"><head>${head({ title, description, canonical, image: `${SITE_URL}assets/logo.png`, prefix: '../' })}
   <script type="application/ld+json">${jsonLd(schema)}</script>
 </head><body class="subpage-body">
-  ${header('../')}
-  <main class="roster-page">
-    <div class="subpage-hero"><p class="eyebrow">Bisontes DUX · Madrid</p><h1 class="font-display">La Plantilla</h1><p>Esta es la plantilla oficial de Bisontes DUX. Consulta la ficha individual de cada jugador y miembro del cuerpo técnico para conocer su dorsal y posición.</p></div>
-    <section aria-labelledby="jugadores"><h2 id="jugadores" class="visually-hidden">Jugadores y cuerpo técnico de Bisontes DUX</h2><div id="players-grid">${roster.map(player => rosterCard(player, '../')).join('\n')}</div></section>
+  ${siteHeader({ current: 'blog/' })}
+  <main class="blog-page">
+    <div class="subpage-hero"><p class="eyebrow">Bisontes DUX · Madrid</p><h1 class="font-display">Blog</h1><p>Noticias, crónicas de partido y novedades de la manada.</p></div>
+    ${posts.length ? `<div class="blog-grid">${posts.map(blogCard).join('\n    ')}</div>` : '<p class="blog-empty">Todavía no hay entradas. Muy pronto contaremos aquí las novedades del club.</p>'}
   </main>
-  ${footer('../')}
+  ${siteFooter()}
   <script src="../js/site.js" defer></script>
 </body></html>`;
 }
 
-function playerIndexPage() {
-  const canonical = `${SITE_URL}jugadores/`;
-  const title = 'Jugadores de Bisontes DUX | Perfiles oficiales';
-  const description = 'Consulta los perfiles oficiales de los jugadores de Bisontes DUX y la información pública disponible sobre la plantilla del club.';
-  const footballers = roster.filter(player => !player.coach);
-  const staff = roster.filter(player => player.coach);
-  const listItems = footballers.map((player, index) => ({
-    '@type': 'ListItem', position: index + 1, url: player.pageUrl,
-    item: { '@type': 'Person', '@id': `${player.pageUrl}#person`, name: player.name, jobTitle: 'Futbolista', memberOf: { '@id': TEAM_ID } }
-  }));
+function blogPostPage(post) {
+  const canonical = post.url;
+  const title = `${post.title} | Blog de Bisontes DUX`;
+  const description = post.excerpt;
+  const image = postImage(post);
   const schema = {
-    '@context': 'https://schema.org', '@graph': [
-      { '@type': 'CollectionPage', '@id': `${canonical}#webpage`, url: canonical, name: title, description, inLanguage: 'es', isPartOf: { '@id': `${SITE_URL}#website` }, mainEntity: { '@id': `${canonical}#players` } },
-      { '@type': 'ItemList', '@id': `${canonical}#players`, name: 'Jugadores de Bisontes DUX', numberOfItems: footballers.length, itemListElement: listItems },
-      { '@type': 'SportsTeam', '@id': TEAM_ID, name: 'Bisontes DUX', sport: 'Fútbol', url: SITE_URL }
-    ]
+    '@context': 'https://schema.org', '@type': 'BlogPosting', '@id': `${canonical}#post`, url: canonical, mainEntityOfPage: canonical,
+    headline: post.title, description, image, datePublished: post.date, ...(post.updated ? { dateModified: post.updated } : {}), inLanguage: 'es',
+    author: { '@type': post.author ? 'Person' : 'SportsTeam', name: post.author || 'Bisontes DUX' },
+    publisher: { '@id': TEAM_ID, '@type': 'SportsTeam', name: 'Bisontes DUX', url: SITE_URL, logo: { '@type': 'ImageObject', url: `${SITE_URL}assets/logo.png` } },
+    isPartOf: { '@id': `${SITE_URL}blog/#blog` }
   };
-  const playerLinks = footballers.map(player => `<li><a href="${SITE_PATH}jugadores/${player.slug}/"><strong>${escapeHtml(player.name)}</strong><span>${escapeHtml(player.position)} · Dorsal ${escapeHtml(player.dorsal)}</span></a></li>`).join('\n');
-  const staffLinks = staff.map(player => `<li><a href="${SITE_PATH}jugadores/${player.slug}/"><strong>${escapeHtml(player.name)}</strong><span>${escapeHtml(player.position)}</span></a></li>`).join('\n');
-
   return `<!DOCTYPE html>
-<html lang="es"><head>${head({ title, description, canonical, image: `${SITE_URL}assets/logo.png`, prefix: '../' })}
+<html lang="es"><head>${head({ title, description, canonical, image, type: 'article', prefix: '../../' })}
   <script type="application/ld+json">${jsonLd(schema)}</script>
 </head><body class="subpage-body">
-  ${header('../')}
-  <main class="player-index-page">
-    <div class="subpage-hero"><p class="eyebrow">Perfiles oficiales · Bisontes DUX</p><h1 class="font-display">Jugadores de Bisontes DUX</h1><p>Consulta la plantilla y los perfiles oficiales de los jugadores de Bisontes DUX. Cada enlace lleva a una ficha HTML individual con la información pública disponible sobre el jugador.</p></div>
-    <section class="player-directory" aria-labelledby="lista-jugadores"><h2 id="lista-jugadores" class="font-display">Plantilla de jugadores</h2><ul class="player-index-list">${playerLinks}</ul></section>
-    <section class="player-directory" aria-labelledby="cuerpo-tecnico"><h2 id="cuerpo-tecnico" class="font-display">Cuerpo técnico</h2><ul class="player-index-list player-index-list--staff">${staffLinks}</ul></section>
-    <p class="directory-back"><a href="${SITE_PATH}plantilla/">← Ver la plantilla visual de Bisontes DUX</a></p>
+  ${siteHeader({ current: 'blog/' })}
+  <main class="blog-page">
+    <nav class="breadcrumbs" aria-label="Migas de pan"><a href="${SITE_PATH}">Inicio</a><span>/</span><a href="${SITE_PATH}blog/">Blog</a><span>/</span><span aria-current="page">${escapeHtml(post.title)}</span></nav>
+    <article class="blog-post">
+      <p class="eyebrow"><time datetime="${post.date}">${formatDate(post.date)}</time>${post.author ? ` · ${escapeHtml(post.author)}` : ''}</p>
+      <h1 class="font-display">${escapeHtml(post.title)}</h1>
+      ${post.cover ? `<img class="blog-post__cover" src="${SITE_PATH}${escapeHtml(post.cover)}" alt="${escapeHtml(post.coverAlt || post.title)}" decoding="async" />` : ''}
+      ${postBody(post.body)}
+      <p class="blog-post__back"><a class="btn btn-ghost" href="${SITE_PATH}blog/">← Volver al blog</a></p>
+    </article>
   </main>
-  ${footer('../')}
-  <script src="../js/site.js" defer></script>
+  ${siteFooter()}
+  <script src="../../js/site.js" defer></script>
 </body></html>`;
 }
 
@@ -338,12 +414,12 @@ function sponsorPage() {
   }).join('');
   const schema = { '@context': 'https://schema.org', '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title, description, inLanguage: 'es', about: { '@id': TEAM_ID, '@type': 'SportsTeam', name: 'Bisontes DUX', sport: 'Fútbol', url: SITE_URL } };
   return `<!DOCTYPE html><html lang="es"><head>${head({ title, description, canonical, image: `${SITE_URL}assets/logo.png`, prefix })}<script type="application/ld+json">${jsonLd(schema)}</script></head>
-<body class="subpage-body">${header(prefix)}<main class="sponsor-page">
+<body class="subpage-body">${siteHeader({ current: 'patrocina-bisontes-dux/' })}<main class="sponsor-page">
   <div class="subpage-hero"><p class="eyebrow">Crece con la manada</p><h1 class="font-display">Patrocina Bisontes DUX</h1><p>Buscamos empresas y organizaciones que quieran apoyar el proyecto deportivo y la comunidad de Bisontes DUX. Prepararemos propuestas de colaboración adaptadas a cada entidad, sin compromisos ni cifras prefabricadas.</p><a class="btn btn-primary" href="mailto:bisontes.dux@gmail.com?subject=Quiero%20patrocinar%20Bisontes%20DUX" data-track="sponsor_contact_click">Hablar con el club</a></div>
   <section class="sponsor-opportunities" aria-labelledby="colaborar"><h2 id="colaborar" class="font-display">Formas de colaborar</h2><div class="opportunity-grid"><article><h3>Patrocinio oficial</h3><p>Presencia de marca y activaciones acordadas con el club.</p></article><article><h3>Colaboraciones</h3><p>Acciones conjuntas, servicios o apoyo a iniciativas concretas.</p></article><article><h3>Media kit</h3><p>Solicita el futuro dossier comercial y una propuesta a medida.</p></article></div></section>
   <section class="current-sponsors" aria-labelledby="apoyos"><p class="eyebrow">Quienes ya nos apoyan</p><h2 id="apoyos" class="font-display">Patrocinadores y colaboradores</h2><div id="sponsors-grid">${sponsorCards}</div></section>
   <section class="sponsor-contact"><h2 class="font-display">¿Hablamos?</h2><p>Cuéntanos qué tipo de colaboración te interesa.</p><a href="mailto:bisontes.dux@gmail.com?subject=Colaboración%20con%20Bisontes%20DUX" data-track="sponsor_contact_click">bisontes.dux@gmail.com</a></section>
-</main>${footer(prefix)}<script src="${prefix}js/site.js" defer></script></body></html>`;
+</main>${siteFooter()}<script src="${prefix}js/site.js" defer></script></body></html>`;
 }
 
 function write(file, content) {
@@ -353,9 +429,28 @@ function write(file, content) {
 }
 
 for (const player of roster) write(`jugadores/${player.slug}/index.html`, playerPage(player));
-write('plantilla/index.html', rosterPage());
-write('jugadores/index.html', playerIndexPage());
+write('plantilla/index.html', redirectPage('Plantilla de Bisontes DUX'));
+write('jugadores/index.html', redirectPage('Jugadores de Bisontes DUX'));
 write('patrocina-bisontes-dux/index.html', sponsorPage());
+write('blog/index.html', blogIndexPage());
+const postDirs = new Set(posts.map(post => post.slug));
+if (fs.existsSync(path.join(ROOT, 'blog'))) {
+  for (const entry of fs.readdirSync(path.join(ROOT, 'blog'), { withFileTypes: true })) {
+    if (entry.isDirectory() && !postDirs.has(entry.name)) fs.rmSync(path.join(ROOT, 'blog', entry.name), { recursive: true });
+  }
+}
+for (const post of posts) write(`blog/${post.slug}/index.html`, blogPostPage(post));
+
+/* Header y footer comunes en las páginas escritas a mano. */
+const headerPattern = /<!-- GENERATED-HEADER:START -->[\s\S]*?<!-- GENERATED-HEADER:END -->/;
+const footerPattern = /<!-- GENERATED-FOOTER:START -->[\s\S]*?<!-- GENERATED-FOOTER:END -->/;
+for (const file of ['aviso-legal.html', 'privacidad.html', '404.html']) {
+  const target = path.join(ROOT, file);
+  let html = fs.readFileSync(target, 'utf8');
+  if (!headerPattern.test(html) || !footerPattern.test(html)) throw new Error(`Faltan los marcadores GENERATED-HEADER/FOOTER en ${file}`);
+  html = html.replace(headerPattern, siteHeader()).replace(footerPattern, siteFooter());
+  fs.writeFileSync(target, html);
+}
 
 const indexPath = path.join(ROOT, 'index.html');
 let index = fs.readFileSync(indexPath, 'utf8');
@@ -363,6 +458,8 @@ const generatedRoster = `<!-- GENERATED-ROSTER:START -->\n${roster.map(player =>
 const markerPattern = /<!-- GENERATED-ROSTER:START -->[\s\S]*?<!-- GENERATED-ROSTER:END -->/;
 if (!markerPattern.test(index)) throw new Error('No se encontraron los marcadores GENERATED-ROSTER en index.html');
 index = index.replace(markerPattern, generatedRoster);
+if (!headerPattern.test(index) || !footerPattern.test(index)) throw new Error('Faltan los marcadores GENERATED-HEADER/FOOTER en index.html');
+index = index.replace(headerPattern, siteHeader({ home: true })).replace(footerPattern, siteFooter());
 const teamSchema = {
   '@context': 'https://schema.org', '@type': 'SportsTeam', '@id': TEAM_ID,
   name: 'Bisontes DUX', alternateName: 'Bisontes DUX FC', url: SITE_URL,
@@ -382,10 +479,10 @@ if (!teamMarkerPattern.test(index)) throw new Error('No se encontraron los marca
 index = index.replace(teamMarkerPattern, generatedTeamSchema);
 fs.writeFileSync(indexPath, index);
 
-const sitemapUrls = [SITE_URL, `${SITE_URL}plantilla/`, `${SITE_URL}jugadores/`, `${SITE_URL}patrocina-bisontes-dux/`, ...roster.map(player => player.pageUrl)];
+const sitemapUrls = [SITE_URL, `${SITE_URL}patrocina-bisontes-dux/`, `${SITE_URL}blog/`, ...posts.map(post => post.url), ...roster.map(player => player.pageUrl)];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${sitemapUrls.map((url, index) => `  <url>\n    <loc>${url}</loc>\n    <lastmod>${TODAY}</lastmod>\n    <changefreq>${index === 0 ? 'weekly' : 'monthly'}</changefreq>\n    <priority>${index === 0 ? '1.0' : index < 4 ? '0.8' : '0.6'}</priority>\n  </url>`).join('\n')}
+${sitemapUrls.map((url, index) => `  <url>\n    <loc>${url}</loc>\n    <lastmod>${TODAY}</lastmod>\n    <changefreq>${index === 0 ? 'weekly' : 'monthly'}</changefreq>\n    <priority>${index === 0 ? '1.0' : index < 3 + posts.length ? '0.8' : '0.6'}</priority>\n  </url>`).join('\n')}
 </urlset>`);
 
 const footballers = roster.filter(player => !player.coach);
@@ -398,9 +495,8 @@ Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identif
 
 ## Páginas principales
 
-- [Web oficial de Bisontes DUX](${SITE_URL}): información general del club.
-- [Plantilla de Bisontes DUX](${SITE_URL}plantilla/): presentación visual de jugadores y cuerpo técnico.
-- [Jugadores de Bisontes DUX](${SITE_URL}jugadores/): índice HTML de perfiles oficiales.
+- [Web oficial de Bisontes DUX](${SITE_URL}): información general del club, sobre nosotros y plantilla con jugadores y cuerpo técnico.
+- [Blog de Bisontes DUX](${SITE_URL}blog/): noticias y novedades del club.
 - [Patrocina Bisontes DUX](${SITE_URL}patrocina-bisontes-dux/): información para posibles colaboradores.
 - [Datos públicos de jugadores](${SITE_URL}players.json): versión JSON generada desde la plantilla.
 
@@ -424,4 +520,4 @@ write('players.json', JSON.stringify({
   staff: staff.map(player => ({ name: player.name, url: player.pageUrl, role: player.position }))
 }, null, 2));
 
-console.log(`Generadas ${roster.length} fichas, índice de jugadores, plantilla, datos públicos y sitemap (${sitemapUrls.length} URLs).`);
+console.log(`Generadas ${roster.length} fichas, ${posts.length} entradas de blog, datos públicos y sitemap (${sitemapUrls.length} URLs).`);

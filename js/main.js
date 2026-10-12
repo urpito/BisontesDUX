@@ -427,4 +427,15 @@ document.addEventListener('DOMContentLoaded', () => {
   initNewsletter();
 });
 
+/* Al llegar desde otra página con #seccion (p. ej. /BisontesDUX/#plantilla), baja hasta ella
+   cuando ya está todo cargado, para que el salto no se pierda. */
+if (location.hash && 'scrollRestoration' in history) history.scrollRestoration = 'manual';
+window.addEventListener('load', () => {
+  const target = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+  if (!target) return;
+  const jump = () => target.scrollIntoView({ block: 'start' });
+  jump();
+  setTimeout(jump, 150);
+});
+
 window.addEventListener('resize', fitPlayerNames);
