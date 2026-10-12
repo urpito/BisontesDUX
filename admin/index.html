@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin | Bisontes DUX</title>
+  <meta name="description" content="Panel interno de Bisontes DUX para editar la plantilla y el blog." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" href="/BisontesDUX/favicon.png" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <header class="top">
+    <h1>Bisontes DUX · Admin</h1>
+    <span id="who" class="muted"></span>
+    <button type="button" id="logout" class="link" hidden>Cerrar sesión</button>
+  </header>
+
+  <!-- LOGIN -->
+  <section id="login" class="card">
+    <h2>Entrar</h2>
+    <p>El panel guarda los cambios directamente en GitHub (<code>urpito/BisontesDUX</code>) y la web se actualiza sola en 1-2 minutos. Para entrar necesitas un <strong>token de GitHub</strong> con permiso para editar el repositorio.</p>
+    <details>
+      <summary>Cómo crear el token (una sola vez)</summary>
+      <ol>
+        <li>Entra en <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a>.</li>
+        <li>Nombre: «Admin web Bisontes». Caducidad: la que quieras.</li>
+        <li><em>Repository access</em> → <em>Only select repositories</em> → <code>BisontesDUX</code>.</li>
+        <li><em>Permissions</em> → <em>Repository permissions</em> → <strong>Contents: Read and write</strong>.</li>
+        <li>Pulsa <em>Generate token</em>, cópialo y pégalo aquí.</li>
+      </ol>
+    </details>
+    <form id="login-form">
+        <label for="token">Token de GitHub</label>
+        <input type="password" id="token" autocomplete="off" required placeholder="github_pat_…" />
+        <label class="check"><input type="checkbox" id="remember" /> Recordarlo en este navegador</label>
+        <button type="submit" class="primary">Entrar</button>
+        <p id="login-status" class="status" role="status"></p>
+    </form>
+  </section>
+
+  <!-- PANEL -->
+  <main id="panel" hidden>
+    <nav class="tabs" role="tablist">
+      <button type="button" role="tab" data-tab="players" aria-selected="true">Plantilla</button>
+      <button type="button" role="tab" data-tab="blog" aria-selected="false">Blog</button>
+    </nav>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+
+    <!-- PLANTILLA -->
+    <section id="tab-players" class="tab">
+      <div class="toolbar">
+        <button type="button" id="add-player">+ Añadir persona</button>
+        <button type="button" id="save-players" class="primary">Guardar plantilla</button>
+      </div>
+      <p class="muted">El orden de la lista es el orden en la web. El «apodo» es lo que sale estampado en la espalda de la camiseta (si no hay, sale el apellido).</p>
+      <div id="players-list"></div>
+    </section>
+
+    <!-- BLOG -->
+    <section id="tab-blog" class="tab" hidden>
+      <div class="toolbar">
+        <button type="button" id="add-post">+ Nueva entrada</button>
+        <button type="button" id="save-blog" class="primary">Guardar blog</button>
+      </div>
+      <p class="muted">Cuerpo: separa los párrafos con una línea en blanco. Una línea que empiece por <code>## </code> es un subtítulo.</p>
+      <div id="posts-list"></div>
+    </section>
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>

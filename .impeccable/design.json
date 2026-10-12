@@ -1,0 +1,395 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-12T15:10:00Z",
+  "title": "Design System: Bisontes DUX",
+  "extensions": {
+    "colorMeta": {
+      "pink": {
+        "role": "primary",
+        "displayName": "Rosa del escudo",
+        "canonical": "#FFC8DD",
+        "tonalRamp": [
+          "oklch(15% 0.068 354)",
+          "oklch(27% 0.068 354)",
+          "oklch(39% 0.068 354)",
+          "oklch(51% 0.068 354)",
+          "oklch(63% 0.068 354)",
+          "oklch(75% 0.068 354)",
+          "oklch(88.7% 0.068 354)",
+          "oklch(95% 0.03 354)"
+        ]
+      },
+      "pink-rib": {
+        "role": "primary",
+        "displayName": "Sombra del ribete",
+        "canonical": "#F1B3CB",
+        "tonalRamp": [
+          "oklch(15% 0.078 354)",
+          "oklch(27% 0.078 354)",
+          "oklch(39% 0.078 354)",
+          "oklch(51% 0.078 354)",
+          "oklch(63% 0.078 354)",
+          "oklch(73% 0.078 354)",
+          "oklch(83.1% 0.078 354)",
+          "oklch(95% 0.03 354)"
+        ]
+      },
+      "kit": {
+        "role": "neutral",
+        "displayName": "Punto gris",
+        "canonical": "#545454",
+        "tonalRamp": [
+          "#161616",
+          "#2a2a2a",
+          "#3d3d3d",
+          "#484848",
+          "#545454",
+          "#5f5f5f",
+          "#9a9a9a",
+          "#F5F5F5"
+        ]
+      },
+      "kit-deep": {
+        "role": "neutral",
+        "displayName": "Gris sombra de tejido",
+        "canonical": "#484848",
+        "tonalRamp": [
+          "#161616",
+          "#2a2a2a",
+          "#3d3d3d",
+          "#484848",
+          "#545454",
+          "#5f5f5f",
+          "#9a9a9a",
+          "#F5F5F5"
+        ]
+      },
+      "kit-soft": {
+        "role": "neutral",
+        "displayName": "Gris panel",
+        "canonical": "#5f5f5f",
+        "tonalRamp": [
+          "#161616",
+          "#2a2a2a",
+          "#3d3d3d",
+          "#484848",
+          "#545454",
+          "#5f5f5f",
+          "#9a9a9a",
+          "#F5F5F5"
+        ]
+      },
+      "kit-line": {
+        "role": "neutral",
+        "displayName": "Hilo claro",
+        "canonical": "rgba(255,255,255,0.14)"
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "Blanco (segunda equipación)",
+        "canonical": "#FFFFFF"
+      },
+      "on-kit-2": {
+        "role": "neutral",
+        "displayName": "Blanco atenuado",
+        "canonical": "rgba(255,255,255,0.8)"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Trazo del escudo",
+        "canonical": "#161616",
+        "tonalRamp": [
+          "#161616",
+          "#2a2a2a",
+          "#3d3d3d",
+          "#545454",
+          "#707070",
+          "#9a9a9a",
+          "#cfcfcf",
+          "#F5F5F5"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Gris de texto",
+        "canonical": "#545454"
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Papel",
+        "canonical": "#F5F5F5"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Solo el titular de portada BISONTES DUX, segunda línea en rosa."
+      },
+      "dorsal": {
+        "displayName": "Dorsal",
+        "purpose": "Números estampados en rosa: hero, tarjetas de jugador, ficha."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Títulos de sección y H1 de subpáginas, mayúsculas, text-wrap balance."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Nombres en tarjetas de jugador, patrocinador y blog; apellido de la espalda."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Párrafos de 60–68ch en Archivo."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Navegación, posiciones, campos, dt de datos y fechas; Archivo ensanchado 110–112%, mayúsculas."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Texto de botones; Archivo 800 ensanchado 112%, mayúsculas."
+      }
+    },
+    "textures": [
+      {
+        "name": "knit",
+        "value": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='14' viewBox='0 0 10 14'%3E%3Cpath d='M0 0l5 7 5-7M0 7l5 7 5-7' fill='none' stroke='%23ffffff' stroke-opacity='0.045' stroke-width='1'/%3E%3C/svg%3E\")",
+        "purpose": "Punto de la camiseta: puntadas en V sobre todo fondo gris."
+      },
+      {
+        "name": "rib",
+        "value": "repeating-linear-gradient(90deg, #FFC8DD 0 3px, #F1B3CB 3px 5px)",
+        "purpose": "Ribete de cuello en canalé rosa; bandas de 8px en header, secciones, tira de dorsales, etiqueta y footer."
+      }
+    ],
+    "shadows": [
+      {
+        "name": "button-rest",
+        "value": "0 6px 18px rgba(0,0,0,0.18)",
+        "purpose": "Botón principal en reposo."
+      },
+      {
+        "name": "button-hover",
+        "value": "0 10px 24px rgba(0,0,0,0.22)",
+        "purpose": "Botón principal en hover."
+      },
+      {
+        "name": "card-rest",
+        "value": "0 1px 0 rgba(255,255,255,0.06) inset, 0 8px 20px rgba(0,0,0,0.12)",
+        "purpose": "Tarjeta de jugador en reposo."
+      },
+      {
+        "name": "card-hover",
+        "value": "0 1px 0 rgba(255,255,255,0.06) inset, 0 16px 32px rgba(0,0,0,0.22)",
+        "purpose": "Tarjeta levantada en hover."
+      },
+      {
+        "name": "float",
+        "value": "0 10px 28px rgba(0,0,0,0.22)",
+        "purpose": "Pie de foto del hero y escudo."
+      },
+      {
+        "name": "header-scrolled",
+        "value": "0 8px 24px rgba(0,0,0,0.25)",
+        "purpose": "Header al hacer scroll."
+      },
+      {
+        "name": "dialog",
+        "value": "0 24px 48px rgba(0,0,0,0.3)",
+        "purpose": "Ventana de patrocinador."
+      },
+      {
+        "name": "player-cutout",
+        "value": "drop-shadow(0 18px 30px rgba(0,0,0,0.3))",
+        "purpose": "Jugador recortado delante del dorsal."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Curva común: hovers, levantar tarjetas, estampado del dorsal."
+      },
+      {
+        "name": "state",
+        "value": "0.2s",
+        "purpose": "Cambios de color y borde de botones, chips y dorsales."
+      },
+      {
+        "name": "dorsal-leave",
+        "value": "0.18s ease (opacity 0, scale 1.04, blur 4px)",
+        "purpose": "Salida del apellido y número antes del cambio."
+      },
+      {
+        "name": "dorsal-press",
+        "value": "0.5s ease (from scale 1.14, blur 10px)",
+        "purpose": "Entrada «planchada» del nuevo apodo o apellido."
+      },
+      {
+        "name": "player-step-in",
+        "value": "0.55s ease (from translateY 24px)",
+        "purpose": "Entrada del nuevo jugador en la portada."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "prefers-reduced-motion: reduce",
+        "purpose": "Cambio de dorsal inmediato y scroll sin suavizado."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "nav-compact",
+        "value": "1101px–1280px"
+      },
+      {
+        "name": "tablet",
+        "value": "1100px"
+      },
+      {
+        "name": "narrow",
+        "value": "860px"
+      },
+      {
+        "name": "mobile",
+        "value": "680px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Acción principal en rosa del escudo; uno por bloque.",
+      "html": "<a class=\"ds-btn ds-btn-primary\" href=\"#\">Ver la plantilla</a>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 28px; font-family: 'Archivo', system-ui, sans-serif; font-weight: 800; font-size: 0.95rem; font-stretch: 112%; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; border: 2px solid transparent; border-radius: 3px; cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s cubic-bezier(0.16,1,0.3,1), box-shadow 0.2s; } .ds-btn:hover { transform: translateY(-2px); } .ds-btn:active { transform: translateY(0); } .ds-btn:focus-visible { outline: 3px solid #FFC8DD; outline-offset: 3px; } .ds-btn-primary { background: #FFC8DD; color: #161616; box-shadow: 0 6px 18px rgba(0,0,0,0.18); } .ds-btn-primary:hover { background: #FFFFFF; box-shadow: 0 10px 24px rgba(0,0,0,0.22); }"
+    },
+    {
+      "name": "Botón fantasma",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Acción secundaria sobre gris.",
+      "html": "<div style=\"background:#545454;padding:16px\"><a class=\"ds-btn-ghost\" href=\"#\">Quiero jugar</a></div>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; min-height: 52px; padding: 0 28px; font-family: 'Archivo', system-ui, sans-serif; font-weight: 800; font-size: 0.95rem; font-stretch: 112%; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: #FFFFFF; border: 2px solid rgba(255,255,255,0.75); border-radius: 3px; transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s cubic-bezier(0.16,1,0.3,1); } .ds-btn-ghost:hover { background: #FFFFFF; color: #161616; border-color: #FFFFFF; transform: translateY(-2px); } .ds-btn-ghost:focus-visible { outline: 3px solid #FFC8DD; outline-offset: 3px; }"
+    },
+    {
+      "name": "Botón oscuro",
+      "kind": "button",
+      "refersTo": "button-dark",
+      "description": "Acción sobre secciones blancas.",
+      "html": "<a class=\"ds-btn-dark\" href=\"#\">Quiero jugar</a>",
+      "css": ".ds-btn-dark { display: inline-flex; align-items: center; min-height: 52px; padding: 0 28px; font-family: 'Archivo', system-ui, sans-serif; font-weight: 800; font-size: 0.95rem; font-stretch: 112%; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; background: #545454; color: #FFFFFF; border: 2px solid transparent; border-radius: 3px; transition: background 0.2s, transform 0.2s cubic-bezier(0.16,1,0.3,1); } .ds-btn-dark:hover { background: #161616; transform: translateY(-2px); } .ds-btn-dark:focus-visible { outline: 3px solid #161616; outline-offset: 3px; }"
+    },
+    {
+      "name": "Botón contorno",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Acción secundaria sobre secciones blancas.",
+      "html": "<a class=\"ds-btn-outline\" href=\"#\">Patrocina el club</a>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; min-height: 52px; padding: 0 28px; font-family: 'Archivo', system-ui, sans-serif; font-weight: 800; font-size: 0.95rem; font-stretch: 112%; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; background: transparent; color: #161616; border: 2px solid #545454; border-radius: 3px; transition: background 0.2s, color 0.2s, transform 0.2s cubic-bezier(0.16,1,0.3,1); } .ds-btn-outline:hover { background: #545454; color: #FFFFFF; transform: translateY(-2px); } .ds-btn-outline:focus-visible { outline: 3px solid #161616; outline-offset: 3px; }"
+    },
+    {
+      "name": "Tira de dorsales",
+      "kind": "custom",
+      "refersTo": "dorsal-button",
+      "description": "Componente firma: elegir un número cambia jugador, apellido y dorsal del hero; el activo queda pulsado en rosa.",
+      "html": "<div class=\"ds-strip\"><span class=\"ds-strip__label\">Elige dorsal</span><div class=\"ds-strip__nums\"><button class=\"ds-dorsal\" aria-pressed=\"true\">5</button><button class=\"ds-dorsal\" aria-pressed=\"false\">7</button><button class=\"ds-dorsal\" aria-pressed=\"false\">10</button></div></div>",
+      "css": ".ds-strip { display: flex; align-items: center; gap: 20px; padding: 16px; background: #484848; border-top: 8px solid transparent; border-image: repeating-linear-gradient(90deg, #FFC8DD 0 3px, #F1B3CB 3px 5px) 1; } .ds-strip__label { font-family: 'Archivo', system-ui, sans-serif; font-size: 0.78rem; font-weight: 800; font-stretch: 112%; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.8); } .ds-strip__nums { display: flex; gap: 8px; } .ds-dorsal { width: 52px; height: 52px; cursor: pointer; font-family: 'Big Shoulders Display', 'Archivo', sans-serif; font-weight: 900; font-size: 1.6rem; line-height: 1; font-variant-numeric: tabular-nums; background: transparent; color: #FFFFFF; border: 2px solid rgba(255,255,255,0.14); border-radius: 3px; transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s cubic-bezier(0.16,1,0.3,1); } .ds-dorsal:hover { border-color: #FFFFFF; transform: translateY(-2px); } .ds-dorsal:focus-visible { outline: 3px solid #FFC8DD; outline-offset: 3px; } .ds-dorsal[aria-pressed=\"true\"] { background: #FFC8DD; color: #161616; border-color: #FFC8DD; }"
+    },
+    {
+      "name": "Filtro de plantilla",
+      "kind": "chip",
+      "refersTo": "filter-chip",
+      "description": "Filtra la plantilla por posición; pulsado en blanco, nunca en rosa.",
+      "html": "<div style=\"background:#545454;padding:16px;display:flex;gap:8px\"><button class=\"ds-chip\" aria-pressed=\"true\">Todos</button><button class=\"ds-chip\" aria-pressed=\"false\">Porteros</button></div>",
+      "css": ".ds-chip { min-height: 44px; padding: 0 18px; cursor: pointer; font-family: 'Archivo', system-ui, sans-serif; font-size: 0.8rem; font-weight: 800; font-stretch: 110%; letter-spacing: 0.08em; text-transform: uppercase; background: transparent; color: #FFFFFF; border: 2px solid rgba(255,255,255,0.14); border-radius: 999px; transition: background 0.2s, color 0.2s, border-color 0.2s; } .ds-chip:hover { border-color: #FFFFFF; } .ds-chip:focus-visible { outline: 3px solid #FFC8DD; outline-offset: 3px; } .ds-chip[aria-pressed=\"true\"] { background: #FFFFFF; color: #161616; border-color: #FFFFFF; }"
+    },
+    {
+      "name": "Tarjeta de jugador",
+      "kind": "card",
+      "refersTo": "player-card",
+      "description": "Dorsal rosa gigante detrás del jugador recortado, pie blanco con posición y apellido.",
+      "html": "<a class=\"ds-player\" href=\"#\"><div class=\"ds-player__img\"><span class=\"ds-player__dorsal\">9</span></div><div class=\"ds-player__info\"><span class=\"ds-player__pos\">Delantero</span><span class=\"ds-player__name\">Apellido</span></div></a>",
+      "css": ".ds-player { display: flex; flex-direction: column; width: 210px; overflow: hidden; text-decoration: none; background: #5f5f5f; border-radius: 4px; box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 8px 20px rgba(0,0,0,0.12); transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s; } .ds-player:hover { transform: translateY(-4px); box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 16px 32px rgba(0,0,0,0.22); } .ds-player:focus-visible { outline: 3px solid #FFC8DD; outline-offset: 3px; } .ds-player__img { position: relative; aspect-ratio: 4 / 5; } .ds-player__dorsal { position: absolute; top: 6px; left: 12px; font-family: 'Big Shoulders Display', 'Archivo', sans-serif; font-weight: 900; font-size: 6rem; line-height: 0.85; color: #FFC8DD; font-variant-numeric: tabular-nums; } .ds-player__info { display: grid; gap: 2px; padding: 14px 16px 16px; background: #FFFFFF; color: #161616; } .ds-player__pos { font-family: 'Archivo', system-ui, sans-serif; font-size: 0.72rem; font-weight: 800; font-stretch: 110%; letter-spacing: 0.1em; text-transform: uppercase; color: #545454; } .ds-player__name { font-family: 'Big Shoulders Display', 'Archivo', sans-serif; font-weight: 800; font-size: 1.55rem; line-height: 1; text-transform: uppercase; }"
+    },
+    {
+      "name": "Etiqueta cosida",
+      "kind": "card",
+      "refersTo": "kit-label",
+      "description": "Panel de datos del club como la etiqueta interior de la camiseta.",
+      "html": "<aside class=\"ds-label\"><p class=\"ds-label__brand\">Bisontes DUX</p><dl><div class=\"ds-label__row\"><dt>Fundación</dt><dd>2025</dd></div><div class=\"ds-label__row\"><dt>Ciudad</dt><dd>Madrid, España</dd></div></dl></aside>",
+      "css": ".ds-label { max-width: 360px; padding: 32px 28px 28px; background: #F5F5F5; color: #161616; border-radius: 0 0 4px 4px; border-top: 8px solid transparent; border-image: repeating-linear-gradient(90deg, #FFC8DD 0 3px, #F1B3CB 3px 5px) 1; border-bottom: 3px solid #161616; } .ds-label__brand { text-align: center; font-family: 'Big Shoulders Display', 'Archivo', sans-serif; font-weight: 900; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 18px; } .ds-label__row { display: grid; grid-template-columns: 9.5em 1fr; gap: 12px; padding: 11px 0; border-top: 1px solid rgba(84,84,84,0.2); } .ds-label__row dt { font-family: 'Archivo', system-ui, sans-serif; font-size: 0.72rem; font-weight: 800; font-stretch: 112%; letter-spacing: 0.1em; text-transform: uppercase; color: #545454; } .ds-label__row dd { margin: 0; font-size: 0.95rem; font-weight: 600; }"
+    },
+    {
+      "name": "Campo de formulario",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Campo en papel con costura gris inferior; foco en blanco con borde completo.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field__label\">Nombre</span><input class=\"ds-field__input\" type=\"text\" placeholder=\"Tu nombre\"></label>",
+      "css": ".ds-field { display: grid; gap: 8px; max-width: 320px; } .ds-field__label { font-family: 'Archivo', system-ui, sans-serif; font-size: 0.78rem; font-weight: 800; font-stretch: 110%; letter-spacing: 0.08em; text-transform: uppercase; color: #161616; } .ds-field__input { min-height: 50px; padding: 12px 14px; font: inherit; font-size: 1rem; color: #161616; background: #F5F5F5; border: 2px solid transparent; border-bottom-color: #545454; border-radius: 3px 3px 0 0; transition: border-color 0.2s, background 0.2s; } .ds-field__input::placeholder { color: #707070; } .ds-field__input:hover { background: #eeeeee; } .ds-field__input:focus { outline: none; border-color: #545454; background: #FFFFFF; } .ds-field__input:invalid:not(:placeholder-shown) { border-bottom-color: #b3261e; }"
+    },
+    {
+      "name": "Navegación (cuello)",
+      "kind": "nav",
+      "refersTo": "nav-cta",
+      "description": "Header en gris sombra cerrado por la banda de ribete; enlaces con raya rosa y CTA rosa.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-nav__brand\">Bisontes <strong>DUX</strong></span><ul class=\"ds-nav__links\"><li><a href=\"#\" aria-current=\"page\">Plantilla</a></li><li><a href=\"#\">Sponsors</a></li><li><a class=\"ds-nav__cta\" href=\"#\">Quiero jugar</a></li></ul></nav>",
+      "css": ".ds-nav { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 80px; padding: 0 24px 8px; background: #484848; color: #FFFFFF; } .ds-nav::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 8px; background: repeating-linear-gradient(90deg, #FFC8DD 0 3px, #F1B3CB 3px 5px); } .ds-nav__brand { font-family: 'Big Shoulders Display', 'Archivo', sans-serif; font-weight: 800; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 0.04em; } .ds-nav__brand strong { color: #FFC8DD; font-weight: 900; } .ds-nav__links { display: flex; align-items: center; gap: 22px; list-style: none; margin: 0; padding: 0; } .ds-nav__links a { position: relative; display: block; padding: 6px 0; font-family: 'Archivo', system-ui, sans-serif; font-size: 0.78rem; font-weight: 700; font-stretch: 110%; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; color: rgba(255,255,255,0.8); transition: color 0.2s; } .ds-nav__links a:not(.ds-nav__cta)::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: #FFC8DD; transform: scaleX(0); transform-origin: left; transition: transform 0.25s cubic-bezier(0.16,1,0.3,1); } .ds-nav__links a:hover, .ds-nav__links a[aria-current=\"page\"] { color: #FFFFFF; } .ds-nav__links a:hover::after, .ds-nav__links a[aria-current=\"page\"]::after { transform: scaleX(1); } .ds-nav__links a:focus-visible { outline: 3px solid #FFC8DD; outline-offset: 3px; } .ds-nav__links a.ds-nav__cta { padding: 10px 20px; border-radius: 3px; background: #FFC8DD; color: #161616; font-weight: 800; transition: background 0.2s, transform 0.2s; } .ds-nav__links a.ds-nav__cta:hover { background: #FFFFFF; transform: translateY(-1px); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "La equipación",
+    "overview": "La web entera viste la camiseta del club. El cuerpo es el punto gris de la tela, con una textura muy fina de puntadas en V; el cuello y los puños son un ribete de canalé rosa; los apellidos y los dorsales van estampados en blanco y en el rosa del escudo. Cada pieza de la interfaz se lee como una parte de la prenda: el header es el cuello, la portada es la espalda con el apodo o apellido, el panel de datos del club es la etiqueta cosida por dentro y las tarjetas de patrocinador son los parches.",
+    "keyCharacteristics": [
+      "Fondo gris con textura de punto (`--knit`) en todas las secciones de la primera equipación.",
+      "Ribete rosa de canalé de 8px (`--rib`) como costura entre header, secciones, tira de dorsales, etiqueta y footer.",
+      "Apellidos y números en Big Shoulders Display 800/900, siempre en mayúsculas.",
+      "Texto, etiquetas y botones en Archivo; las etiquetas se ensanchan con el eje de anchura (110–112%).",
+      "Esquinas casi rectas (3–6px): prenda cortada, no burbujas.",
+      "Interacción firma: la tira de dorsales del hero cambia jugador, apellido y número con una animación de «planchado»."
+    ],
+    "rules": [
+      {
+        "name": "The Ribete Rule",
+        "body": "El rosa solo aparece como ribete (bandas `--rib`), botón principal, número de dorsal, estado pulsado y acento de texto o subrayado. Nunca como fondo de una sección a sangre: la camiseta es gris, el rosa es el cuello.",
+        "section": "colors"
+      },
+      {
+        "name": "The Dos Equipaciones Rule",
+        "body": "Una sección es gris con textura de punto o blanca lisa. No hay terceras superficies a sangre ni degradados de fondo.",
+        "section": "colors"
+      },
+      {
+        "name": "The Estampado Rule",
+        "body": "Big Shoulders se reserva para lo que iría impreso en una camiseta: nombres, números y titulares. Nunca para párrafos ni etiquetas pequeñas.",
+        "section": "typography"
+      },
+      {
+        "name": "The Sin Kicker Rule",
+        "body": "No hay etiquetas de antetítulo (eyebrow/kicker) encima de los titulares. El titular empieza la sección; la entradilla va debajo.",
+        "section": "typography"
+      },
+      {
+        "name": "The Levantar Rule",
+        "body": "Las superficies están quietas en reposo; solo se levantan como respuesta a la interacción (hover) y vuelven a su sitio al pulsar.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** cerrar el header, abrir las secciones que cambian de equipación y cerrar el footer con la banda de ribete de 8px.",
+      "**Do** poner la textura de punto en todo fondo gris (`kit`, `kit-deep`, `kit-soft`).",
+      "**Do** estampar los dorsales en rosa y los apellidos en blanco, en Big Shoulders 800/900 y mayúsculas.",
+      "**Do** ensanchar las etiquetas y botones de Archivo al 110–112% con tracking de 0.06–0.12em.",
+      "**Do** subrayar los enlaces de texto en rosa (2–3px, separados 3–4px).",
+      "**Do** respetar `prefers-reduced-motion` en toda transición de la tira de dorsales y en el scroll suave."
+    ],
+    "donts": [
+      "**Don't** usar el rosa como fondo de una sección a sangre.",
+      "**Don't** poner antetítulos (eyebrow/kicker) encima de los titulares.",
+      "**Don't** introducir colores fuera de la paleta del club (gris, blanco, rosa del escudo y negro del trazo), salvo los colores de estado de formulario.",
+      "**Don't** usar Big Shoulders para párrafos ni Archivo para dorsales y titulares.",
+      "**Don't** redondear más allá de 6px salvo el escudo y los filtros en píldora.",
+      "**Don't** construir la portada como hero oscuro con foto recortada, barra de cifras y rejilla de tarjetas iguales."
+    ]
+  }
+}

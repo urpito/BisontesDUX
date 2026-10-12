@@ -23,7 +23,7 @@ const positionNames = {
   POR: 'portero', DFC: 'defensa central', LI: 'lateral izquierdo', LD: 'lateral derecho',
   MC: 'mediocentro', MCO: 'mediocentro ofensivo', EI: 'extremo izquierdo',
   ED: 'extremo derecho', DC: 'delantero centro', ENTRENADOR: 'entrenador',
-  'SEGUNDO ENTRENADOR': 'segundo entrenador'
+  'SEGUNDO ENTRENADOR': 'segundo entrenador', 'COMMUNITY MANAGER': 'community manager'
 };
 
 const socialNames = { instagram: 'Instagram', x: 'X', twitter: 'X', tiktok: 'TikTok', facebook: 'Facebook' };
@@ -44,12 +44,28 @@ function slugify(value) {
     .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
+/* Apellido (lo que va estampado en la espalda) y grupo para el filtro de la plantilla. */
+function surname(name) {
+  return String(name).split(',')[0].trim();
+}
+
+const positionGroups = {
+  POR: 'porteros', DFC: 'defensas', LI: 'defensas', LD: 'defensas',
+  MC: 'centrocampistas', MCO: 'centrocampistas', EI: 'delanteros', ED: 'delanteros', DC: 'delanteros'
+};
+
 function positionName(position) {
   return positionNames[String(position).toUpperCase()] || String(position).toLowerCase();
 }
 
+/* Staff = no juega (entrenadores y directiva). Se admite el antiguo dorsal "COACH". */
+function staffKind(player) {
+  if (player.role) return String(player.role).toLowerCase() === 'directiva' ? 'directiva' : 'entrenador';
+  return String(player.dorsal).toUpperCase() === 'COACH' ? 'entrenador' : null;
+}
+
 function isCoach(player) {
-  return String(player.dorsal).toUpperCase() === 'COACH';
+  return Boolean(staffKind(player));
 }
 
 function sourcePhoto(player) {
@@ -82,19 +98,24 @@ function playerData(player) {
     : player.trajectory ? [player.trajectory] : [])
     .map(value => String(value).trim()).filter(Boolean);
   const imageUrl = new URL(originalPhoto || 'assets/logo.png', SITE_URL).href;
+  const kind = staffKind(player);
+  const area = kind === 'directiva' ? 'la directiva' : 'el cuerpo técnico';
   const statement = coach
-    ? `${name} forma parte del cuerpo técnico de Bisontes DUX, club de fútbol con sede en Madrid, España. Ejerce como ${position}.`
+    ? `${name} forma parte de ${area} de Bisontes DUX, club de fútbol con sede en Madrid, España. Ejerce como ${position}.`
     : `${name} es futbolista y jugador de Bisontes DUX, club de fútbol con sede en Madrid, España. Juega como ${position} y utiliza el dorsal ${player.dorsal}.`;
   const supportingText = coach
-    ? `${name} pertenece al cuerpo técnico actual de Bisontes DUX. Esta es su ficha oficial dentro del sitio web del club.`
+    ? `${name} pertenece a ${area} actual de Bisontes DUX. Esta es su ficha oficial dentro del sitio web del club.`
     : `${name} forma parte de la plantilla actual de Bisontes DUX. Esta es su ficha oficial dentro del sitio web del club, donde se recoge la información pública disponible sobre el jugador.`;
   const title = coach
-    ? `${name} - Cuerpo técnico de Bisontes DUX | Perfil oficial`
+    ? `${name} - ${kind === 'directiva' ? 'Directiva' : 'Cuerpo técnico'} de Bisontes DUX | Perfil oficial`
     : `${name} - Jugador de Bisontes DUX | Perfil oficial`;
   const description = coach
-    ? `Perfil oficial de ${name}, miembro del cuerpo técnico de Bisontes DUX. Información sobre su función en el club.`
+    ? `Perfil oficial de ${name}, miembro de ${area} de Bisontes DUX. Información sobre su función en el club.`
     : `Perfil oficial de ${name}, jugador de Bisontes DUX. Información sobre su participación en la plantilla, posición y dorsal.`;
-  return { ...player, name, coach, position, slug, pageUrl, photo, imageUrl, hasPortrait, nationalities, trajectory, statement, supportingText, title, description };
+  const nickname = String(player.nickname || '').trim();
+  const shirtName = nickname || surname(player.name);
+  const group = kind === 'directiva' ? 'directiva' : coach ? 'tecnicos' : (positionGroups[String(player.position).toUpperCase()] || 'otros');
+  return { ...player, name, nickname, shirtName, group, coach, kind, position, slug, pageUrl, photo, imageUrl, hasPortrait, nationalities, trajectory, statement, supportingText, title, description };
 }
 
 const roster = players.map(playerData);
@@ -110,7 +131,7 @@ function head({ title, description, canonical, image, type = 'website', prefix =
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(description)}" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
-  <meta name="theme-color" content="#222222" />
+  <meta name="theme-color" content="#545454" />
   <link rel="canonical" href="${canonical}" />
   <meta property="og:type" content="${type}" />
   <meta property="og:site_name" content="Bisontes DUX" />
@@ -127,7 +148,7 @@ function head({ title, description, canonical, image, type = 'website', prefix =
   <meta name="twitter:image:alt" content="${escapeHtml(title)}" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Bebas+Neue&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&amp;family=Big+Shoulders+Display:wght@700;800;900&amp;display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="${prefix}css/style.css" />
   <link rel="icon" type="image/png" href="${prefix}favicon.png" />`;
 }
@@ -190,10 +211,17 @@ function siteFooter() {
 <!-- GENERATED-FOOTER:END -->`;
 }
 
+/* Sin foto: el escudo del club ocupa el sitio del retrato. */
 function silhouette() {
-  return `<svg viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <circle cx="50" cy="32" r="22" fill="currentColor"/><path d="M12 140 Q12 78 50 78 Q88 78 88 140Z" fill="currentColor"/>
-  </svg>`;
+  return `<img src="${SITE_PATH}assets/logo.png" alt="" width="500" height="500" loading="lazy" decoding="async" />`;
+}
+
+/* Lo que va estampado en el sitio del dorsal: número o función del técnico. */
+function dorsalLabel(player) {
+  if (!player.coach) return String(player.dorsal);
+  if (player.kind === 'entrenador') return 'ENT.';
+  /* Directiva: iniciales del cargo (COMMUNITY MANAGER → CM) */
+  return String(player.position).split(/\s+/).map(word => word[0]).join('').toUpperCase().slice(0, 3);
 }
 
 function rosterCard(player, prefix = '') {
@@ -201,15 +229,15 @@ function rosterCard(player, prefix = '') {
     ? `<img src="${SITE_PATH}${player.photo}" alt="Retrato de ${escapeHtml(player.name)}, ${escapeHtml(player.position)} de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />`
     : `<div class="player-card__silhouette player-card__silhouette--visible" aria-hidden="true">${silhouette()}</div>`;
   const dorsalClass = player.coach ? 'player-card__dorsal player-card__dorsal--text' : 'player-card__dorsal';
-  return `<a class="player-card reveal" href="${SITE_PATH}jugadores/${player.slug}/" data-track="player_card_click" data-player="${escapeHtml(player.name)}">
+  return `<a class="player-card" href="${SITE_PATH}jugadores/${player.slug}/" data-group="${player.group}" data-track="player_card_click" data-player="${escapeHtml(player.name)}">
     <div class="player-card__img-wrap">
       ${image}
-      <span class="${dorsalClass}" aria-hidden="true">${escapeHtml(player.dorsal)}</span>
+      <span class="${dorsalClass}" aria-hidden="true">${escapeHtml(dorsalLabel(player))}</span>
     </div>
     <div class="player-card__info">
-      <span class="player-card__pos">${escapeHtml(player.position)}</span>
       <h3 class="player-card__name">${escapeHtml(player.name)}</h3>
-      <span class="player-card__profile-link">Ver ficha oficial →</span>
+      <span class="player-card__pos">${escapeHtml(player.position)}</span>
+      <span class="player-card__profile-link">Ver ficha oficial</span>
     </div>
   </a>`;
 }
@@ -220,6 +248,7 @@ function playerPage(player) {
   const facts = [
     ['Equipo', `<a href="${SITE_PATH}">Bisontes DUX</a>`],
     ['Función', escapeHtml(player.position.toLocaleUpperCase('es-ES'))],
+    ...(player.nickname ? [['Apodo', escapeHtml(player.nickname)]] : []),
     ...(!player.coach ? [['Dorsal', escapeHtml(player.dorsal)]] : []),
     ...(player.age ? [['Edad', escapeHtml(player.age)]] : []),
     ['Nacionalidad', player.nationalities.length ? escapeHtml(player.nationalities.join(' · ')) : '<span class="profile-empty">Por completar</span>']
@@ -276,10 +305,10 @@ function playerPage(player) {
   <main class="profile-page">
     <nav class="breadcrumbs" aria-label="Migas de pan"><a href="${SITE_PATH}">Inicio</a><span>/</span><a href="${SITE_PATH}#plantilla">Plantilla</a><span>/</span><span aria-current="page">${escapeHtml(player.name)}</span></nav>
     <article class="profile-card">
-      <div class="profile-photo">${imageMarkup}<span class="profile-dorsal" aria-hidden="true">${escapeHtml(player.dorsal)}</span></div>
+      <div class="profile-photo"><span class="profile-shirt" aria-hidden="true"><span class="profile-shirt__name">${escapeHtml(player.shirtName)}</span><span class="profile-shirt__num${player.coach ? ' profile-shirt__num--text' : ''}">${escapeHtml(dorsalLabel(player))}</span></span>${imageMarkup}</div>
       <div class="profile-content">
-        <p class="eyebrow">${player.coach ? 'Cuerpo técnico' : `Dorsal ${escapeHtml(player.dorsal)}`} · Bisontes DUX</p>
         <h1 class="font-display">${escapeHtml(player.name)}</h1>
+        <p class="profile-role">${player.coach ? escapeHtml(player.position) : `${escapeHtml(player.position)} · Dorsal ${escapeHtml(player.dorsal)}`}</p>
         <p class="profile-statement">${escapeHtml(player.statement)}</p>
         <p class="profile-context">${escapeHtml(player.supportingText)}</p>
         ${player.bio ? `<p class="profile-bio">${escapeHtml(player.bio)}</p>` : ''}
@@ -339,10 +368,10 @@ function blogCard(post) {
       <a href="${SITE_PATH}blog/${post.slug}/">
         ${post.cover ? `<img src="${SITE_PATH}${escapeHtml(post.cover)}" alt="${escapeHtml(post.coverAlt || post.title)}" loading="lazy" decoding="async" />` : ''}
         <div class="blog-card__body">
-          <time datetime="${post.date}">${formatDate(post.date)}</time>
           <h2>${escapeHtml(post.title)}</h2>
+          <time datetime="${post.date}">${formatDate(post.date)}</time>
           <p>${escapeHtml(post.excerpt)}</p>
-          <span class="blog-card__more">Leer entrada →</span>
+          <span class="blog-card__more">Leer entrada</span>
         </div>
       </a>
     </article>`;
@@ -363,7 +392,7 @@ function blogIndexPage() {
 </head><body class="subpage-body">
   ${siteHeader({ current: 'blog/' })}
   <main class="blog-page">
-    <div class="subpage-hero"><p class="eyebrow">Bisontes DUX · Madrid</p><h1 class="font-display">Blog</h1><p>Noticias, crónicas de partido y novedades de la manada.</p></div>
+    <div class="subpage-hero"><h1 class="font-display">Blog</h1><p>Noticias, crónicas de partido y novedades de la manada.</p></div>
     ${posts.length ? `<div class="blog-grid">${posts.map(blogCard).join('\n    ')}</div>` : '<p class="blog-empty">Todavía no hay entradas. Muy pronto contaremos aquí las novedades del club.</p>'}
   </main>
   ${siteFooter()}
@@ -391,8 +420,8 @@ function blogPostPage(post) {
   <main class="blog-page">
     <nav class="breadcrumbs" aria-label="Migas de pan"><a href="${SITE_PATH}">Inicio</a><span>/</span><a href="${SITE_PATH}blog/">Blog</a><span>/</span><span aria-current="page">${escapeHtml(post.title)}</span></nav>
     <article class="blog-post">
-      <p class="eyebrow"><time datetime="${post.date}">${formatDate(post.date)}</time>${post.author ? ` · ${escapeHtml(post.author)}` : ''}</p>
       <h1 class="font-display">${escapeHtml(post.title)}</h1>
+      <p class="blog-post__meta"><time datetime="${post.date}">${formatDate(post.date)}</time>${post.author ? ` · ${escapeHtml(post.author)}` : ' · Bisontes DUX'}</p>
       ${post.cover ? `<img class="blog-post__cover" src="${SITE_PATH}${escapeHtml(post.cover)}" alt="${escapeHtml(post.coverAlt || post.title)}" decoding="async" />` : ''}
       ${postBody(post.body)}
       <p class="blog-post__back"><a class="btn btn-ghost" href="${SITE_PATH}blog/">← Volver al blog</a></p>
@@ -403,22 +432,81 @@ function blogPostPage(post) {
 </body></html>`;
 }
 
+function sponsorCard(sponsor, prefix) {
+  const principal = sponsor.tier === 'principal';
+  const logoSrc = sponsor.logo ? (sponsor.logo.startsWith('http') ? sponsor.logo : `${prefix}${sponsor.logo}`) : '';
+  const inner = `<span class="sponsor-logo-wrap">${logoSrc ? `<img src="${escapeHtml(logoSrc)}" alt="Logo de ${escapeHtml(sponsor.name)}" class="sponsor-logo-img" loading="lazy" decoding="async" />` : `<span class="sponsor-placeholder">${escapeHtml(sponsor.name)}</span>`}</span>
+      <span class="sponsor-name">${escapeHtml(sponsor.name)}</span>
+      <span class="sponsor-tier-label${principal ? ' sponsor-tier-principal' : ''}">${principal ? 'Patrocinador principal' : 'Colaborador'}</span>
+      ${sponsor.description ? `<span class="sponsor-desc">${escapeHtml(sponsor.description)}</span>` : ''}
+      ${sponsor.url ? '<span class="sponsor-link">Visitar web</span>' : ''}`;
+  const cls = `sponsor-card${principal ? ' sponsor-card--principal' : ''}`;
+  return sponsor.url
+    ? `<a class="${cls}" href="${escapeHtml(sponsor.url)}" target="_blank" rel="sponsored noopener" data-track="sponsor_click" data-sponsor="${escapeHtml(sponsor.name)}">${inner}</a>`
+    : `<div class="${cls}">${inner}</div>`;
+}
+
 function sponsorPage() {
   const prefix = '../';
   const canonical = `${SITE_URL}patrocina-bisontes-dux/`;
   const title = 'Patrocina Bisontes DUX | Colabora con el club';
   const description = 'Descubre cómo colaborar con Bisontes DUX y formar parte del crecimiento de un club de fútbol de Madrid.';
-  const sponsorCards = sponsors.map(sponsor => {
-    const content = `${sponsor.logo ? `<div class="sponsor-logo-wrap"><img src="${escapeHtml(sponsor.logo.startsWith('http') ? sponsor.logo : `${prefix}${sponsor.logo}`)}" alt="Logo de ${escapeHtml(sponsor.name)}" class="sponsor-logo-img" loading="lazy" decoding="async" /></div>` : ''}<h2 class="sponsor-name">${escapeHtml(sponsor.name)}</h2>${sponsor.description ? `<p class="sponsor-desc">${escapeHtml(sponsor.description)}</p>` : ''}`;
-    return `<article class="sponsor-card static-card">${sponsor.url ? `<a href="${escapeHtml(sponsor.url)}" target="_blank" rel="sponsored noopener" data-track="sponsor_click" data-sponsor="${escapeHtml(sponsor.name)}">${content}</a>` : content}</article>`;
-  }).join('');
+  const principal = sponsors.find(sponsor => sponsor.tier === 'principal');
+  const mail = 'mailto:bisontes.dux@gmail.com?subject=Quiero%20patrocinar%20Bisontes%20DUX';
   const schema = { '@context': 'https://schema.org', '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title, description, inLanguage: 'es', about: { '@id': TEAM_ID, '@type': 'SportsTeam', name: 'Bisontes DUX', sport: 'Fútbol', url: SITE_URL } };
   return `<!DOCTYPE html><html lang="es"><head>${head({ title, description, canonical, image: `${SITE_URL}assets/logo.png`, prefix })}<script type="application/ld+json">${jsonLd(schema)}</script></head>
 <body class="subpage-body">${siteHeader({ current: 'patrocina-bisontes-dux/' })}<main class="sponsor-page">
-  <div class="subpage-hero"><p class="eyebrow">Crece con la manada</p><h1 class="font-display">Patrocina Bisontes DUX</h1><p>Buscamos empresas y organizaciones que quieran apoyar el proyecto deportivo y la comunidad de Bisontes DUX. Prepararemos propuestas de colaboración adaptadas a cada entidad, sin compromisos ni cifras prefabricadas.</p><a class="btn btn-primary" href="mailto:bisontes.dux@gmail.com?subject=Quiero%20patrocinar%20Bisontes%20DUX" data-track="sponsor_contact_click">Hablar con el club</a></div>
-  <section class="sponsor-opportunities" aria-labelledby="colaborar"><h2 id="colaborar" class="font-display">Formas de colaborar</h2><div class="opportunity-grid"><article><h3>Patrocinio oficial</h3><p>Presencia de marca y activaciones acordadas con el club.</p></article><article><h3>Colaboraciones</h3><p>Acciones conjuntas, servicios o apoyo a iniciativas concretas.</p></article><article><h3>Media kit</h3><p>Solicita el futuro dossier comercial y una propuesta a medida.</p></article></div></section>
-  <section class="current-sponsors" aria-labelledby="apoyos"><p class="eyebrow">Quienes ya nos apoyan</p><h2 id="apoyos" class="font-display">Patrocinadores y colaboradores</h2><div id="sponsors-grid">${sponsorCards}</div></section>
-  <section class="sponsor-contact"><h2 class="font-display">¿Hablamos?</h2><p>Cuéntanos qué tipo de colaboración te interesa.</p><a href="mailto:bisontes.dux@gmail.com?subject=Colaboración%20con%20Bisontes%20DUX" data-track="sponsor_contact_click">bisontes.dux@gmail.com</a></section>
+  <section class="sponsor-hero">
+    <div class="sponsor-hero__copy">
+      <h1 class="font-display">Pon tu marca en la camiseta de la manada</h1>
+      <p>Bisontes DUX es un club de amigos de Madrid con proyecto social. Buscamos empresas y organizaciones que quieran crecer con nosotros. Cada colaboración la preparamos a medida, sin paquetes cerrados ni cifras inventadas.</p>
+      <div class="sponsor-hero__actions">
+        <a class="btn btn-primary" href="${mail}" data-track="sponsor_contact_click">Hablar con el club</a>
+        <a class="btn btn-ghost" href="#apoyos">Ver quién nos apoya</a>
+      </div>
+    </div>
+    <figure class="kit-map" aria-labelledby="kit-map-caption">
+      <svg class="kit-map__shirt" viewBox="0 0 600 640" aria-hidden="true" focusable="false"><path class="kit-map__body" d="M210 20 C240 34 270 40 300 40 C330 40 360 34 390 20 L520 70 L600 220 L510 262 L478 214 L478 640 L122 640 L122 214 L90 262 L0 220 L80 70 Z"/><path class="kit-map__collar" d="M214 24 C242 37 270 44 300 44 C330 44 358 37 386 24"/><rect class="kit-map__zone kit-map__zone--taken" x="190" y="230" width="220" height="120" rx="6"/><rect class="kit-map__zone kit-map__zone--taken" x="466" y="124" width="64" height="52" rx="6" transform="rotate(30 498 150)"/><rect class="kit-map__zone" x="175" y="440" width="250" height="90" rx="6"/></svg>
+      <ol class="kit-map__legend">
+        <li class="is-taken"><strong>Pecho</strong><span>${escapeHtml(principal ? principal.name : 'Patrocinador principal')}</span></li>
+        <li class="is-taken"><strong>Manga</strong><span>ISOS</span></li>
+        <li><strong>Más espacios</strong><span>Camiseta, web y redes: pregúntanos</span></li>
+      </ol>
+      <figcaption id="kit-map-caption" class="visually-hidden">Esquema de la camiseta con las zonas de marca: el pecho lo lleva ${escapeHtml(principal ? principal.name : 'el patrocinador principal')}, la manga ISOS, y el resto de espacios se acuerdan con el club.</figcaption>
+    </figure>
+  </section>
+
+  <section class="sponsor-why" aria-labelledby="por-que">
+    <h2 id="por-que" class="font-display">Por qué la manada</h2>
+    <ul class="sponsor-why__list">
+      <li><h3>Un club de verdad</h3><p>Escudo, equipación y plantilla con fichas oficiales. Nacimos en 2025 y jugamos la liga municipal de Orcasur.</p></li>
+      <li><h3>Un proyecto social</h3><p>En el pecho llevamos a Todos Juegan, que busca equipos para jóvenes en riesgo de exclusión. Apoyarnos también es apoyar eso.</p></li>
+      <li><h3>Un grupo de amigos</h3><p>Detrás no hay una institución: hay un vestuario de amigos de Madrid que lo cuenta todo en Instagram y en esta web.</p></li>
+    </ul>
+  </section>
+
+  <section class="sponsor-opportunities" aria-labelledby="colaborar">
+    <h2 id="colaborar" class="font-display">Formas de colaborar</h2>
+    <div class="opportunity-grid">
+      <article><h3>Patrocinio</h3><p>Tu marca en la camiseta o en el material del club, con presencia en la web y en Instagram.</p></article>
+      <article><h3>Colaboración</h3><p>Servicios, producto o apoyo a una iniciativa concreta: un torneo, un evento o el material de la temporada.</p></article>
+      <article><h3>A tu medida</h3><p>Cuéntanos qué buscas y preparamos una propuesta juntos, con lo que de verdad podemos ofrecer.</p></article>
+    </div>
+  </section>
+
+  <section class="current-sponsors" id="apoyos" aria-labelledby="apoyos-titulo">
+    <h2 id="apoyos-titulo" class="font-display">Quienes ya nos apoyan</h2>
+    <div id="sponsors-grid">${sponsors.map(sponsor => sponsorCard(sponsor, prefix)).join('')}</div>
+  </section>
+
+  <section class="sponsor-contact" aria-labelledby="hablamos">
+    <h2 id="hablamos" class="font-display">¿Hablamos?</h2>
+    <p>Escríbenos y cuéntanos qué tipo de colaboración te interesa. Te respondemos nosotros, los del club.</p>
+    <div class="sponsor-contact__actions">
+      <a class="btn btn-dark" href="${mail}" data-track="sponsor_contact_click">bisontes.dux@gmail.com</a>
+      <a class="btn btn-outline" href="https://www.instagram.com/bisontes.dux" target="_blank" rel="noopener">Instagram @bisontes.dux</a>
+    </div>
+  </section>
 </main>${siteFooter()}<script src="${prefix}js/site.js" defer></script></body></html>`;
 }
 
@@ -428,6 +516,11 @@ function write(file, content) {
   fs.writeFileSync(target, `${content.trim()}\n`);
 }
 
+/* Borra las fichas de personas que ya no están en la plantilla. */
+const rosterSlugs = new Set(roster.map(player => player.slug));
+for (const entry of fs.readdirSync(path.join(ROOT, 'jugadores'), { withFileTypes: true })) {
+  if (entry.isDirectory() && !rosterSlugs.has(entry.name)) fs.rmSync(path.join(ROOT, 'jugadores', entry.name), { recursive: true });
+}
 for (const player of roster) write(`jugadores/${player.slug}/index.html`, playerPage(player));
 write('plantilla/index.html', redirectPage('Plantilla de Bisontes DUX'));
 write('jugadores/index.html', redirectPage('Jugadores de Bisontes DUX'));
@@ -452,12 +545,37 @@ for (const file of ['aviso-legal.html', 'privacidad.html', '404.html']) {
   fs.writeFileSync(target, html);
 }
 
+/* Hero: espalda de camiseta + tira de dorsales con los jugadores que tienen foto. */
+function heroBlock() {
+  const withPhoto = roster.filter(player => player.hasPortrait && !player.coach);
+  const lead = withPhoto.find(player => String(player.dorsal) === '10') || withPhoto[0];
+  if (!lead) return '';
+  const dorsals = withPhoto.map(player => `<button type="button" class="dorsal-strip__btn" aria-pressed="${player === lead}" data-name="${escapeHtml(player.name)}" data-shirt="${escapeHtml(player.shirtName)}" data-num="${escapeHtml(player.dorsal)}" data-pos="${escapeHtml(player.position)}" data-photo="${SITE_PATH}${player.photo}" data-url="${SITE_PATH}jugadores/${player.slug}/" aria-label="${escapeHtml(player.name)}, dorsal ${escapeHtml(player.dorsal)}">${escapeHtml(player.dorsal)}</button>`).join('\n      ');
+  return `<!-- GENERATED-HERO:START -->
+  <div class="kit-hero__shirt" data-shirt>
+    <svg class="kit-hero__garment" viewBox="0 0 600 640" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false"><path class="kit-hero__garment-body" d="M210 20 C240 34 270 40 300 40 C330 40 360 34 390 20 L520 70 L600 220 L510 262 L478 214 L478 640 L122 640 L122 214 L90 262 L0 220 L80 70 Z"/><path class="kit-hero__garment-collar" d="M214 24 C242 37 270 44 300 44 C330 44 358 37 386 24"/></svg>
+    <p class="kit-hero__back" aria-hidden="true"><span class="kit-hero__name" data-shirt-name>${escapeHtml(lead.shirtName)}</span></p>
+    <img src="${SITE_PATH}${lead.photo}" alt="${escapeHtml(lead.name)}, ${escapeHtml(lead.position)} de Bisontes DUX" class="kit-hero__player" width="720" height="900" fetchpriority="high" data-shirt-photo />
+    <a class="kit-hero__caption" href="${SITE_PATH}jugadores/${lead.slug}/" data-shirt-link><strong data-shirt-fullname>${escapeHtml(lead.name)}</strong><span data-shirt-pos>${escapeHtml(lead.position)}</span><span class="kit-hero__caption-more">Ver ficha</span></a>
+  </div>
+  <div class="dorsal-strip" role="group" aria-label="Elige un dorsal para ver al jugador">
+    <span class="dorsal-strip__label">Elige dorsal</span>
+    <div class="dorsal-strip__nums">
+      ${dorsals}
+    </div>
+  </div>
+<!-- GENERATED-HERO:END -->`;
+}
+
 const indexPath = path.join(ROOT, 'index.html');
 let index = fs.readFileSync(indexPath, 'utf8');
 const generatedRoster = `<!-- GENERATED-ROSTER:START -->\n${roster.map(player => rosterCard(player)).join('\n')}\n<!-- GENERATED-ROSTER:END -->`;
 const markerPattern = /<!-- GENERATED-ROSTER:START -->[\s\S]*?<!-- GENERATED-ROSTER:END -->/;
 if (!markerPattern.test(index)) throw new Error('No se encontraron los marcadores GENERATED-ROSTER en index.html');
 index = index.replace(markerPattern, generatedRoster);
+const heroPattern = /<!-- GENERATED-HERO:START -->[\s\S]*?<!-- GENERATED-HERO:END -->/;
+if (!heroPattern.test(index)) throw new Error('No se encontraron los marcadores GENERATED-HERO en index.html');
+index = index.replace(heroPattern, heroBlock());
 if (!headerPattern.test(index) || !footerPattern.test(index)) throw new Error('Faltan los marcadores GENERATED-HEADER/FOOTER en index.html');
 index = index.replace(headerPattern, siteHeader({ home: true })).replace(footerPattern, siteFooter());
 const teamSchema = {

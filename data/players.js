@@ -4,7 +4,7 @@
  * Cada jugador puede tener:
  *   name     → Nombre completo
  *   position → Posición (ej: "POR", "DFC", "MCO"...)
- *   dorsal   → Número de camiseta o "COACH"
+ *   dorsal   → Número de camiseta (solo jugadores; el staff usa "role")
  *   photo    → Ruta a la foto (OPCIONAL — si no se pone, se busca assets/jugadorN.png)
  *   age      → Edad (OPCIONAL)
  *   nationalities → Una o dos nacionalidades, en una lista (OPCIONAL)
@@ -12,6 +12,10 @@
  *   bio      → Descripción breve (OPCIONAL)
  *   stats    → Estadísticas reales en formato { etiqueta: valor } (OPCIONAL)
  *   socials  → Redes en formato { instagram, x, tiktok, facebook } (OPCIONAL)
+ *   nickname → Apodo (OPCIONAL). Es lo que va estampado en la espalda de la
+ *              camiseta en la portada y en la ficha; si no hay, se usa el apellido.
+ *   role     → Solo para el staff (sin dorsal): "entrenador" o "directiva".
+ *              En "position" va el cargo, p. ej. "ENTRENADOR" o "COMMUNITY MANAGER".
  *
  * Ejemplo:
  *   {
@@ -24,17 +28,18 @@
  *       "2023–2025 · Club anterior"
  *     ]
  *   }
- *   { dorsal: "COACH", name: "Entrenador", position: "Entrenador", photo: "assets/coach.jpg" }
+ *   { role: "entrenador", name: "Apellido, Nombre", position: "ENTRENADOR" }
+ *   { role: "directiva", name: "Apellido, Nombre", position: "COMMUNITY MANAGER" }
  *
  * Para una sola nacionalidad usa, por ejemplo: nationalities: ["España"]
  * Si todavía no hay datos, omite el campo o utiliza una lista vacía: []
  */
 
 const players = [
-  { dorsal: "COACH", name: "Gunduz, Ben",       position: "ENTRENADOR",         photo: "assets/coach_ben.jpg"    },
-  { dorsal: "COACH", name: "Chicaiza, Flavio",  position: "SEGUNDO ENTRENADOR", photo: "assets/coach_flavio.jpg" },
+  { role: "entrenador", name: "Gunduz, Ben",      position: "ENTRENADOR" },
+  { role: "entrenador", name: "Chicaiza, Flavio", position: "ENTRENADOR" },
+  { role: "directiva",  name: "Loi, Fabio",       position: "COMMUNITY MANAGER", photo: "assets/jugador2.png" },
   { dorsal: 1,  name: "Copa, Alejandro",        position: "POR" },
-  { dorsal: 2,  name: "Loi, Fabio",             position: "LI"  },
   { dorsal: 3,  name: "Navas, Bruno",           position: "DFC" },
   { dorsal: 4,  name: "Arias, Miguel",          position: "MC"  },
   { dorsal: 5,  name: "Ossama",                 position: "LD"  },

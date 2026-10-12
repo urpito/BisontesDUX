@@ -35,31 +35,6 @@ function setFormStatus(el, type, msg) {
 }
 
 /* ----------------------------------------------------------
-   MODAL GENÉRICO
-   ---------------------------------------------------------- */
-function openModal(html) {
-  let overlay = document.getElementById('bx-modal-overlay');
-  if (!overlay) {
-    overlay = document.createElement('div');
-    overlay.id = 'bx-modal-overlay';
-    overlay.innerHTML = `<div id="bx-modal-box"><button id="bx-modal-close" aria-label="Cerrar">&times;</button><div id="bx-modal-body"></div></div>`;
-    document.body.appendChild(overlay);
-    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-    document.getElementById('bx-modal-close').addEventListener('click', closeModal);
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-  }
-  document.getElementById('bx-modal-body').innerHTML = html;
-  overlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal() {
-  const overlay = document.getElementById('bx-modal-overlay');
-  if (overlay) overlay.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-/* ----------------------------------------------------------
    PLAYER CARDS
    ---------------------------------------------------------- */
 function renderPlayers() {
@@ -121,51 +96,23 @@ function renderSponsors() {
   const grid = document.getElementById('sponsors-grid');
   if (!grid || typeof sponsors === 'undefined') return;
 
-  grid.innerHTML = sponsors.map((s, i) => {
-    const logoInner = s.logo
-      ? `<img src="${s.logo}" alt="${s.name}" class="sponsor-logo-img" />`
-      : `<div class="sponsor-placeholder">${s.name}</div>`;
-    const imgEl = `<div class="sponsor-logo-wrap">${logoInner}</div>`;
-
-    const tierLabel = s.tier === 'principal'
-      ? `<span class="sponsor-tier-label sponsor-tier-principal">PATROCINADOR PRINCIPAL</span>`
-      : s.tier === 'colaborador'
-        ? `<span class="sponsor-tier-label sponsor-tier-colaborador">COLABORADOR</span>`
-        : '';
-
+  /* Cada patrocinador es una tarjeta; si tiene web, la tarjeta entera enlaza a ella. */
+  grid.innerHTML = sponsors.map(s => {
+    const principal = s.tier === 'principal';
+    const logo = s.logo
+      ? `<img src="${s.logo}" alt="Logo de ${s.name}" class="sponsor-logo-img" loading="lazy" decoding="async" />`
+      : `<span class="sponsor-placeholder">${s.name}</span>`;
     const inner = `
-      ${tierLabel}
-      ${imgEl}
+      <span class="sponsor-logo-wrap">${logo}</span>
       <span class="sponsor-name">${s.name}</span>
+      <span class="sponsor-tier-label${principal ? ' sponsor-tier-principal' : ''}">${principal ? 'Patrocinador principal' : 'Colaborador'}</span>
       ${s.description ? `<span class="sponsor-desc">${s.description}</span>` : ''}
-    `;
-
-    return `<div class="sponsor-card reveal" style="transition-delay:${i*0.06}s" data-sponsor-index="${i}">${inner}</div>`;
+      ${s.url ? '<span class="sponsor-link">Visitar web</span>' : ''}`;
+    const cls = `sponsor-card${principal ? ' sponsor-card--principal' : ''}`;
+    return s.url
+      ? `<a class="${cls}" href="${s.url}" target="_blank" rel="sponsored noopener" data-track="sponsor_click" data-sponsor="${s.name}">${inner}</a>`
+      : `<div class="${cls}">${inner}</div>`;
   }).join('');
-
-  grid.querySelectorAll('.sponsor-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const s = sponsors[parseInt(card.dataset.sponsorIndex)];
-      const logoHtml = s.logo
-        ? `<img src="${s.logo}" alt="${s.name}" class="sm-logo"/>`
-        : `<div class="sm-logo-placeholder">${s.name}</div>`;
-      const tierHtml = s.tier === 'principal'
-        ? `<span class="sponsor-tier-label sponsor-tier-principal">PATROCINADOR PRINCIPAL</span>`
-        : `<span class="sponsor-tier-label sponsor-tier-colaborador">COLABORADOR</span>`;
-
-      openModal(`
-        <div class="sm-card">
-          ${tierHtml}
-          <div class="sm-logo-wrap">${logoHtml}</div>
-          <h2 class="sm-name">${s.name}</h2>
-          ${s.description ? `<p class="sm-desc">${s.description}</p>` : ''}
-          ${s.url ? `<a href="${s.url}" target="_blank" rel="noopener" class="sm-link">Ir a la web &rarr;</a>` : ''}
-        </div>
-      `);
-    });
-  });
-
-  observeElements(grid.querySelectorAll('.reveal'));
 }
 
 /* ----------------------------------------------------------
@@ -173,8 +120,9 @@ function renderSponsors() {
    ---------------------------------------------------------- */
 function fitPlayerNames() {
   document.querySelectorAll('.player-card__name').forEach(el => {
-    el.style.fontSize = '18px';
-    while (el.scrollWidth > el.clientWidth && parseFloat(el.style.fontSize) > 10) {
+    el.style.fontSize = '';
+    el.style.fontSize = getComputedStyle(el).fontSize;
+    while (el.scrollWidth > el.clientWidth && parseFloat(el.style.fontSize) > 12) {
       el.style.fontSize = (parseFloat(el.style.fontSize) - 0.5) + 'px';
     }
   });
@@ -307,9 +255,8 @@ function initJoinForm() {
       });
       if (!res.success) throw new Error(res.message || 'error');
       form.reset();
-      btn.innerHTML = '✓ ¡Recibido!';
-      btn.style.background = '#3a9e5f';
-      setFormStatus(status, 'ok', '¡Gracias! Hemos recibido tus datos. Nos pondremos en contacto contigo pronto.');
+      btn.innerHTML = '¡Recibido!';
+            setFormStatus(status, 'ok', '¡Gracias! Hemos recibido tus datos. Nos pondremos en contacto contigo pronto.');
     } catch (err) {
       btn.disabled = false;
       btn.innerHTML = original;
@@ -412,6 +359,71 @@ function initScrollProgress() {
 }
 
 /* ----------------------------------------------------------
+   HERO — tira de dorsales: cambia el jugador de la espalda
+   ---------------------------------------------------------- */
+function initDorsalStrip() {
+  const shirt = document.querySelector('[data-shirt]');
+  const buttons = Array.from(document.querySelectorAll('.dorsal-strip__btn'));
+  if (!shirt || !buttons.length) return;
+  const el = name => shirt.querySelector(`[data-shirt-${name}]`);
+  const photo = el('photo'), shirtName = el('name'), num = el('num'), link = el('link'), fullName = el('fullname'), pos = el('pos');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Precarga las fotos para que el cambio sea instantáneo */
+  buttons.forEach(btn => { const img = new Image(); img.src = btn.dataset.photo; });
+
+  function show(btn) {
+    if (btn.getAttribute('aria-pressed') === 'true') return;
+    buttons.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    const apply = () => {
+      photo.src = btn.dataset.photo;
+      photo.alt = `${btn.dataset.name}, ${btn.dataset.pos} de Bisontes DUX`;
+      shirtName.textContent = btn.dataset.shirt;
+      if (num) num.textContent = btn.dataset.num;
+      fullName.textContent = btn.dataset.name;
+      pos.textContent = btn.dataset.pos;
+      link.href = btn.dataset.url;
+    };
+    if (reduce) { apply(); return; }
+    shirt.classList.remove('is-pressing');
+    shirt.classList.add('is-leaving');
+    setTimeout(() => {
+      apply();
+      shirt.classList.remove('is-leaving');
+      void shirt.offsetWidth;
+      shirt.classList.add('is-pressing');
+    }, 180);
+  }
+
+  buttons.forEach((btn, i) => {
+    btn.addEventListener('click', () => show(btn));
+    btn.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      const next = buttons[(i + (e.key === 'ArrowRight' ? 1 : -1) + buttons.length) % buttons.length];
+      next.focus();
+      show(next);
+    });
+  });
+}
+
+/* ----------------------------------------------------------
+   PLANTILLA — filtro por posición
+   ---------------------------------------------------------- */
+function initRosterFilter() {
+  const bar = document.querySelector('.roster-filter');
+  const cards = Array.from(document.querySelectorAll('#players-grid .player-card'));
+  if (!bar || !cards.length) return;
+  bar.hidden = false;
+  const buttons = Array.from(bar.querySelectorAll('[data-filter]'));
+  buttons.forEach(btn => btn.addEventListener('click', () => {
+    const filter = btn.dataset.filter;
+    buttons.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    cards.forEach(card => { card.hidden = filter !== 'todos' && card.dataset.group !== filter; });
+  }));
+}
+
+/* ----------------------------------------------------------
    INIT
    ---------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
@@ -421,6 +433,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initScrollProgress();
   renderPlayers();
+  initDorsalStrip();
+  initRosterFilter();
   renderSponsors();
   renderJoinForm();
   initJoinForm();
