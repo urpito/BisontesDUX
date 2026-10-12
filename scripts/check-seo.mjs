@@ -76,8 +76,7 @@ const context = {};
 const source = fs.readFileSync(path.join(ROOT, 'data/players.js'), 'utf8');
 vm.runInNewContext(`${source}\nthis.__players = players;`, context, { filename: 'data/players.js' });
 const players = JSON.parse(JSON.stringify(context.__players));
-const plantilla = fs.readFileSync(path.join(ROOT, 'plantilla/index.html'), 'utf8');
-const playerIndex = fs.readFileSync(path.join(ROOT, 'jugadores/index.html'), 'utf8');
+const home = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
 const sitemap = fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8');
 const llms = fs.readFileSync(path.join(ROOT, 'llms.txt'), 'utf8');
 const publicData = JSON.parse(fs.readFileSync(path.join(ROOT, 'players.json'), 'utf8'));
@@ -95,8 +94,7 @@ for (const player of players) {
   const html = fs.readFileSync(file, 'utf8');
   const result = checkPlayerHtml(player, html, relative);
   const expectedHref = `href="${SITE_PATH}jugadores/${slug}/"`;
-  if (!plantilla.includes(expectedHref)) errors.push(`${name}: falta enlace HTML absoluto desde plantilla`);
-  if (!playerIndex.includes(expectedHref)) errors.push(`${name}: falta enlace desde /jugadores/`);
+  if (!home.includes(expectedHref)) errors.push(`${name}: falta enlace HTML absoluto desde la plantilla del index`);
   if (!sitemap.includes(`<loc>${result.url}</loc>`)) errors.push(`${name}: falta en sitemap.xml`);
   if (!llms.includes(`](${result.url})`)) errors.push(`${name}: falta en llms.txt`);
   localResults.push(result);
@@ -104,8 +102,6 @@ for (const player of players) {
 
 const descriptions = localResults.map(result => result.description);
 if (new Set(descriptions).size !== descriptions.length) errors.push('Las meta descriptions de jugadores no son únicas');
-if (!playerIndex.includes('<h1 class="font-display">Jugadores de Bisontes DUX</h1>')) errors.push('/jugadores/: H1 incorrecto');
-if (!playerIndex.includes('Consulta la plantilla y los perfiles oficiales de los jugadores de Bisontes DUX.')) errors.push('/jugadores/: falta introducción semántica');
 
 const footballerCount = players.filter(player => !isCoach(player)).length;
 const staffCount = players.filter(isCoach).length;
@@ -134,7 +130,7 @@ if (LIVE) {
   }
   if (liveHashes.size !== players.length) errors.push(`Web pública: solo ${liveHashes.size} HTML distintos para ${players.length} fichas`);
 
-  for (const resource of ['jugadores/', 'plantilla/', 'sitemap.xml', 'robots.txt', 'llms.txt', 'players.json']) {
+  for (const resource of ['blog/', 'sitemap.xml', 'robots.txt', 'llms.txt', 'players.json']) {
     const url = `${SITE_URL}${resource}`;
     try {
       const response = await fetch(url, { redirect: 'manual' });

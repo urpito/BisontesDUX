@@ -9,7 +9,17 @@ Web oficial estática, publicada en GitHub Pages bajo `https://urpito.github.io/
 3. Ejecuta `npm run build`.
 4. Comprueba el resultado local con `npm run check`.
 5. Tras publicar, ejecuta `npm run check:live` para auditar el HTML servido sin JavaScript.
-6. Publica también los HTML generados de `jugadores/`, `plantilla/`, `patrocina-bisontes-dux/`, `sitemap.xml`, `llms.txt` y `players.json`.
+6. Publica también los HTML generados de `jugadores/`, `plantilla/`, `patrocina-bisontes-dux/`, `blog/`, `sitemap.xml`, `llms.txt` y `players.json`.
+
+La plantilla se muestra en la sección `#plantilla` del index. Las antiguas URLs `/plantilla/` y `/jugadores/` solo redirigen ahí; las fichas individuales siguen en `jugadores/<nombre>/`.
+
+## Header y footer
+
+El menú y el footer son los mismos en todas las páginas y salen de `NAV_SECTIONS` y `NAV_PAGES` en `scripts/generate-site.mjs` (primero las secciones del index, luego las páginas propias, con Patrocina a la derecha). En las páginas escritas a mano (`index.html`, `aviso-legal.html`, `privacidad.html`, `404.html`) se insertan entre los marcadores `GENERATED-HEADER` y `GENERATED-FOOTER`: no edites lo que hay dentro, cambia el script y ejecuta `npm run build`.
+
+## Blog
+
+Las entradas están en `data/blog.js` (instrucciones dentro del archivo). Tras añadir o borrar una entrada, ejecuta `npm run build`: se generan `blog/` y `blog/<slug>/` y se actualiza el sitemap.
 
 No hay dependencias de npm ni servidor: Node solo se usa para regenerar HTML estático. Los enlaces internos principales utilizan explícitamente el subdirectorio `/BisontesDUX/` de GitHub Pages.
 

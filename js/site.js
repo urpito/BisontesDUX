@@ -38,5 +38,21 @@
     });
   });
 
+  /* Menú móvil (común a todas las páginas) */
+  const toggle = document.getElementById('nav-toggle');
+  const navLinks = document.getElementById('nav-links');
+  if (toggle && navLinks) {
+    toggle.addEventListener('click', function () {
+      const open = navLinks.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+    });
+    navLinks.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        navLinks.classList.remove('open');
+        toggle.setAttribute('aria-expanded', false);
+      });
+    });
+  }
+
   track('page_view', { title: document.title });
 }());
