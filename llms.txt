@@ -14,7 +14,6 @@ Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identif
 ## Perfiles oficiales de jugadores
 
 - [Alejandro Copa](https://urpito.github.io/BisontesDUX/jugadores/alejandro-copa/): portero, dorsal 1.
-- [Fabio Loi](https://urpito.github.io/BisontesDUX/jugadores/fabio-loi/): lateral izquierdo, dorsal 2.
 - [Bruno Navas](https://urpito.github.io/BisontesDUX/jugadores/bruno-navas/): defensa central, dorsal 3.
 - [Miguel Arias](https://urpito.github.io/BisontesDUX/jugadores/miguel-arias/): mediocentro, dorsal 4.
 - [Ossama](https://urpito.github.io/BisontesDUX/jugadores/ossama/): lateral derecho, dorsal 5.
@@ -35,4 +34,5 @@ Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identif
 ## Cuerpo técnico
 
 - [Ben Gunduz](https://urpito.github.io/BisontesDUX/jugadores/ben-gunduz/): entrenador.
-- [Flavio Chicaiza](https://urpito.github.io/BisontesDUX/jugadores/flavio-chicaiza/): segundo entrenador.
+- [Flavio Chicaiza](https://urpito.github.io/BisontesDUX/jugadores/flavio-chicaiza/): entrenador.
+- [Fabio Loi](https://urpito.github.io/BisontesDUX/jugadores/fabio-loi/): community manager.

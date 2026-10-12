@@ -16,7 +16,7 @@ const expectedPlayers = context.__players.length;
 const htmlFiles = [];
 function walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (['.git', 'node_modules'].includes(entry.name)) continue;
+    if (['.git', 'node_modules', '.impeccable', '.claude'].includes(entry.name)) continue;
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) walk(full);
     else if (entry.name.endsWith('.html') && !/^google[a-z0-9]+\.html$/i.test(entry.name)) htmlFiles.push(full);
@@ -87,7 +87,7 @@ const expectedUrls = expectedPlayers + expectedPosts + 3; // home, patrocina, bl
 if (sitemapUrls.length !== expectedUrls) errors.push(`sitemap: ${sitemapUrls.length} URLs; se esperaban ${expectedUrls}`);
 
 /* Header y footer idénticos en todas las páginas (salvo los enlaces de scroll del index). */
-const pagesWithLayout = htmlFiles.filter(file => !/(?:^|[/\\])(?:plantilla|jugadores)[/\\]index\.html$/.test(path.relative(ROOT, file)));
+const pagesWithLayout = htmlFiles.filter(file => !/(?:^|[/\\])(?:plantilla|jugadores|admin)[/\\]index\.html$/.test(path.relative(ROOT, file)));
 const footers = new Set();
 for (const file of pagesWithLayout) {
   const html = fs.readFileSync(file, 'utf8');
@@ -101,7 +101,7 @@ if (new Set(sitemapUrls).size !== sitemapUrls.length) errors.push('sitemap: cont
 for (const url of sitemapUrls) if (!url.startsWith(SITE_URL)) errors.push(`sitemap: URL fuera del subdirectorio: ${url}`);
 
 const home = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
-const crawlablePlayerLinks = (home.match(/href="\/BisontesDUX\/jugadores\/[^"/]+\/"/g) || []).length;
+const crawlablePlayerLinks = new Set(home.match(/href="\/BisontesDUX\/jugadores\/[^"/]+\/"/g) || []).size;
 if (crawlablePlayerLinks !== expectedPlayers) errors.push(`home: ${crawlablePlayerLinks} enlaces rastreables a fichas; se esperaban ${expectedPlayers}`);
 
 if (warnings.length) console.warn(warnings.join('\n'));

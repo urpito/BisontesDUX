@@ -1,0 +1,47 @@
+# Regenera las páginas estáticas cuando cambian los datos (p. ej. desde el panel /admin/)
+# y sube el resultado; GitHub Pages publica después ese commit.
+name: Generar web
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/**'
+      - 'assets/**'
+      - 'scripts/**'
+      - 'index.html'
+      - 'aviso-legal.html'
+      - 'privacidad.html'
+      - '404.html'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generar-web
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Generar páginas
+        run: npm run build
+      - name: Comprobar
+        run: npm run check
+      - name: Subir páginas generadas
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "bisontes-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "web: regenera páginas desde los datos"
+            git push
+          else
+            echo "Nada que regenerar."
+          fi

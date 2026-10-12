@@ -57,3 +57,18 @@ Tras cada cambio relevante de plantilla, envía `https://urpito.github.io/Bisont
 ## llms.txt y players.json
 
 `llms.txt` sigue la propuesta comunitaria de contenido legible por sistemas de IA y se publica dentro del subdirectorio del proyecto. Es complementario: no sustituye el HTML, el enlazado interno, Schema.org ni el sitemap. `players.json` contiene exclusivamente los datos públicos generados desde `data/players.js`.
+
+## Panel de admin
+
+En `https://urpito.github.io/BisontesDUX/admin/` hay un panel para editar la plantilla y el blog sin tocar código.
+
+1. Crea una vez un token de GitHub (las instrucciones están en la propia página): *fine-grained*, solo para el repositorio `BisontesDUX`, con permiso **Contents: Read and write**.
+2. Entra con el token. Puedes añadir, editar, ordenar y borrar personas (jugador, entrenador o directiva, con apodo, foto, nacionalidad, trayectoria y redes) y entradas del blog (con portada).
+3. Al guardar, el panel escribe `data/players.js` o `data/blog.js` (y las imágenes en `assets/uploads/` o `assets/blog/`). La Action **Generar web** (`.github/workflows/generar-web.yml`) ejecuta `npm run build` y `npm run check`, sube las páginas generadas y GitHub Pages publica en uno o dos minutos.
+
+El token se guarda solo en tu navegador. No marques «Recordarlo» en ordenadores compartidos.
+
+### Apodos y roles
+
+- `nickname`: es lo que va estampado en la espalda de la camiseta (portada y ficha). Si no hay apodo, sale el apellido.
+- El staff no lleva dorsal, sino `role: "entrenador"` o `role: "directiva"`, con el cargo en `position` (por ejemplo, `"COMMUNITY MANAGER"`).

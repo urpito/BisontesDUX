@@ -1,0 +1,10 @@
+# impeccable: capturas, bocetos y temporales (se regeneran)
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/questions/
+.impeccable/tmp/
+.impeccable/build/
+.impeccable/config.local.json
+# binario del motor de impeccable (se descarga solo al usarlo)
+.claude/skills/impeccable/scripts/bin/
+.DS_Store

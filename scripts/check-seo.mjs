@@ -22,7 +22,7 @@ function slugify(value) {
 }
 
 function isCoach(player) {
-  return String(player.dorsal).toUpperCase() === 'COACH';
+  return Boolean(player.role) || String(player.dorsal).toUpperCase() === 'COACH';
 }
 
 function extract(html, pattern) {
