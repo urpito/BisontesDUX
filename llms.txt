@@ -16,6 +16,7 @@ Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identif
 - [Alejandro Copa](https://urpito.github.io/BisontesDUX/jugadores/alejandro-copa/): portero, dorsal 1.
 - [Bruno Navas](https://urpito.github.io/BisontesDUX/jugadores/bruno-navas/): defensa central, dorsal 3.
 - [Miguel Arias](https://urpito.github.io/BisontesDUX/jugadores/miguel-arias/): mediocentro, dorsal 4.
+- [Leo Tagara](https://urpito.github.io/BisontesDUX/jugadores/leo-tagara/): defensa central, dorsal 5.
 - [Jose Anthony](https://urpito.github.io/BisontesDUX/jugadores/jose-anthony/): mediocentro, dorsal 6.
 - [Alan Gálvez](https://urpito.github.io/BisontesDUX/jugadores/alan-galvez/): extremo izquierdo, dorsal 7.
 - [Anton](https://urpito.github.io/BisontesDUX/jugadores/anton/): mediocentro, dorsal 8.
@@ -23,6 +24,7 @@ Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identif
 - [Filip Tekiela](https://urpito.github.io/BisontesDUX/jugadores/filip-tekiela/): delantero centro, dorsal 10.
 - [Luis Salas](https://urpito.github.io/BisontesDUX/jugadores/luis-salas/): extremo derecho, dorsal 11.
 - [Javi](https://urpito.github.io/BisontesDUX/jugadores/javi/): extremo derecho, dorsal 12.
+- [Carlitos](https://urpito.github.io/BisontesDUX/jugadores/carlitos/): defensa central, dorsal 14.
 - [Arturo Constantine](https://urpito.github.io/BisontesDUX/jugadores/arturo-constantine/): extremo izquierdo, dorsal 15.
 - [Cristhofer](https://urpito.github.io/BisontesDUX/jugadores/cristhofer/): extremo derecho, dorsal 17.
 - [Izan](https://urpito.github.io/BisontesDUX/jugadores/izan/): mediocentro, dorsal 20.
@@ -39,5 +41,5 @@ Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identif
 ## Cuerpo técnico
 
 - [Ben Gunduz](https://urpito.github.io/BisontesDUX/jugadores/ben-gunduz/): entrenador.
-- [Flavio Chicaiza](https://urpito.github.io/BisontesDUX/jugadores/flavio-chicaiza/): entrenador.
+- [Jose Ignacio Arrufat](https://urpito.github.io/BisontesDUX/jugadores/jose-ignacio-arrufat/): entrenador.
 - [Fabio Loi](https://urpito.github.io/BisontesDUX/jugadores/fabio-loi/): community manager.

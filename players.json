@@ -23,6 +23,9 @@
       "position": "defensa central",
       "dorsal": 3,
       "image": "https://urpito.github.io/BisontesDUX/assets/jugador3.png",
+      "nationalities": [
+        "España"
+      ],
       "trajectory": [
         "2025–actualidad · Bisontes DUX",
         "A.D.C. Malasaña"
@@ -33,6 +36,24 @@
       "url": "https://urpito.github.io/BisontesDUX/jugadores/miguel-arias/",
       "position": "mediocentro",
       "dorsal": 4,
+      "nationalities": [
+        "España"
+      ],
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "Munibar Pizarrales",
+        "A.D.C. Malasaña"
+      ]
+    },
+    {
+      "name": "Leo Tagara",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/leo-tagara/",
+      "position": "defensa central",
+      "dorsal": 5,
+      "nationalities": [
+        "España",
+        "Filipinas"
+      ],
       "trajectory": [
         "2025–actualidad · Bisontes DUX",
         "A.D.C. Malasaña"
@@ -43,9 +64,14 @@
       "url": "https://urpito.github.io/BisontesDUX/jugadores/jose-anthony/",
       "position": "mediocentro",
       "dorsal": 6,
+      "nationalities": [
+        "España"
+      ],
       "trajectory": [
         "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "Getafe",
+        "A.D.C. Malasaña",
+        "San Cristóbal"
       ]
     },
     {
@@ -54,9 +80,11 @@
       "position": "extremo izquierdo",
       "dorsal": 7,
       "image": "https://urpito.github.io/BisontesDUX/assets/jugador7.png",
+      "nationalities": [
+        "Colombia"
+      ],
       "trajectory": [
-        "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "2025–actualidad · Bisontes DUX"
       ]
     },
     {
@@ -64,9 +92,12 @@
       "url": "https://urpito.github.io/BisontesDUX/jugadores/anton/",
       "position": "mediocentro",
       "dorsal": 8,
+      "nationalities": [
+        "España"
+      ],
       "trajectory": [
         "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "RCD Espanyol de Madrid"
       ]
     },
     {
@@ -74,9 +105,13 @@
       "url": "https://urpito.github.io/BisontesDUX/jugadores/max/",
       "position": "delantero centro",
       "dorsal": 9,
+      "nationalities": [
+        "España",
+        "Países Bajos"
+      ],
       "trajectory": [
         "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "RCD Espanyol de Madrid"
       ]
     },
     {
@@ -85,6 +120,9 @@
       "position": "delantero centro",
       "dorsal": 10,
       "image": "https://urpito.github.io/BisontesDUX/assets/jugador10.png",
+      "nationalities": [
+        "Polonia"
+      ],
       "trajectory": [
         "2025–actualidad · Bisontes DUX",
         "A.D.C. Malasaña"
@@ -96,9 +134,11 @@
       "position": "extremo derecho",
       "dorsal": 11,
       "image": "https://urpito.github.io/BisontesDUX/assets/jugador11.png",
+      "nationalities": [
+        "Venezuela"
+      ],
       "trajectory": [
-        "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "2025–actualidad · Bisontes DUX"
       ]
     },
     {
@@ -107,8 +147,21 @@
       "position": "extremo derecho",
       "dorsal": 12,
       "trajectory": [
+        "2025–actualidad · Bisontes DUX"
+      ]
+    },
+    {
+      "name": "Carlitos",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/carlitos/",
+      "position": "defensa central",
+      "dorsal": 14,
+      "nationalities": [
+        "Ecuador"
+      ],
+      "trajectory": [
         "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "A.D.C. Malasaña",
+        "Cantera F.C."
       ]
     },
     {
@@ -118,8 +171,7 @@
       "dorsal": 15,
       "image": "https://urpito.github.io/BisontesDUX/assets/jugador15.png",
       "trajectory": [
-        "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "2025–actualidad · Bisontes DUX"
       ]
     },
     {
@@ -128,8 +180,7 @@
       "position": "extremo derecho",
       "dorsal": 17,
       "trajectory": [
-        "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "2025–actualidad · Bisontes DUX"
       ]
     },
     {
@@ -137,9 +188,11 @@
       "url": "https://urpito.github.io/BisontesDUX/jugadores/izan/",
       "position": "mediocentro",
       "dorsal": 20,
+      "nationalities": [
+        "Colombia"
+      ],
       "trajectory": [
-        "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "2025–actualidad · Bisontes DUX"
       ]
     },
     {
@@ -148,9 +201,11 @@
       "position": "lateral izquierdo",
       "dorsal": 21,
       "image": "https://urpito.github.io/BisontesDUX/assets/jugador21.png",
+      "nationalities": [
+        "España"
+      ],
       "trajectory": [
-        "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "2025–actualidad · Bisontes DUX"
       ]
     },
     {
@@ -158,9 +213,11 @@
       "url": "https://urpito.github.io/BisontesDUX/jugadores/mario-comas/",
       "position": "lateral derecho",
       "dorsal": 22,
+      "nationalities": [
+        "España"
+      ],
       "trajectory": [
-        "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "2025–actualidad · Bisontes DUX"
       ]
     },
     {
@@ -169,9 +226,11 @@
       "position": "defensa central",
       "dorsal": 25,
       "image": "https://urpito.github.io/BisontesDUX/assets/jugador25.png",
+      "nationalities": [
+        "Venezuela"
+      ],
       "trajectory": [
-        "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "2025–actualidad · Bisontes DUX"
       ]
     },
     {
@@ -180,8 +239,7 @@
       "position": "defensa central",
       "dorsal": 28,
       "trajectory": [
-        "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "2025–actualidad · Bisontes DUX"
       ]
     },
     {
@@ -189,6 +247,9 @@
       "url": "https://urpito.github.io/BisontesDUX/jugadores/coronel/",
       "position": "defensa central",
       "dorsal": 33,
+      "nationalities": [
+        "España"
+      ],
       "trajectory": [
         "2025–actualidad · Bisontes DUX",
         "A.D.C. Malasaña"
@@ -199,9 +260,13 @@
       "url": "https://urpito.github.io/BisontesDUX/jugadores/dani-floria/",
       "position": "defensa central",
       "dorsal": 42,
+      "nationalities": [
+        "España"
+      ],
       "trajectory": [
         "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "A.D.C. Malasaña",
+        "RCD Espanyol de Madrid"
       ]
     },
     {
@@ -209,9 +274,12 @@
       "url": "https://urpito.github.io/BisontesDUX/jugadores/santi/",
       "position": "mediocentro",
       "dorsal": 67,
+      "nationalities": [
+        "España"
+      ],
       "trajectory": [
         "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "RCD Espanyol de Madrid"
       ]
     },
     {
@@ -219,9 +287,12 @@
       "url": "https://urpito.github.io/BisontesDUX/jugadores/mateo/",
       "position": "extremo derecho",
       "dorsal": 69,
+      "nationalities": [
+        "España"
+      ],
       "trajectory": [
         "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "RCD Espanyol de Madrid"
       ]
     },
     {
@@ -230,9 +301,13 @@
       "position": "mediocentro ofensivo",
       "dorsal": 99,
       "image": "https://urpito.github.io/BisontesDUX/assets/jugador99.png",
+      "nationalities": [
+        "España"
+      ],
       "trajectory": [
         "2025–actualidad · Bisontes DUX",
-        "A.D.C. Malasaña"
+        "A.D.C. Malasaña",
+        "RCD Espanyol de Madrid"
       ]
     }
   ],
@@ -243,8 +318,8 @@
       "role": "entrenador"
     },
     {
-      "name": "Flavio Chicaiza",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/flavio-chicaiza/",
+      "name": "Jose Ignacio Arrufat",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/jose-ignacio-arrufat/",
       "role": "entrenador"
     },
     {

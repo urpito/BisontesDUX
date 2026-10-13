@@ -636,3 +636,6 @@ a.sponsor-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba
 .player-card__img-wrap .captain-badge { position: absolute; top: 12px; right: 12px; z-index: 2; }
 .profile-title { display: flex; align-items: center; gap: 12px; }
 .profile-title .captain-badge { width: 40px; height: 40px; font-size: 1.4rem; margin-left: 6px; }
+
+/* Banderas de nacionalidad en la ficha */
+.flag { display: inline-block; width: 36px; height: 24px; object-fit: cover; border-radius: 3px; box-shadow: 0 0 0 1px rgba(0,0,0,.15); vertical-align: middle; margin-right: 6px; }

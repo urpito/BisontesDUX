@@ -224,6 +224,19 @@ function dorsalLabel(player) {
   return String(player.position).split(/\s+/).map(word => word[0]).join('').toUpperCase().slice(0, 3);
 }
 
+/* Banderas (imagen de flagcdn; los emojis de bandera salen como letras en Windows).
+   Para un país nuevo, añade su nombre y su código ISO de dos letras. */
+const COUNTRY_CODES = {
+  'España': 'es', 'Estados Unidos': 'us', 'Italia': 'it', 'Colombia': 'co', 'Países Bajos': 'nl',
+  'Polonia': 'pl', 'Venezuela': 've', 'Filipinas': 'ph', 'Ecuador': 'ec'
+};
+
+function flag(country) {
+  const code = COUNTRY_CODES[country];
+  if (!code) return escapeHtml(country);
+  return `<img class="flag" src="https://flagcdn.com/${code}.svg" alt="${escapeHtml(country)}" title="${escapeHtml(country)}" width="36" height="24" loading="lazy" decoding="async" />`;
+}
+
 /* Escudito de capitán (brazalete con la C) en tarjeta y ficha. */
 function captainBadge() {
   return '<span class="captain-badge" title="Capitán" aria-label="Capitán">C</span>';
@@ -258,7 +271,7 @@ function playerPage(player) {
     ...(player.nickname ? [['Apodo', escapeHtml(player.nickname)]] : []),
     ...(!player.coach ? [['Dorsal', escapeHtml(player.dorsal)]] : []),
     ...(player.age ? [['Edad', escapeHtml(player.age)]] : []),
-    ['Nacionalidad', player.nationalities.length ? escapeHtml(player.nationalities.join(' · ')) : '<span class="profile-empty">Por completar</span>']
+    ['Nacionalidad', player.nationalities.length ? player.nationalities.map(flag).join(' ') : '<span class="profile-empty">Por completar</span>']
   ];
   const trajectory = `<section class="profile-section" aria-labelledby="trayectoria"><h2 id="trayectoria">Trayectoria</h2>${player.trajectory.length
     ? `<ul class="profile-trajectory">${player.trajectory.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`

@@ -43,7 +43,7 @@ Bisontes DUX es a la vez un **proyecto social** y un **grupo de amigos**. El pat
 
 ## Evidence on Hand
 
-- Plantilla real con 17 jugadores, 2 entrenadores (Ben Gunduz y Flavio Chicaiza, ambos «entrenador», sin primero ni segundo) y la directiva: Fabio Loi, community manager (quien mantiene la web y las redes). Fotos en `assets/`, `assets/optimized/` y `assets/uploads/`.
+- Plantilla real con 27 jugadores, 2 entrenadores (Ben Gunduz y Jose Ignacio Arrufat, ambos «entrenador», sin primero ni segundo) y la directiva: Fabio Loi, community manager (quien mantiene la web y las redes). Fotos en `assets/`, `assets/optimized/` y `assets/uploads/`.
 - Patrocinadores y colaboradores reales: Todos Juegan (principal), Fratelli D'Italia, Alcze, ISOS y PcFactory.
 - No hay estadísticas, resultados, palmarés, testimonios ni prensa publicados: no se deben inventar. Las estadísticas de cada jugador solo se muestran si son reales.
 
