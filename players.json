@@ -179,6 +179,7 @@
       "url": "https://urpito.github.io/BisontesDUX/jugadores/cristhofer/",
       "position": "extremo derecho",
       "dorsal": 17,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador17.png",
       "trajectory": [
         "2025–actualidad · Bisontes DUX"
       ]
@@ -260,6 +261,7 @@
       "url": "https://urpito.github.io/BisontesDUX/jugadores/dani-floria/",
       "position": "defensa central",
       "dorsal": 42,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador42.png",
       "nationalities": [
         "España"
       ],
@@ -274,6 +276,7 @@
       "url": "https://urpito.github.io/BisontesDUX/jugadores/santi/",
       "position": "mediocentro",
       "dorsal": 67,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador67.png",
       "nationalities": [
         "España"
       ],
@@ -287,6 +290,7 @@
       "url": "https://urpito.github.io/BisontesDUX/jugadores/mateo/",
       "position": "extremo derecho",
       "dorsal": 69,
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador69.png",
       "nationalities": [
         "España"
       ],
