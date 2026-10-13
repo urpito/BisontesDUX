@@ -224,6 +224,11 @@ function dorsalLabel(player) {
   return String(player.position).split(/\s+/).map(word => word[0]).join('').toUpperCase().slice(0, 3);
 }
 
+/* Escudito de capitán (brazalete con la C) en tarjeta y ficha. */
+function captainBadge() {
+  return '<span class="captain-badge" title="Capitán" aria-label="Capitán">C</span>';
+}
+
 function rosterCard(player, prefix = '') {
   const image = player.hasPortrait
     ? `<img src="${SITE_PATH}${player.photo}" alt="Retrato de ${escapeHtml(player.name)}, ${escapeHtml(player.position)} de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />`
@@ -233,9 +238,10 @@ function rosterCard(player, prefix = '') {
     <div class="player-card__img-wrap">
       ${image}
       <span class="${dorsalClass}" aria-hidden="true">${escapeHtml(dorsalLabel(player))}</span>
+      ${player.captain ? captainBadge() : ''}
     </div>
     <div class="player-card__info">
-      <h3 class="player-card__name">${escapeHtml(player.name)}</h3>
+      <h3 class="player-card__name">${escapeHtml(player.nickname || player.name)}</h3>
       <span class="player-card__pos">${escapeHtml(player.position)}</span>
       <span class="player-card__profile-link">Ver ficha oficial</span>
     </div>
@@ -248,6 +254,7 @@ function playerPage(player) {
   const facts = [
     ['Equipo', `<a href="${SITE_PATH}">Bisontes DUX</a>`],
     ['Función', escapeHtml(player.position.toLocaleUpperCase('es-ES'))],
+    ...(player.captain ? [['Capitán', 'Sí']] : []),
     ...(player.nickname ? [['Apodo', escapeHtml(player.nickname)]] : []),
     ...(!player.coach ? [['Dorsal', escapeHtml(player.dorsal)]] : []),
     ...(player.age ? [['Edad', escapeHtml(player.age)]] : []),
@@ -307,7 +314,7 @@ function playerPage(player) {
     <article class="profile-card">
       <div class="profile-photo"><span class="profile-shirt" aria-hidden="true"><span class="profile-shirt__name">${escapeHtml(player.shirtName)}</span><span class="profile-shirt__num${player.coach ? ' profile-shirt__num--text' : ''}">${escapeHtml(dorsalLabel(player))}</span></span>${imageMarkup}</div>
       <div class="profile-content">
-        <h1 class="font-display">${escapeHtml(player.name)}</h1>
+        <div class="profile-title"><h1 class="font-display">${escapeHtml(player.name)}</h1>${player.captain ? captainBadge() : ''}</div>
         <p class="profile-role">${player.coach ? escapeHtml(player.position) : `${escapeHtml(player.position)} · Dorsal ${escapeHtml(player.dorsal)}`}</p>
         <p class="profile-statement">${escapeHtml(player.statement)}</p>
         <p class="profile-context">${escapeHtml(player.supportingText)}</p>
@@ -582,7 +589,7 @@ const teamSchema = {
   '@context': 'https://schema.org', '@type': 'SportsTeam', '@id': TEAM_ID,
   name: 'Bisontes DUX', alternateName: 'Bisontes DUX FC', url: SITE_URL,
   logo: `${SITE_URL}assets/logo.png`, image: `${SITE_URL}assets/logo.png`,
-  description: 'Club de fútbol con sede en Madrid, fundado en 2025. Compromiso, equipo y pasión.',
+  description: 'Club de fútbol con sede en Madrid, fundado en 2025. Diversión, equipo y respeto.',
   sport: 'Fútbol', foundingDate: '2025', email: 'bisontes.dux@gmail.com',
   sameAs: ['https://www.instagram.com/bisontes.dux', 'https://github.com/urpito/BisontesDUX'],
   address: { '@type': 'PostalAddress', addressLocality: 'Madrid', addressCountry: 'ES' },

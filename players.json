@@ -11,114 +11,229 @@
       "url": "https://urpito.github.io/BisontesDUX/jugadores/alejandro-copa/",
       "position": "portero",
       "dorsal": 1,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador1.png"
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador1.png",
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
     },
     {
       "name": "Bruno Navas",
       "url": "https://urpito.github.io/BisontesDUX/jugadores/bruno-navas/",
       "position": "defensa central",
       "dorsal": 3,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador3.png"
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador3.png",
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
     },
     {
       "name": "Miguel Arias",
       "url": "https://urpito.github.io/BisontesDUX/jugadores/miguel-arias/",
       "position": "mediocentro",
-      "dorsal": 4
+      "dorsal": 4,
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
     },
     {
-      "name": "Ossama",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/ossama/",
-      "position": "lateral derecho",
-      "dorsal": 5,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador5.png"
+      "name": "Jose Anthony",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/jose-anthony/",
+      "position": "mediocentro",
+      "dorsal": 6,
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
     },
     {
       "name": "Alan Gálvez",
       "url": "https://urpito.github.io/BisontesDUX/jugadores/alan-galvez/",
       "position": "extremo izquierdo",
       "dorsal": 7,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador7.png"
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador7.png",
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
     },
     {
-      "name": "Eduardo Bebia",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/eduardo-bebia/",
-      "position": "extremo derecho",
+      "name": "Anton",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/anton/",
+      "position": "mediocentro",
+      "dorsal": 8,
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
+    },
+    {
+      "name": "Max",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/max/",
+      "position": "delantero centro",
       "dorsal": 9,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador9.png"
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
     },
     {
       "name": "Filip Tekiela",
       "url": "https://urpito.github.io/BisontesDUX/jugadores/filip-tekiela/",
       "position": "delantero centro",
       "dorsal": 10,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador10.png"
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador10.png",
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
     },
     {
       "name": "Luis Salas",
       "url": "https://urpito.github.io/BisontesDUX/jugadores/luis-salas/",
       "position": "extremo derecho",
       "dorsal": 11,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador11.png"
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador11.png",
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
     },
     {
-      "name": "Taiyang Arick",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/taiyang-arick/",
-      "position": "mediocentro ofensivo",
-      "dorsal": 13
+      "name": "Javi",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/javi/",
+      "position": "extremo derecho",
+      "dorsal": 12,
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
     },
     {
       "name": "Arturo Constantine",
       "url": "https://urpito.github.io/BisontesDUX/jugadores/arturo-constantine/",
       "position": "extremo izquierdo",
       "dorsal": 15,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador15.png"
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador15.png",
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
     },
     {
-      "name": "Jeanca",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/jeanca/",
-      "position": "lateral derecho",
-      "dorsal": 18
+      "name": "Cristhofer",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/cristhofer/",
+      "position": "extremo derecho",
+      "dorsal": 17,
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
     },
     {
-      "name": "Yacouba Diarra",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/yacouba-diarra/",
-      "position": "mediocentro ofensivo",
-      "dorsal": 19,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador19.png"
+      "name": "Izan",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/izan/",
+      "position": "mediocentro",
+      "dorsal": 20,
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
     },
     {
       "name": "Elías Naharro",
       "url": "https://urpito.github.io/BisontesDUX/jugadores/elias-naharro/",
       "position": "lateral izquierdo",
       "dorsal": 21,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador21.png"
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador21.png",
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
     },
     {
       "name": "Mario Comas",
       "url": "https://urpito.github.io/BisontesDUX/jugadores/mario-comas/",
       "position": "lateral derecho",
-      "dorsal": 22
-    },
-    {
-      "name": "Nicolás Chicaiza",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/nicolas-chicaiza/",
-      "position": "delantero centro",
-      "dorsal": 23
+      "dorsal": 22,
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
     },
     {
       "name": "Francisco Daza",
       "url": "https://urpito.github.io/BisontesDUX/jugadores/francisco-daza/",
       "position": "defensa central",
       "dorsal": 25,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador25.png"
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador25.png",
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
+    },
+    {
+      "name": "Leonardo",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/leonardo/",
+      "position": "defensa central",
+      "dorsal": 28,
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
+    },
+    {
+      "name": "Coronel",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/coronel/",
+      "position": "defensa central",
+      "dorsal": 33,
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
+    },
+    {
+      "name": "Dani Floria",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/dani-floria/",
+      "position": "defensa central",
+      "dorsal": 42,
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
+    },
+    {
+      "name": "Santi",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/santi/",
+      "position": "mediocentro",
+      "dorsal": 67,
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
+    },
+    {
+      "name": "Mateo",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/mateo/",
+      "position": "extremo derecho",
+      "dorsal": 69,
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
     },
     {
       "name": "Diego Arrufat",
       "url": "https://urpito.github.io/BisontesDUX/jugadores/diego-arrufat/",
       "position": "mediocentro ofensivo",
       "dorsal": 99,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador99.png"
+      "image": "https://urpito.github.io/BisontesDUX/assets/jugador99.png",
+      "trajectory": [
+        "2025–actualidad · Bisontes DUX",
+        "A.D.C. Malasaña"
+      ]
     }
   ],
   "staff": [
