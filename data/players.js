@@ -85,7 +85,7 @@ const players = [
   },
   {
     "dorsal": 1,
-    "name": "Copa, Alejandro",
+    "name": "Copa Moreno, Omar Alejandro",
     "position": "POR",
     "trajectory": [
       "Malasaña",
@@ -94,7 +94,7 @@ const players = [
   },
   {
     "dorsal": 3,
-    "name": "Navas, Bruno",
+    "name": "Navas Moreno, Bruno",
     "position": "DFC",
     "captain": true,
     "nationalities": [
@@ -107,7 +107,7 @@ const players = [
   },
   {
     "dorsal": 4,
-    "name": "Arias, Miguel",
+    "name": "Arias-Camisón Nieto, Miguel",
     "position": "MC",
     "nickname": "Miguelín",
     "nationalities": [
@@ -121,7 +121,7 @@ const players = [
   },
   {
     "dorsal": 5,
-    "name": "Tagara, Leo",
+    "name": "Tagara Zombilla, Leonardo Jose",
     "position": "DFC",
     "nationalities": [
       "España",
@@ -134,7 +134,7 @@ const players = [
   },
   {
     "dorsal": 6,
-    "name": "Jose Anthony",
+    "name": "Arrango Guerra, Jose Anthony",
     "position": "MC",
     "nationalities": [
       "España"
@@ -148,7 +148,7 @@ const players = [
   },
   {
     "dorsal": 7,
-    "name": "Gálvez, Alan",
+    "name": "Gálvez Patiño, Alan",
     "position": "EI",
     "nationalities": [
       "Colombia"
@@ -159,7 +159,7 @@ const players = [
   },
   {
     "dorsal": 8,
-    "name": "Anton",
+    "name": "Alsonso Franco, Anton",
     "position": "MC",
     "nationalities": [
       "España"
@@ -172,7 +172,7 @@ const players = [
   },
   {
     "dorsal": 9,
-    "name": "Max",
+    "name": "Lomander Rivela, Max Lennart",
     "position": "DC",
     "nationalities": [
       "España",
@@ -186,7 +186,7 @@ const players = [
   },
   {
     "dorsal": 10,
-    "name": "Tekiela, Filip",
+    "name": "Tekiela, Filip Gabriel",
     "position": "DC",
     "captain": true,
     "nationalities": [
@@ -200,7 +200,7 @@ const players = [
   },
   {
     "dorsal": 11,
-    "name": "Salas, Luis",
+    "name": "Salas, Luis Daniel",
     "position": "ED",
     "nationalities": [
       "Venezuela"
