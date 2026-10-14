@@ -13,7 +13,7 @@
       "dorsal": 1,
       "image": "https://urpito.github.io/BisontesDUX/assets/jugador1.png",
       "trajectory": [
-        "A.D.C. Malasaña",
+        "Malasaña",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -27,7 +27,7 @@
         "España"
       ],
       "trajectory": [
-        "A.D.C. Malasaña",
+        "Malasaña",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -40,7 +40,7 @@
         "España"
       ],
       "trajectory": [
-        "A.D.C. Malasaña",
+        "Malasaña",
         "Munibar Pizarrales",
         "2025–actualidad · Bisontes DUX"
       ]
@@ -55,7 +55,7 @@
         "Filipinas"
       ],
       "trajectory": [
-        "A.D.C. Malasaña",
+        "Malasaña",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -68,9 +68,9 @@
         "España"
       ],
       "trajectory": [
-        "San Cristóbal",
-        "A.D.C. Malasaña",
+        "Malasaña",
         "Getafe",
+        "San Cristobál",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -96,6 +96,7 @@
         "España"
       ],
       "trajectory": [
+        "Canal",
         "RCD Espanyol de Madrid",
         "2025–actualidad · Bisontes DUX"
       ]
@@ -110,6 +111,7 @@
         "Países Bajos"
       ],
       "trajectory": [
+        "Periso CF",
         "RCD Espanyol de Madrid",
         "2025–actualidad · Bisontes DUX"
       ]
@@ -124,7 +126,8 @@
         "Polonia"
       ],
       "trajectory": [
-        "A.D.C. Malasaña",
+        "Malasaña",
+        "Factory FC",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -138,6 +141,7 @@
         "Venezuela"
       ],
       "trajectory": [
+        "Malasaña",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -147,6 +151,7 @@
       "position": "extremo derecho",
       "dorsal": 12,
       "trajectory": [
+        "Malasaña",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -159,8 +164,10 @@
         "Ecuador"
       ],
       "trajectory": [
-        "Cantera F.C.",
         "A.D.C. Malasaña",
+        "Cantera F.C.",
+        "Fundación Rayo Vallecano",
+        "Factory FC",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -171,6 +178,7 @@
       "dorsal": 15,
       "image": "https://urpito.github.io/BisontesDUX/assets/jugador15.png",
       "trajectory": [
+        "Malasaña",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -181,6 +189,8 @@
       "dorsal": 17,
       "image": "https://urpito.github.io/BisontesDUX/assets/jugador17.png",
       "trajectory": [
+        "CD Tajamar",
+        "Factory FC",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -193,6 +203,7 @@
         "Colombia"
       ],
       "trajectory": [
+        "Malasaña",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -206,6 +217,7 @@
         "España"
       ],
       "trajectory": [
+        "Sport Villa de Vallecas",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -218,6 +230,7 @@
         "España"
       ],
       "trajectory": [
+        "Malasaña",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -231,6 +244,7 @@
         "Venezuela"
       ],
       "trajectory": [
+        "Malasaña",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -240,6 +254,7 @@
       "position": "defensa central",
       "dorsal": 28,
       "trajectory": [
+        "ADC San Fermín",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -252,7 +267,7 @@
         "España"
       ],
       "trajectory": [
-        "A.D.C. Malasaña",
+        "Malasaña",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -266,8 +281,8 @@
         "España"
       ],
       "trajectory": [
+        "Malasaña",
         "RCD Espanyol de Madrid",
-        "A.D.C. Malasaña",
         "2025–actualidad · Bisontes DUX"
       ]
     },
@@ -309,8 +324,7 @@
         "España"
       ],
       "trajectory": [
-        "RCD Espanyol de Madrid",
-        "A.D.C. Malasaña",
+        "Malasaña",
         "2025–actualidad · Bisontes DUX"
       ]
     }
