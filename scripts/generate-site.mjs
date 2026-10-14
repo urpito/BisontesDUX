@@ -47,6 +47,12 @@ function slugify(value) {
 }
 
 /* Apellido (lo que va estampado en la espalda) y grupo para el filtro de la plantilla. */
+function shortName(name) {
+  const parts = String(name).split(',').map(part => part.trim());
+  if (parts.length < 2) return parts[0];
+  return `${parts[1].split(/\s+/)[0]} ${parts[0].split(/\s+/)[0]}`;
+}
+
 function surname(name) {
   return String(name).split(',')[0].trim();
 }
@@ -119,8 +125,10 @@ function playerData(player) {
     : `Perfil oficial de ${name}, jugador de Bisontes DUX. Información sobre su participación en la plantilla, posición y dorsal.`;
   const nickname = String(player.nickname || '').trim();
   const shirtName = nickname || surname(player.name);
+  /* En la tarjeta de la plantilla: el apodo o, si no hay, primer nombre y primer apellido. */
+  const cardName = nickname || shortName(player.name);
   const group = kind === 'directiva' ? 'directiva' : coach ? 'tecnicos' : (positionGroups[String(player.position).toUpperCase()] || 'otros');
-  return { ...player, name, nickname, shirtName, group, coach, kind, position, slug, pageUrl, photo, imageUrl, hasPortrait, nationalities, trajectory, statement, supportingText, title, description };
+  return { ...player, name, nickname, shirtName, group, coach, kind, position, slug, pageUrl, photo, imageUrl, hasPortrait, nationalities, trajectory, cardName, statement, supportingText, title, description };
 }
 
 const roster = players.map(playerData);
@@ -255,7 +263,7 @@ function rosterCard(player, prefix = '') {
       ${player.captain ? captainBadge() : ''}
     </div>
     <div class="player-card__info">
-      <h3 class="player-card__name">${escapeHtml(player.nickname || player.name)}</h3>
+      <h3 class="player-card__name">${escapeHtml(player.cardName)}</h3>
       <span class="player-card__pos">${escapeHtml(player.position)}</span>
       <span class="player-card__profile-link">Ver ficha oficial</span>
     </div>
@@ -270,7 +278,6 @@ function playerPage(player) {
     ['Función', escapeHtml(player.position.toLocaleUpperCase('es-ES'))],
     ...(player.duties ? [['Se encarga de', escapeHtml(player.duties)]] : []),
     ...(player.captain ? [['Capitán', 'Sí']] : []),
-    ...(player.nickname ? [['Apodo', escapeHtml(player.nickname)]] : []),
     ...(!player.coach ? [['Dorsal', escapeHtml(player.dorsal)]] : []),
     ...(player.age ? [['Edad', escapeHtml(player.age)]] : []),
     ['Nacionalidad', player.nationalities.length ? player.nationalities.map(flag).join(' ') : '<span class="profile-empty">Por completar</span>']
@@ -539,7 +546,7 @@ const SUPABASE_JS = {
 };
 
 const galleryRoster = [...roster.filter(person => !person.coach), ...roster.filter(person => person.coach)].map(person => {
-  const shown = person.nickname || person.name;
+  const shown = person.cardName;
   return {
     slug: person.slug,
     name: shown,

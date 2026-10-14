@@ -402,7 +402,7 @@
               <option value="entrenador"${type === 'entrenador' ? ' selected' : ''}>Entrenador</option>
               <option value="directiva"${type === 'directiva' ? ' selected' : ''}>Directiva</option></select>`)}
           ${field('Nombre completo («Apellido, Nombre»)', `<input data-k="name" value="${esc(p.name)}" placeholder="Arias, Miguel" />`)}
-          ${field('Apodo (tarjeta y espalda de la camiseta)', `<input data-k="nickname" value="${esc(p.nickname)}" placeholder="Opcional: Miguelín" />`)}
+          ${field('Apodo (sale en la tarjeta de la plantilla; si no hay, primer nombre y apellido)', `<input data-k="nickname" value="${esc(p.nickname)}" placeholder="Opcional: Miguelín" />`)}
           ${type === 'jugador'
             ? field('Dorsal', `<input data-k="dorsal" type="number" min="1" max="99" value="${esc(p.dorsal)}" />`) +
               field('Posición', `<select data-k="position">${POSITIONS.map(([code, label]) => `<option value="${code}"${p.position === code ? ' selected' : ''}>${label} (${code})</option>`).join('')}</select>`) +
