@@ -124,7 +124,8 @@ function playerData(player) {
     ? `Perfil oficial de ${name}, miembro ${deArea} de Bisontes DUX. Información sobre su función en el club.`
     : `Perfil oficial de ${name}, jugador de Bisontes DUX. Información sobre su participación en la plantilla, posición y dorsal.`;
   const nickname = String(player.nickname || '').trim();
-  const shirtName = nickname || surname(player.name);
+  /* Espalda de la camiseta: el apodo o, si no hay, el primer nombre (nunca los apellidos). */
+  const shirtName = nickname || shortName(player.name).split(' ')[0];
   /* En la tarjeta de la plantilla: el apodo o, si no hay, primer nombre y primer apellido. */
   const cardName = nickname || shortName(player.name);
   const group = kind === 'directiva' ? 'directiva' : coach ? 'tecnicos' : (positionGroups[String(player.position).toUpperCase()] || 'otros');
