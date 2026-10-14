@@ -800,3 +800,9 @@ body:has(dialog[open]) { overflow: hidden; }
 /* En la galería los campos no tienen texto de ejemplo: el rojo solo tras escribir algo no válido. */
 .gallery-page .form-field input:invalid, .gallery-editor .form-field input:invalid { border-bottom-color: var(--kit); }
 .gallery-page .form-field input:user-invalid, .gallery-editor .form-field input:user-invalid { border-bottom-color: #b3261e; }
+
+/* Reconocimiento: jugadores a mano (plegado) y permisos de cara */
+.gallery-manual { margin-top: 18px; }
+.gallery-manual summary { cursor: pointer; font-size: 0.85rem; font-weight: 700; text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.gallery-consent { margin-top: 24px; }
+.gallery-consent .gallery-people { margin-top: 18px; }

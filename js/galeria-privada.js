@@ -17,11 +17,14 @@
   const SIGN_TTL = 60 * 60;   /* enlaces firmados de las fotos privadas: 1 hora */
   const FULL_MAX = 2048;      /* lado mayor de la foto grande (JPG, para descargar) */
   const THUMB_MAX = 720;      /* lado mayor de la miniatura (WebP) */
+  const FACES_PER_PLAYER = 30; /* caras aprendidas que se guardan de cada jugador (las más recientes) */
 
   const state = {
     me: null,                 /* fila de gallery_members de quien ha entrado */
     photos: [],
     members: [],
+    consent: new Set(),       /* jugadores con permiso de reconocimiento facial */
+    faceCounts: {},           /* caras aprendidas por jugador */
     urls: new Map(),          /* ruta privada → { url, expires } */
     filters: { event: '', player: '' }
   };
@@ -292,6 +295,7 @@
       ${admin ? `<section id="panel-subir" data-panel="subir" role="tabpanel" aria-labelledby="tab-subir" hidden>${uploadFormHtml()}</section>
       <section id="panel-accesos" data-panel="accesos" role="tabpanel" aria-labelledby="tab-accesos" hidden>
         <div class="gallery-card gallery-members">${loadingHtml('Cargando accesos…')}</div>
+        <div class="gallery-card gallery-consent">${loadingHtml('Cargando permisos…')}</div>
       </section>` : ''}`;
     loadPhotos();
     if (admin) loadMembers();
@@ -390,7 +394,11 @@
         <div class="form-field"><label for="upload-date">Fecha</label><input id="upload-date" type="date" name="taken_on" /></div>
         <div class="form-field form-field--full"><label for="upload-caption">Pie de foto (opcional)</label><input id="upload-caption" name="caption" maxlength="200" /></div>
       </div>
-      <fieldset class="gallery-people"><legend>Quién sale <span>(se aplica a todas; luego puedes ajustarlo foto a foto)</span></legend>${peopleCheckboxes([])}</fieldset>
+      <label class="gallery-check"><input type="checkbox" name="recognize" checked /> Reconocer automáticamente quién sale (dorsales y, con permiso, caras)</label>
+      <p class="gallery-hint">Se hace gratis en este dispositivo: las fotos no se envían a ninguna IA externa. La primera vez descarga unos 20&nbsp;MB. Si se equivoca, se corrige en «Editar».</p>
+      <details class="gallery-manual"><summary>Añadir jugadores a mano (opcional)</summary>
+        <fieldset class="gallery-people"><legend>Quién sale <span>(se suma a lo reconocido, en todas las fotos)</span></legend>${peopleCheckboxes([])}</fieldset>
+      </details>
       <label class="gallery-check"><input type="checkbox" name="is_public" /> Destacadas: mostrarlas también en la galería pública</label>
       <p class="gallery-hint">Solo fotos de jugadores que hayan firmado la autorización de imagen. Antes de subirlas se reducen y se les quitan los datos de ubicación.</p>
       <button class="btn btn-dark" type="submit">Subir fotos</button>
@@ -451,16 +459,66 @@
     return !error;
   }
 
-  async function uploadOne(file, meta) {
+  /* ---------------- reconocimiento (se carga solo al subir) ---------------- */
+  let recognizer = null;
+
+  function loadRecognizer() {
+    if (!recognizer) {
+      recognizer = new Promise((resolve, reject) => {
+        if (window.BisontesReconocimiento) { resolve(window.BisontesReconocimiento); return; }
+        const script = document.createElement('script');
+        script.src = `${G.SITE}js/galeria-reconocimiento.js`;
+        script.onload = () => resolve(window.BisontesReconocimiento);
+        script.onerror = () => reject(new Error('No se ha podido cargar el reconocimiento.'));
+        document.head.appendChild(script);
+      }).then(async R => { await R.prepare(); return R; })
+        .catch(error => { recognizer = null; throw error; });
+    }
+    return recognizer;
+  }
+
+  /* Caras ya aprendidas y quién ha dado permiso (solo lo pueden leer los admins). */
+  async function recognitionContext() {
+    const [faces, consent] = await Promise.all([
+      client.from('gallery_faces').select('player_slug, embedding'),
+      client.from('gallery_face_consent').select('player_slug')
+    ]);
+    if (faces.error) throw faces.error;
+    if (consent.error) throw consent.error;
+    return { roster: G.roster, known: faces.data || [], consent: new Set((consent.data || []).map(row => row.player_slug)) };
+  }
+
+  /* Guarda las caras aprendidas de una foto y deja como mucho FACES_PER_PLAYER por jugador. */
+  async function learnFaces(photoId, learned, ctx) {
+    if (!learned.length) return;
+    const rows = learned.map(item => ({ player_slug: item.player_slug, photo_id: photoId, embedding: item.embedding }));
+    const { error } = await client.from('gallery_faces').insert(rows);
+    if (error) return;
+    ctx.known.push(...learned);
+    for (const slug of new Set(learned.map(item => item.player_slug))) {
+      const { data } = await client.from('gallery_faces').select('id').eq('player_slug', slug).order('created_at', { ascending: false });
+      const extra = (data || []).slice(FACES_PER_PLAYER).map(row => row.id);
+      if (extra.length) await client.from('gallery_faces').delete().in('id', extra);
+    }
+  }
+
+  async function uploadOne(file, meta, recog) {
     const picture = await decodeImage(file);
     let full;
     let thumb;
+    let found = null;
     try {
       full = await encode(picture, FULL_MAX, 'image/jpeg', 0.86);
       thumb = await encode(picture, THUMB_MAX, 'image/webp', 0.8);
+      if (recog) {
+        try {
+          found = await recog.R.analyze(picture.source, picture.width, picture.height, recog.ctx);
+        } catch (error) { found = null; /* la foto se sube igual, sin etiquetas automáticas */ }
+      }
     } finally {
       picture.release();
     }
+    const players = [...new Set([...meta.players, ...(found ? found.players : [])])];
     const id = crypto.randomUUID();
     const extension = blob => (blob.type === 'image/webp' ? 'webp' : 'jpg');
     const fullPath = `${id}/full.${extension(full.blob)}`;
@@ -476,10 +534,11 @@
       }
       const { data, error } = await client.from('gallery_photos').insert({
         id, full_path: fullPath, thumb_path: thumbPath, width: full.width, height: full.height,
-        event: meta.event, taken_on: meta.taken_on, caption: meta.caption, players: meta.players, is_public: meta.is_public
+        event: meta.event, taken_on: meta.taken_on, caption: meta.caption, players, is_public: meta.is_public
       }).select().single();
       if (error) throw error;
-      return data;
+      if (found) await learnFaces(id, found.learn, recog.ctx);
+      return { photo: data, found };
     } catch (error) {
       await removeFiles(G.BUCKETS.private, uploaded[G.BUCKETS.private]);
       await removeFiles(G.BUCKETS.public, uploaded[G.BUCKETS.public]);
@@ -507,15 +566,27 @@
       label.className = kind;
     };
     let done = 0;
+    let recog = null;
+    let recogProblem = '';
     uploading = true;
     await busy(form.querySelector('[type="submit"]'), async () => {
+      if (data.get('recognize') === 'on') {
+        setStatus(status, 'Preparando el reconocimiento (la primera vez tarda un poco)…');
+        try {
+          recog = { R: await loadRecognizer(), ctx: await recognitionContext() };
+        } catch (error) {
+          recogProblem = ` No se ha podido usar el reconocimiento (${G.errorMessage(error)}): añade quién sale en «Editar».`;
+        }
+      }
       for (const [index, file] of files.entries()) {
-        mark(index, 'Subiendo…');
+        mark(index, recog ? 'Reconociendo y subiendo…' : 'Subiendo…');
         setStatus(status, `Subiendo ${index + 1} de ${files.length}…`);
         try {
-          state.photos.push(await uploadOne(file, meta));
+          const { photo, found } = await uploadOne(file, meta, recog);
+          state.photos.push(photo);
           done++;
-          mark(index, 'Subida ✓', 'is-ok');
+          const names = found ? found.players.map(G.personName) : [];
+          mark(index, recog ? `Subida ✓ · ${names.length ? names.join(', ') : 'sin reconocer a nadie'}` : 'Subida ✓', 'is-ok');
         } catch (error) {
           mark(index, G.errorMessage(error), 'is-error');
         }
@@ -523,9 +594,9 @@
     });
     uploading = false;
     const failed = files.length - done;
-    setStatus(status, failed
+    setStatus(status, (failed
       ? `Se han subido ${done} de ${files.length}. Revisa las que han fallado.`
-      : `¡Listo! ${done} ${done === 1 ? 'foto subida' : 'fotos subidas'}. Ya están en «Fotos».`, failed ? 'err' : 'ok');
+      : `¡Listo! ${done} ${done === 1 ? 'foto subida' : 'fotos subidas'}. Ya están en «Fotos».`) + recogProblem, failed || recogProblem ? 'err' : 'ok');
     if (done) {
       form.elements.files.value = '';
       await afterPhotosChanged();
@@ -639,6 +710,57 @@
     }
     state.members = data || [];
     renderMembers();
+    loadConsent();
+  }
+
+  /* Permisos de reconocimiento facial y cuántas caras se han aprendido de cada uno. */
+  async function loadConsent() {
+    const box = $('.gallery-consent');
+    if (!box) return;
+    const [consent, faces] = await Promise.all([
+      client.from('gallery_face_consent').select('player_slug'),
+      client.from('gallery_faces').select('player_slug')
+    ]);
+    if (consent.error || faces.error) {
+      box.innerHTML = `<p class="form-status form-status--err">${esc(G.errorMessage(consent.error || faces.error))}</p>`;
+      return;
+    }
+    state.consent = new Set(consent.data.map(row => row.player_slug));
+    state.faceCounts = faces.data.reduce((counts, row) => ({ ...counts, [row.player_slug]: (counts[row.player_slug] || 0) + 1 }), {});
+    renderConsent();
+  }
+
+  function renderConsent() {
+    const box = $('.gallery-consent');
+    if (!box) return;
+    box.innerHTML = `
+      <h2 class="font-display">Reconocimiento facial</h2>
+      <p class="gallery-hint">Al subir fotos se reconoce a cada jugador por su <strong>dorsal</strong>, sin pedir nada. La <strong>cara</strong> solo se usa con quien haya firmado el permiso (sus padres si es menor de 14), porque es un dato biométrico. Márcalo aquí cuando lo tengas firmado: desde entonces la galería aprende su cara de las fotos en que se le lea el dorsal y le reconoce aunque salga de espaldas al número. Al desmarcarlo se borran sus caras aprendidas.</p>
+      <p class="form-status" role="status"></p>
+      <div class="gallery-people">${G.roster.map(person => {
+        const count = state.faceCounts[person.slug] || 0;
+        return `<label class="gallery-person"><input type="checkbox" data-consent="${esc(person.slug)}"${state.consent.has(person.slug) ? ' checked' : ''} /><span>${esc(person.label)}${count ? ` · ${count} ${count === 1 ? 'cara' : 'caras'}` : ''}</span></label>`;
+      }).join('')}</div>`;
+  }
+
+  async function toggleConsent(input) {
+    const slug = input.dataset.consent;
+    const status = $('.gallery-consent .form-status');
+    const name = G.personName(slug);
+    if (input.checked) {
+      const { error } = await client.from('gallery_face_consent').insert({ player_slug: slug });
+      if (error) { input.checked = false; setStatus(status, G.errorMessage(error), 'err'); return; }
+      state.consent.add(slug);
+      setStatus(status, `Permiso de ${name} guardado: la galería irá aprendiendo su cara.`, 'ok');
+      return;
+    }
+    if (!window.confirm(`¿Quitar el permiso de ${name}? Se borrarán todas sus caras aprendidas y solo se le reconocerá por el dorsal.`)) { input.checked = true; return; }
+    const { error } = await client.from('gallery_face_consent').delete().eq('player_slug', slug);
+    if (error) { input.checked = true; setStatus(status, G.errorMessage(error), 'err'); return; }
+    state.consent.delete(slug);
+    delete state.faceCounts[slug];
+    renderConsent();
+    setStatus($('.gallery-consent .form-status'), `Permiso de ${name} retirado y sus caras borradas.`, 'ok');
   }
 
   function memberForm(member) {
@@ -808,6 +930,7 @@
   });
 
   app.addEventListener('change', event => {
+    if (event.target.dataset.consent) { toggleConsent(event.target); return; }
     const filter = event.target.dataset.filter;
     if (!filter) return;
     state.filters[filter] = event.target.value;

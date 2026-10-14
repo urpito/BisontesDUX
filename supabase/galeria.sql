@@ -226,7 +226,50 @@ revoke all on function public.gallery_admin_set_password(uuid, text) from public
 grant execute on function public.gallery_admin_set_password(uuid, text) to authenticated;
 
 
--- 8. PRIMER ADMIN --------------------------------------------------------
+-- 8. RECONOCIMIENTO FACIAL ------------------------------------------------
+-- Una cara usada para identificar a alguien es un dato biométrico (RGPD,
+-- art. 9): solo con permiso expreso (de sus padres si es menor de 14).
+-- Sin fila de permiso no se puede guardar ninguna cara de ese jugador, y
+-- al retirar el permiso se borran todas sus caras (on delete cascade).
+-- Los dorsales no necesitan nada de esto. Solo los admins ven estas tablas.
+create table if not exists public.gallery_face_consent (
+  player_slug text primary key,
+  granted_at  timestamptz not null default now(),
+  granted_by  uuid default auth.uid() references auth.users (id) on delete set null
+);
+
+create table if not exists public.gallery_faces (
+  id          uuid primary key default gen_random_uuid(),
+  player_slug text not null references public.gallery_face_consent (player_slug) on delete cascade,
+  photo_id    uuid references public.gallery_photos (id) on delete set null,
+  embedding   real[] not null,   -- «huella» numérica de la cara, no la foto
+  created_at  timestamptz not null default now()
+);
+
+create index if not exists gallery_faces_player_idx on public.gallery_faces (player_slug, created_at desc);
+
+alter table public.gallery_face_consent enable row level security;
+alter table public.gallery_faces        enable row level security;
+
+revoke all on public.gallery_face_consent from anon, authenticated;
+revoke all on public.gallery_faces        from anon, authenticated;
+grant select, insert, delete on public.gallery_face_consent to authenticated;
+grant select, insert, delete on public.gallery_faces        to authenticated;
+
+drop policy if exists gallery_face_consent_admins on public.gallery_face_consent;
+create policy gallery_face_consent_admins on public.gallery_face_consent
+  for all to authenticated
+  using ((select public.gallery_is_admin()))
+  with check ((select public.gallery_is_admin()));
+
+drop policy if exists gallery_faces_admins on public.gallery_faces;
+create policy gallery_faces_admins on public.gallery_faces
+  for all to authenticated
+  using ((select public.gallery_is_admin()))
+  with check ((select public.gallery_is_admin()));
+
+
+-- 9. PRIMER ADMIN --------------------------------------------------------
 -- Después de crear tu cuenta en /galeria/privada/, ejecuta esta línea
 -- con tu correo (quita los dos guiones del principio). Los demás admins
 -- se nombran luego desde la propia web, en «Accesos».

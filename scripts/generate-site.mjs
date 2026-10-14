@@ -545,6 +545,7 @@ const galleryRoster = [...roster.filter(person => !person.coach), ...roster.filt
     slug: person.slug,
     name: shown,
     label: person.coach ? `${shown} (${person.kind === 'directiva' ? 'club' : 'entrenador'})` : `${person.dorsal} · ${shown}`,
+    dorsal: person.coach ? null : person.dorsal,
     staff: person.coach
   };
 });
