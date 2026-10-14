@@ -33,7 +33,7 @@ Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identif
 - [Mario Comas](https://urpito.github.io/BisontesDUX/jugadores/mario-comas/): lateral derecho, dorsal 22.
 - [Francisco Daza](https://urpito.github.io/BisontesDUX/jugadores/francisco-daza/): defensa central, dorsal 25.
 - [Leonardo](https://urpito.github.io/BisontesDUX/jugadores/leonardo/): defensa central, dorsal 28.
-- [Coronel](https://urpito.github.io/BisontesDUX/jugadores/coronel/): defensa central, dorsal 33.
+- [David Gonzalez](https://urpito.github.io/BisontesDUX/jugadores/david-gonzalez/): defensa central, dorsal 33.
 - [Dani Floria](https://urpito.github.io/BisontesDUX/jugadores/dani-floria/): defensa central, dorsal 42.
 - [Santi](https://urpito.github.io/BisontesDUX/jugadores/santi/): mediocentro, dorsal 67.
 - [Mateo](https://urpito.github.io/BisontesDUX/jugadores/mateo/): extremo derecho, dorsal 69.
