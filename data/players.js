@@ -49,7 +49,8 @@ const players = [
       "A.D.C. Malasaña",
       "Cantera F.C.",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "bio": "Ben es el fundador y director técnico de Bisontes Dux. Tras dejar atrás su etapa como jugador, que terminó en el Cantera FC, ahora se enfoca por completo en sacar lo mejor de los bisontes. Originario de Boston (EE. UU.), actualmente trabaja como consultor estratégico en Accenture y es uno de los fundadores de la Asociación Tod@s Juegan."
   },
   {
     "role": "entrenador",
