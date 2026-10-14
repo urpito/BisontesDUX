@@ -17,8 +17,8 @@ La plantilla se muestra en la sección `#plantilla` del index. Las antiguas URLs
 
 `https://urpito.github.io/BisontesDUX/admin/` edita toda la web sin tocar código y guarda en GitHub con un token (instrucciones en la propia página); la Action «Generar web» publica en 1-2 minutos.
 
-- **Plantilla** (`data/players.js`): tipo, nombre, apodo, dorsal, posición, capitán, edad, foto, hasta dos nacionalidades con bandera, trayectoria por etapas, bio, estadísticas y redes. Buscador y enlace a cada ficha.
-- **Textos de la web** (`data/site.js`): «Sobre nosotros» y los datos del club, plantilla, valores, patrocinadores, Instagram, «Quiero jugar» y newsletter. Admite `**negrita**` y `[texto](enlace)`. El generador los vuelca en `index.html` entre los marcadores `SITE-…`.
+- **Plantilla** (`data/players.js`): tipo, nombre, apodo, dorsal, posición, capitán, «se encarga de», edad, foto, hasta dos nacionalidades con bandera, trayectoria por etapas (de la más antigua a la actual), bio, estadísticas y redes. Buscador y enlace a cada ficha.
+- **Textos de la web** (`data/site.js`): frase de la portada, «Sobre nosotros» y los datos del club, plantilla, valores, patrocinadores, Instagram, «Quiero jugar» y newsletter. Admite `**negrita**` y `[texto](enlace)`. El generador los vuelca en `index.html` entre los marcadores `SITE-…`.
 - **Patrocinadores** (`data/sponsors.js`) y **Blog** (`data/blog.js`).
 - Las banderas salen de `data/countries.js` (nombre en español → código ISO).
 
@@ -47,8 +47,8 @@ Todos los datos editables están en `data/players.js`. Dentro del jugador corres
   position: "MCO",
   nationalities: ["España", "Argentina"],
   trajectory: [
-    "2025–actualidad · Bisontes DUX",
-    "2023–2025 · Club anterior"
+    "2023–2025 · Club anterior",
+    "2025–actualidad · Bisontes DUX"
   ]
 }
 ```

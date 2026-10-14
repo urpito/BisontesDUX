@@ -8,12 +8,13 @@
  *   photo    → Ruta a la foto (OPCIONAL — si no se pone, se busca assets/jugadorN.png)
  *   age      → Edad (OPCIONAL)
  *   nationalities → Una o dos nacionalidades, en una lista (OPCIONAL)
- *   trajectory   → Trayectoria, en orden de más reciente a más antigua (OPCIONAL)
+ *   trajectory   → Trayectoria, de la etapa más antigua a la actual (OPCIONAL)
  *   bio      → Descripción breve (OPCIONAL)
  *   stats    → Estadísticas reales en formato { etiqueta: valor } (OPCIONAL)
  *   socials  → Redes en formato { instagram, x, tiktok, facebook } (OPCIONAL)
  *   nickname → Apodo (OPCIONAL). Es lo que va estampado en la espalda de la
  *              camiseta en la portada y en la ficha; si no hay, se usa el apellido.
+ *   duties   → «Se encarga de»: tareas en el club, sobre todo para el staff (OPCIONAL)
  *   role     → Solo para el staff (sin dorsal): "entrenador" o "directiva".
  *              En "position" va el cargo, p. ej. "ENTRENADOR" o "COMMUNITY MANAGER".
  *
@@ -24,8 +25,8 @@
  *     position: "Mediapunta",
  *     nationalities: ["España", "Argentina"],
  *     trajectory: [
- *       "2025–actualidad · Bisontes DUX",
- *       "2023–2025 · Club anterior"
+ *       "2023–2025 · Club anterior",
+ *       "2025–actualidad · Bisontes DUX"
  *     ]
  *   }
  *   { role: "entrenador", name: "Apellido, Nombre", position: "ENTRENADOR" }
@@ -45,9 +46,9 @@ const players = [
       "Estados Unidos"
     ],
     "trajectory": [
-      "2025–actualidad · Bisontes DUX",
+      "A.D.C. Malasaña",
       "Cantera F.C.",
-      "A.D.C. Malasaña"
+      "2025–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -58,10 +59,10 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "2025–actualidad · Bisontes DUX",
-      "Castellón",
+      "Cantera F.C.",
       "A.D.C. Malasaña",
-      "Cantera F.C."
+      "Castellón",
+      "2025–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -71,6 +72,12 @@ const players = [
     "photo": "assets/jugador2.png",
     "nationalities": [
       "Italia"
+    ],
+    "duties": "Redes sociales y web del club",
+    "trajectory": [
+      "A.D.C. Malasaña",
+      "Cantera F.C.",
+      "2025–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -78,8 +85,8 @@ const players = [
     "name": "Copa, Alejandro",
     "position": "POR",
     "trajectory": [
-      "2025–actualidad · Bisontes DUX",
-      "A.D.C. Malasaña"
+      "A.D.C. Malasaña",
+      "2025–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -91,8 +98,8 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "2025–actualidad · Bisontes DUX",
-      "A.D.C. Malasaña"
+      "A.D.C. Malasaña",
+      "2025–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -104,9 +111,9 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "2025–actualidad · Bisontes DUX",
+      "A.D.C. Malasaña",
       "Munibar Pizarrales",
-      "A.D.C. Malasaña"
+      "2025–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -118,8 +125,8 @@ const players = [
       "Filipinas"
     ],
     "trajectory": [
-      "2025–actualidad · Bisontes DUX",
-      "A.D.C. Malasaña"
+      "A.D.C. Malasaña",
+      "2025–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -130,10 +137,10 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "2025–actualidad · Bisontes DUX",
-      "Getafe",
+      "San Cristóbal",
       "A.D.C. Malasaña",
-      "San Cristóbal"
+      "Getafe",
+      "2025–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -155,8 +162,8 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "2025–actualidad · Bisontes DUX",
-      "RCD Espanyol de Madrid"
+      "RCD Espanyol de Madrid",
+      "2025–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -168,8 +175,8 @@ const players = [
       "Países Bajos"
     ],
     "trajectory": [
-      "2025–actualidad · Bisontes DUX",
-      "RCD Espanyol de Madrid"
+      "RCD Espanyol de Madrid",
+      "2025–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -181,8 +188,8 @@ const players = [
       "Polonia"
     ],
     "trajectory": [
-      "2025–actualidad · Bisontes DUX",
-      "A.D.C. Malasaña"
+      "A.D.C. Malasaña",
+      "2025–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -212,9 +219,9 @@ const players = [
       "Ecuador"
     ],
     "trajectory": [
-      "2025–actualidad · Bisontes DUX",
+      "Cantera F.C.",
       "A.D.C. Malasaña",
-      "Cantera F.C."
+      "2025–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -294,8 +301,8 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "2025–actualidad · Bisontes DUX",
-      "A.D.C. Malasaña"
+      "A.D.C. Malasaña",
+      "2025–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -306,9 +313,9 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "2025–actualidad · Bisontes DUX",
+      "RCD Espanyol de Madrid",
       "A.D.C. Malasaña",
-      "RCD Espanyol de Madrid"
+      "2025–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -319,8 +326,8 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "2025–actualidad · Bisontes DUX",
-      "RCD Espanyol de Madrid"
+      "RCD Espanyol de Madrid",
+      "2025–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -331,8 +338,8 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "2025–actualidad · Bisontes DUX",
-      "RCD Espanyol de Madrid"
+      "RCD Espanyol de Madrid",
+      "2025–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -344,9 +351,9 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "2025–actualidad · Bisontes DUX",
+      "RCD Espanyol de Madrid",
       "A.D.C. Malasaña",
-      "RCD Espanyol de Madrid"
+      "2025–actualidad · Bisontes DUX"
     ]
   }
 ];

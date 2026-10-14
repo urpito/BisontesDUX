@@ -229,6 +229,7 @@
   function validateSite(site) {
     const titles = [['about', 'Sobre nosotros'], ['roster', 'Plantilla'], ['values', 'Valores'], ['sponsors', 'Patrocinadores'], ['instagram', 'Instagram'], ['join', 'Quiero jugar'], ['newsletter', 'Newsletter']];
     for (const [key, label] of titles) if (!String(site[key]?.title || '').trim()) return `Falta el título de «${label}».`;
+    if (!String(site.hero?.tagline || '').trim()) return 'Falta la frase de la portada.';
     if (!site.about.paragraphs.some(text => text.trim())) return '«Sobre nosotros» necesita al menos un párrafo.';
     if (site.values.items.some(item => !item.word.trim() || !item.text.trim())) return 'Cada valor necesita palabra y texto.';
     if (site.about.facts.some(fact => !fact.label.trim() || !fact.value.trim())) return 'Cada dato del club necesita nombre y valor (o bórralo).';
@@ -334,6 +335,7 @@
               field('Posición', `<select data-k="position">${POSITIONS.map(([code, label]) => `<option value="${code}"${p.position === code ? ' selected' : ''}>${label} (${code})</option>`).join('')}</select>`) +
               field('Capitán', `<label class="check"><input type="checkbox" data-k="captain"${p.captain ? ' checked' : ''} /> Lleva el brazalete (escudito «C»)</label>`)
             : field('Cargo', `<input data-k="position" value="${esc(p.position)}" placeholder="${type === 'entrenador' ? 'ENTRENADOR' : 'COMMUNITY MANAGER'}" />`)}
+          ${field('Se encarga de (opcional)', `<input data-k="duties" value="${esc(p.duties)}" placeholder="Redes sociales y web del club" />`)}
           ${field('Edad', `<input data-k="age" type="number" min="5" max="99" value="${esc(p.age)}" placeholder="Opcional" />`)}
           ${field('Foto', `<div class="photo-row"><img src="${esc(preview)}" alt="" onerror="this.src='${SITE}assets/logo.png'" /><div><input type="file" data-k="photo" accept="image/*" /><p class="hint">Mejor recortada con fondo transparente (PNG). Se convierte sola a WebP.</p>${p.photo ? `<p class="hint">Actual: ${esc(p.photo)} <button type="button" class="link" data-act="nophoto">quitar</button></p>` : ''}</div></div>`, true)}
 
@@ -341,7 +343,7 @@
           ${field('Nacionalidad', countrySelect('nat0', nats[0]))}
           ${field('Segunda nacionalidad (opcional)', countrySelect('nat1', nats[1]))}
 
-          <h3 class="full">Trayectoria <span class="hint">(la etapa más reciente primero; p. ej. «2025–actualidad · Bisontes DUX»)</span></h3>
+          <h3 class="full">Trayectoria <span class="hint">(de la etapa más antigua a la actual; la última suele ser «2025–actualidad · Bisontes DUX»)</span></h3>
           <div class="full">${rows(trajectory, 'traj', (item, n) => `<input data-k="traj.${n}" value="${esc(item)}" placeholder="2023–2025 · Club anterior" />`, 'Añadir etapa')}</div>
 
           <h3 class="full">Presentación</h3>
@@ -467,6 +469,10 @@
     const box = $('#site-form');
     if (!s.about) { box.innerHTML = ''; return; }
     box.innerHTML = `
+      <section class="block">
+        <h3>Portada</h3>
+        ${field('Frase bajo «Bisontes DUX»', siteInput('hero.tagline', s.hero ? s.hero.tagline : ''), true)}
+      </section>
       <section class="block">
         <h3>Sobre nosotros</h3>
         ${field('Título', siteInput('about.title', s.about.title), true)}

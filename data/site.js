@@ -12,6 +12,9 @@
  */
 
 const site = {
+  "hero": {
+    "tagline": "Una nueva forma de vivir el fútbol. Madrid · Liga municipal de Orcasur · Desde 2025."
+  },
   "about": {
     "title": "Una nueva manera de vivir el fútbol",
     "paragraphs": [
@@ -23,14 +26,38 @@ const site = {
       "Somos un club abierto: si quieres jugar con nosotros, apoyarnos como empresa o simplemente seguir a la manada, aquí tienes tu sitio."
     ],
     "facts": [
-      { "label": "Fundación", "value": "2025" },
-      { "label": "Ciudad", "value": "Madrid, España" },
-      { "label": "Competición", "value": "Liga municipal de Orcasur" },
-      { "label": "Apodo", "value": "La manada" },
-      { "label": "Entrenadores", "value": "Ben Gunduz · Jose Ignacio Arrufat" },
-      { "label": "Comunicación", "value": "Fabio Loi (community manager)" },
-      { "label": "Patrocinador principal", "value": "Todos Juegan" },
-      { "label": "Contacto", "value": "[bisontes.dux@gmail.com](mailto:bisontes.dux@gmail.com)\nInstagram: [@bisontes.dux](https://www.instagram.com/bisontes.dux)" }
+      {
+        "label": "Fundación",
+        "value": "2025"
+      },
+      {
+        "label": "Ciudad",
+        "value": "Madrid, España"
+      },
+      {
+        "label": "Competición",
+        "value": "Liga municipal de Orcasur"
+      },
+      {
+        "label": "Apodo",
+        "value": "La manada"
+      },
+      {
+        "label": "Entrenadores",
+        "value": "Ben Gunduz · Jose Ignacio Arrufat"
+      },
+      {
+        "label": "Comunicación",
+        "value": "Fabio Loi (community manager)"
+      },
+      {
+        "label": "Patrocinador principal",
+        "value": "Todos Juegan"
+      },
+      {
+        "label": "Contacto",
+        "value": "[bisontes.dux@gmail.com](mailto:bisontes.dux@gmail.com)\nInstagram: [@bisontes.dux](https://www.instagram.com/bisontes.dux)"
+      }
     ]
   },
   "roster": {
@@ -40,24 +67,33 @@ const site = {
   "values": {
     "title": "Lo que nos une",
     "items": [
-      { "word": "Diversión", "text": "Jugamos porque nos encanta el fútbol: eso es lo que nos mueve. Pero que nadie se confunda, somos un equipo competitivo que sale a pelear cada trofeo." },
-      { "word": "Equipo", "text": "El bisonte no corre solo. La fuerza está en el grupo, en el vestuario, en la calle. Aquí nos echamos una mano dentro y fuera del campo: somos una piña." },
-      { "word": "Respeto", "text": "Respeto ante todo. Juego limpio y respeto al árbitro y al rival, siempre. Ganar sin respeto es perder." }
+      {
+        "word": "Diversión",
+        "text": "Jugamos porque nos encanta el fútbol: eso es lo que nos mueve. Pero que nadie se confunda, somos un equipo competitivo que sale a pelear cada trofeo."
+      },
+      {
+        "word": "Equipo",
+        "text": "El bisonte no corre solo. La fuerza está en el grupo, en el vestuario, en la calle. Aquí nos echamos una mano dentro y fuera del campo, y lo pasamos bien."
+      },
+      {
+        "word": "Respeto",
+        "text": "Respeto ante todo. Juego limpio y respeto al árbitro y al rival, siempre. Ganar sin respeto es perder."
+      }
     ]
   },
   "sponsors": {
     "title": "Nos apoyan",
-    "intro": "Las marcas y asociaciones que van con la manada, dentro y fuera del campo."
+    "intro": "Las marcas y asociaciones que van con la manada."
   },
   "instagram": {
     "title": "El día a día en Instagram",
-    "text": "Resultados, convocatorias, momentos del vestuario y la vida del club: todo lo que pasa en la manada lo contamos en Instagram."
+    "text": "Información del club, momentos del vestuario y lo mejor de cada partido: todo lo que pasa en la manada lo contamos en Instagram."
   },
   "join": {
     "title": "Quiero jugar",
     "text": "¿Buscas equipo en Madrid? Mándanos tus datos y nos ponemos en contacto contigo. Aquí se viene a jugar y a hacer amigos."
   },
   "newsletter": {
-    "title": "Convocatorias y resultados en tu correo"
+    "title": "Información y comunicados oficiales, en tu correo"
   }
 };

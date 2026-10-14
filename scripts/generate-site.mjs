@@ -265,6 +265,7 @@ function playerPage(player) {
   const facts = [
     ['Equipo', `<a href="${SITE_PATH}">Bisontes DUX</a>`],
     ['Función', escapeHtml(player.position.toLocaleUpperCase('es-ES'))],
+    ...(player.duties ? [['Se encarga de', escapeHtml(player.duties)]] : []),
     ...(player.captain ? [['Capitán', 'Sí']] : []),
     ...(player.nickname ? [['Apodo', escapeHtml(player.nickname)]] : []),
     ...(!player.coach ? [['Dorsal', escapeHtml(player.dorsal)]] : []),
@@ -675,6 +676,7 @@ function richText(value, { breaks = false } = {}) {
 }
 
 const siteBlocks = {
+  HERO: () => `<p class="kit-hero__sub">${richText(site.hero.tagline)}</p>`,
   ABOUT: () => `<h2 class="section-title">${escapeHtml(site.about.title)}</h2>
       ${site.about.paragraphs.map((text, index) => `<p${index === 0 ? ' class="about-lead"' : ''}>${richText(text)}</p>`).join('\n      ')}`,
   FACTS: () => `<dl class="kit-label__facts">
