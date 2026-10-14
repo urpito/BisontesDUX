@@ -82,6 +82,10 @@ as $$
   select coalesce(public.gallery_role() = 'admin', false)
 $$;
 
+-- Las políticas las evalúan con el rol de quien consulta (también sin sesión):
+-- permiso explícito, por si el proyecto no expone lo nuevo automáticamente.
+grant execute on function public.gallery_role(), public.gallery_is_member(), public.gallery_is_admin() to anon, authenticated;
+
 
 -- 4. ALTA AUTOMÁTICA AL REGISTRARSE (queda «pendiente») -------------
 create or replace function public.gallery_handle_new_user()

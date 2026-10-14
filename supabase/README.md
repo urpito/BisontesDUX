@@ -18,8 +18,9 @@ alguien manipule el JavaScript, sin acceso no puede ver ni subir nada privado.
    correo del club → *New project*:
    - *Name*: `bisontes-dux`.
    - *Database Password*: genera una y guárdala en un sitio seguro (no hace falta para la web).
-   - *Region*: **Central EU (Frankfurt)** u otra de la Unión Europea (lo exige la política
-     de privacidad de la web).
+   - *Region*: **West EU (Paris)** (la más cercana a Madrid) u otra *EU*. No dejes la genérica
+     «Europe» ni elijas Londres o Zúrich: la política de privacidad dice «Unión Europea».
+   - *Security*: deja las casillas como vengan; `galeria.sql` da los permisos él solo.
    - *Plan*: Free.
 2. **Preparar la base de datos.** *SQL Editor* → *New query* → pega **todo** `galeria.sql`
    → *Run*. Tiene que acabar sin errores. Se puede volver a ejecutar sin perder nada.
