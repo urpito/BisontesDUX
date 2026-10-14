@@ -90,7 +90,8 @@ const players = [
     "trajectory": [
       "Malasaña",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Alejo"
   },
   {
     "dorsal": 3,
@@ -103,7 +104,8 @@ const players = [
     "trajectory": [
       "Malasaña",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Bruno"
   },
   {
     "dorsal": 4,
@@ -130,7 +132,8 @@ const players = [
     "trajectory": [
       "Malasaña",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Tagara"
   },
   {
     "dorsal": 6,
@@ -144,7 +147,8 @@ const players = [
       "Getafe",
       "San Cristobál",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Jose Anthony"
   },
   {
     "dorsal": 7,
@@ -155,7 +159,8 @@ const players = [
     ],
     "trajectory": [
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Alan"
   },
   {
     "dorsal": 8,
@@ -168,7 +173,8 @@ const players = [
       "Canal",
       "RCD Espanyol de Madrid",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Anton"
   },
   {
     "dorsal": 9,
@@ -182,7 +188,8 @@ const players = [
       "Periso CF",
       "RCD Espanyol de Madrid",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Max"
   },
   {
     "dorsal": 10,
@@ -196,7 +203,8 @@ const players = [
       "Malasaña",
       "Factory FC",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Filip"
   },
   {
     "dorsal": 11,
@@ -208,7 +216,8 @@ const players = [
     "trajectory": [
       "Malasaña",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "LuisDa"
   },
   {
     "dorsal": 12,
@@ -217,7 +226,8 @@ const players = [
     "trajectory": [
       "Malasaña",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Javi"
   },
   {
     "dorsal": 14,
@@ -232,7 +242,8 @@ const players = [
       "Fundación Rayo Vallecano",
       "Factory FC",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Carlitos"
   },
   {
     "dorsal": 15,
@@ -252,7 +263,8 @@ const players = [
       "CD Tajamar",
       "Factory FC",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Cris"
   },
   {
     "dorsal": 20,
@@ -264,7 +276,8 @@ const players = [
     "trajectory": [
       "Malasaña",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Izan"
   },
   {
     "dorsal": 21,
@@ -276,7 +289,8 @@ const players = [
     "trajectory": [
       "Sport Villa de Vallecas",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Elías"
   },
   {
     "dorsal": 22,
@@ -300,7 +314,8 @@ const players = [
     "trajectory": [
       "Malasaña",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Fran"
   },
   {
     "dorsal": 28,
@@ -313,7 +328,7 @@ const players = [
   },
   {
     "dorsal": 33,
-    "name": "Coronel",
+    "name": "Gonzalez, David",
     "position": "DFC",
     "nationalities": [
       "España"
@@ -321,7 +336,8 @@ const players = [
     "trajectory": [
       "Malasaña",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Coronel"
   },
   {
     "dorsal": 42,
@@ -334,7 +350,8 @@ const players = [
       "Malasaña",
       "RCD Espanyol de Madrid",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Dani"
   },
   {
     "dorsal": 67,
