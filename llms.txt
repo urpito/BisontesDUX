@@ -14,16 +14,16 @@ Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identif
 
 ## Perfiles oficiales de jugadores
 
-- [Alejandro Copa](https://urpito.github.io/BisontesDUX/jugadores/alejandro-copa/): portero, dorsal 1.
-- [Bruno Navas](https://urpito.github.io/BisontesDUX/jugadores/bruno-navas/): defensa central, dorsal 3.
-- [Miguel Arias](https://urpito.github.io/BisontesDUX/jugadores/miguel-arias/): mediocentro, dorsal 4.
-- [Leo Tagara](https://urpito.github.io/BisontesDUX/jugadores/leo-tagara/): defensa central, dorsal 5.
-- [Jose Anthony](https://urpito.github.io/BisontesDUX/jugadores/jose-anthony/): mediocentro, dorsal 6.
-- [Alan Gálvez](https://urpito.github.io/BisontesDUX/jugadores/alan-galvez/): extremo izquierdo, dorsal 7.
-- [Anton](https://urpito.github.io/BisontesDUX/jugadores/anton/): mediocentro, dorsal 8.
-- [Max](https://urpito.github.io/BisontesDUX/jugadores/max/): delantero centro, dorsal 9.
-- [Filip Tekiela](https://urpito.github.io/BisontesDUX/jugadores/filip-tekiela/): delantero centro, dorsal 10.
-- [Luis Salas](https://urpito.github.io/BisontesDUX/jugadores/luis-salas/): extremo derecho, dorsal 11.
+- [Omar Alejandro Copa Moreno](https://urpito.github.io/BisontesDUX/jugadores/omar-alejandro-copa-moreno/): portero, dorsal 1.
+- [Bruno Navas Moreno](https://urpito.github.io/BisontesDUX/jugadores/bruno-navas-moreno/): defensa central, dorsal 3.
+- [Miguel Arias-Camisón Nieto](https://urpito.github.io/BisontesDUX/jugadores/miguel-arias-camison-nieto/): mediocentro, dorsal 4.
+- [Leonardo Jose Tagara Zombilla](https://urpito.github.io/BisontesDUX/jugadores/leonardo-jose-tagara-zombilla/): defensa central, dorsal 5.
+- [Jose Anthony Arrango Guerra](https://urpito.github.io/BisontesDUX/jugadores/jose-anthony-arrango-guerra/): mediocentro, dorsal 6.
+- [Alan Gálvez Patiño](https://urpito.github.io/BisontesDUX/jugadores/alan-galvez-patino/): extremo izquierdo, dorsal 7.
+- [Anton Alsonso Franco](https://urpito.github.io/BisontesDUX/jugadores/anton-alsonso-franco/): mediocentro, dorsal 8.
+- [Max Lennart Lomander Rivela](https://urpito.github.io/BisontesDUX/jugadores/max-lennart-lomander-rivela/): delantero centro, dorsal 9.
+- [Filip Gabriel Tekiela](https://urpito.github.io/BisontesDUX/jugadores/filip-gabriel-tekiela/): delantero centro, dorsal 10.
+- [Luis Daniel Salas](https://urpito.github.io/BisontesDUX/jugadores/luis-daniel-salas/): extremo derecho, dorsal 11.
 - [Javi](https://urpito.github.io/BisontesDUX/jugadores/javi/): extremo derecho, dorsal 12.
 - [Carlitos](https://urpito.github.io/BisontesDUX/jugadores/carlitos/): defensa central, dorsal 14.
 - [Arturo Constantine](https://urpito.github.io/BisontesDUX/jugadores/arturo-constantine/): extremo izquierdo, dorsal 15.

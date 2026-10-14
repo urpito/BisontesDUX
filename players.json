@@ -7,8 +7,8 @@
   },
   "players": [
     {
-      "name": "Alejandro Copa",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/alejandro-copa/",
+      "name": "Omar Alejandro Copa Moreno",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/omar-alejandro-copa-moreno/",
       "position": "portero",
       "dorsal": 1,
       "image": "https://urpito.github.io/BisontesDUX/assets/jugador1.png",
@@ -18,8 +18,8 @@
       ]
     },
     {
-      "name": "Bruno Navas",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/bruno-navas/",
+      "name": "Bruno Navas Moreno",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/bruno-navas-moreno/",
       "position": "defensa central",
       "dorsal": 3,
       "image": "https://urpito.github.io/BisontesDUX/assets/jugador3.png",
@@ -32,8 +32,8 @@
       ]
     },
     {
-      "name": "Miguel Arias",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/miguel-arias/",
+      "name": "Miguel Arias-Camisón Nieto",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/miguel-arias-camison-nieto/",
       "position": "mediocentro",
       "dorsal": 4,
       "nationalities": [
@@ -46,8 +46,8 @@
       ]
     },
     {
-      "name": "Leo Tagara",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/leo-tagara/",
+      "name": "Leonardo Jose Tagara Zombilla",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/leonardo-jose-tagara-zombilla/",
       "position": "defensa central",
       "dorsal": 5,
       "nationalities": [
@@ -60,8 +60,8 @@
       ]
     },
     {
-      "name": "Jose Anthony",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/jose-anthony/",
+      "name": "Jose Anthony Arrango Guerra",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/jose-anthony-arrango-guerra/",
       "position": "mediocentro",
       "dorsal": 6,
       "nationalities": [
@@ -75,8 +75,8 @@
       ]
     },
     {
-      "name": "Alan Gálvez",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/alan-galvez/",
+      "name": "Alan Gálvez Patiño",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/alan-galvez-patino/",
       "position": "extremo izquierdo",
       "dorsal": 7,
       "image": "https://urpito.github.io/BisontesDUX/assets/jugador7.png",
@@ -88,8 +88,8 @@
       ]
     },
     {
-      "name": "Anton",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/anton/",
+      "name": "Anton Alsonso Franco",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/anton-alsonso-franco/",
       "position": "mediocentro",
       "dorsal": 8,
       "nationalities": [
@@ -102,8 +102,8 @@
       ]
     },
     {
-      "name": "Max",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/max/",
+      "name": "Max Lennart Lomander Rivela",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/max-lennart-lomander-rivela/",
       "position": "delantero centro",
       "dorsal": 9,
       "nationalities": [
@@ -117,8 +117,8 @@
       ]
     },
     {
-      "name": "Filip Tekiela",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/filip-tekiela/",
+      "name": "Filip Gabriel Tekiela",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/filip-gabriel-tekiela/",
       "position": "delantero centro",
       "dorsal": 10,
       "image": "https://urpito.github.io/BisontesDUX/assets/jugador10.png",
@@ -132,8 +132,8 @@
       ]
     },
     {
-      "name": "Luis Salas",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/luis-salas/",
+      "name": "Luis Daniel Salas",
+      "url": "https://urpito.github.io/BisontesDUX/jugadores/luis-daniel-salas/",
       "position": "extremo derecho",
       "dorsal": 11,
       "image": "https://urpito.github.io/BisontesDUX/assets/jugador11.png",
