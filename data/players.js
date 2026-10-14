@@ -46,7 +46,7 @@ const players = [
       "Estados Unidos"
     ],
     "trajectory": [
-      "A.D.C. Malasaña",
+      "Malasaña",
       "Cantera F.C.",
       "2025–actualidad · Bisontes DUX"
     ],
@@ -76,7 +76,7 @@ const players = [
     ],
     "duties": "Redes sociales y web del club",
     "trajectory": [
-      "A.D.C. Malasaña",
+      "Malasaña",
       "Cantera F.C.",
       "2025–actualidad · Bisontes DUX"
     ],
@@ -87,7 +87,7 @@ const players = [
     "name": "Copa, Alejandro",
     "position": "POR",
     "trajectory": [
-      "A.D.C. Malasaña",
+      "Malasaña",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -100,7 +100,7 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "A.D.C. Malasaña",
+      "Malasaña",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -113,7 +113,7 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "A.D.C. Malasaña",
+      "Malasaña",
       "Munibar Pizarrales",
       "2025–actualidad · Bisontes DUX"
     ]
@@ -127,7 +127,7 @@ const players = [
       "Filipinas"
     ],
     "trajectory": [
-      "A.D.C. Malasaña",
+      "Malasaña",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -139,9 +139,9 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "San Cristóbal",
-      "A.D.C. Malasaña",
+      "Malasaña",
       "Getafe",
+      "San Cristobál",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -164,6 +164,7 @@ const players = [
       "España"
     ],
     "trajectory": [
+      "Canal",
       "RCD Espanyol de Madrid",
       "2025–actualidad · Bisontes DUX"
     ]
@@ -177,6 +178,7 @@ const players = [
       "Países Bajos"
     ],
     "trajectory": [
+      "Periso CF",
       "RCD Espanyol de Madrid",
       "2025–actualidad · Bisontes DUX"
     ]
@@ -190,7 +192,8 @@ const players = [
       "Polonia"
     ],
     "trajectory": [
-      "A.D.C. Malasaña",
+      "Malasaña",
+      "Factory FC",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -202,6 +205,7 @@ const players = [
       "Venezuela"
     ],
     "trajectory": [
+      "Malasaña",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -210,6 +214,7 @@ const players = [
     "name": "Javi",
     "position": "ED",
     "trajectory": [
+      "Malasaña",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -221,8 +226,10 @@ const players = [
       "Ecuador"
     ],
     "trajectory": [
-      "Cantera F.C.",
       "A.D.C. Malasaña",
+      "Cantera F.C.",
+      "Fundación Rayo Vallecano",
+      "Factory FC",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -232,6 +239,7 @@ const players = [
     "position": "EI",
     "nickname": "Arturito",
     "trajectory": [
+      "Malasaña",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -240,6 +248,8 @@ const players = [
     "name": "Cristhofer",
     "position": "ED",
     "trajectory": [
+      "CD Tajamar",
+      "Factory FC",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -251,6 +261,7 @@ const players = [
       "Colombia"
     ],
     "trajectory": [
+      "Malasaña",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -262,6 +273,7 @@ const players = [
       "España"
     ],
     "trajectory": [
+      "Sport Villa de Vallecas",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -273,6 +285,7 @@ const players = [
       "España"
     ],
     "trajectory": [
+      "Malasaña",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -284,6 +297,7 @@ const players = [
       "Venezuela"
     ],
     "trajectory": [
+      "Malasaña",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -292,6 +306,7 @@ const players = [
     "name": "Leonardo",
     "position": "DFC",
     "trajectory": [
+      "ADC San Fermín",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -303,7 +318,7 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "A.D.C. Malasaña",
+      "Malasaña",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -315,8 +330,8 @@ const players = [
       "España"
     ],
     "trajectory": [
+      "Malasaña",
       "RCD Espanyol de Madrid",
-      "A.D.C. Malasaña",
       "2025–actualidad · Bisontes DUX"
     ]
   },
@@ -353,8 +368,7 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "RCD Espanyol de Madrid",
-      "A.D.C. Malasaña",
+      "Malasaña",
       "2025–actualidad · Bisontes DUX"
     ]
   }
