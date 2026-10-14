@@ -114,8 +114,8 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "Malasaña",
       "Munibar Pizarrales",
+      "Malasaña",
       "2025–actualidad · Bisontes DUX"
     ]
   },
