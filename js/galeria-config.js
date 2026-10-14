@@ -16,6 +16,6 @@
  * Mientras estén vacíos, la galería muestra un aviso de «muy pronto».
  */
 window.BISONTES_GALERIA = {
-  supabaseUrl: '',
-  supabaseKey: ''
+  supabaseUrl: 'https://bejzptdcmyzgcyaqgfks.supabase.co',
+  supabaseKey: 'sb_publishable_MWAGBGX9AedjMj5IK87iqg_TsOTZgOW'
 };
