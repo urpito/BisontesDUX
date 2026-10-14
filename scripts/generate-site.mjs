@@ -101,18 +101,21 @@ function playerData(player) {
     .map(value => String(value).trim()).filter(Boolean);
   const imageUrl = new URL(originalPhoto || 'assets/logo.png', SITE_URL).href;
   const kind = staffKind(player);
+  /* statement y supportingText ya no se ven en la ficha: solo alimentan el JSON-LD si no hay bio. */
   const area = kind === 'directiva' ? 'la directiva' : 'el cuerpo técnico';
+  const deArea = kind === 'directiva' ? 'de la directiva' : 'del cuerpo técnico';
+  const aArea = kind === 'directiva' ? 'a la directiva' : 'al cuerpo técnico';
   const statement = coach
-    ? `${name} forma parte de ${area} de Bisontes DUX, club de fútbol con sede en Madrid, España. Ejerce como ${position}.`
+    ? `${name} forma parte ${deArea} de Bisontes DUX, club de fútbol con sede en Madrid, España. Ejerce como ${position}.`
     : `${name} es futbolista y jugador de Bisontes DUX, club de fútbol con sede en Madrid, España. Juega como ${position} y utiliza el dorsal ${player.dorsal}.`;
   const supportingText = coach
-    ? `${name} pertenece a ${area} actual de Bisontes DUX. Esta es su ficha oficial dentro del sitio web del club.`
+    ? `${name} pertenece ${aArea} actual de Bisontes DUX. Esta es su ficha oficial dentro del sitio web del club.`
     : `${name} forma parte de la plantilla actual de Bisontes DUX. Esta es su ficha oficial dentro del sitio web del club, donde se recoge la información pública disponible sobre el jugador.`;
   const title = coach
     ? `${name} - ${kind === 'directiva' ? 'Directiva' : 'Cuerpo técnico'} de Bisontes DUX | Perfil oficial`
     : `${name} - Jugador de Bisontes DUX | Perfil oficial`;
   const description = coach
-    ? `Perfil oficial de ${name}, miembro de ${area} de Bisontes DUX. Información sobre su función en el club.`
+    ? `Perfil oficial de ${name}, miembro ${deArea} de Bisontes DUX. Información sobre su función en el club.`
     : `Perfil oficial de ${name}, jugador de Bisontes DUX. Información sobre su participación en la plantilla, posición y dorsal.`;
   const nickname = String(player.nickname || '').trim();
   const shirtName = nickname || surname(player.name);
@@ -328,9 +331,7 @@ function playerPage(player) {
       <div class="profile-content">
         <div class="profile-title"><h1 class="font-display">${escapeHtml(player.name)}</h1>${player.captain ? captainBadge() : ''}</div>
         <p class="profile-role">${player.coach ? escapeHtml(player.position) : `${escapeHtml(player.position)} · Dorsal ${escapeHtml(player.dorsal)}`}</p>
-        <p class="profile-statement">${escapeHtml(player.statement)}</p>
-        <p class="profile-context">${escapeHtml(player.supportingText)}</p>
-        ${player.bio ? `<p class="profile-bio">${escapeHtml(player.bio)}</p>` : ''}
+        ${player.bio ? `<p class="profile-statement">${escapeHtml(player.bio)}</p>` : ''}
         <dl class="profile-facts">${facts.map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl>
         ${trajectory}${stats}${socials}
         <div class="profile-navigation"><a class="btn btn-ghost profile-back" href="${SITE_PATH}#plantilla">← Volver a la plantilla</a><a class="profile-home-link" href="${SITE_PATH}">Bisontes DUX · Web oficial</a></div>

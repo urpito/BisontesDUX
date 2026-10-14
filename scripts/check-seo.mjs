@@ -51,7 +51,6 @@ function checkPlayerHtml(player, html, label) {
 
   if (!new RegExp(`<h1\\b[^>]*>${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}<\\/h1>`, 'i').test(htmlWithoutScripts)) errors.push(`${label}: H1 inicial no contiene exactamente ${name}`);
   if (!htmlWithoutScripts.includes(name) || !htmlWithoutScripts.includes('Bisontes DUX')) errors.push(`${label}: nombre y club no coexisten en el HTML inicial`);
-  if (!htmlWithoutScripts.includes(`${name} es futbolista y jugador de Bisontes DUX`) && !isCoach(player)) errors.push(`${label}: falta relación textual persona → jugador → Bisontes DUX`);
   if (!title?.startsWith(`${name} - `) || !title.includes('Bisontes DUX') || !title.includes('Perfil oficial')) errors.push(`${label}: title poco inequívoco o incorrecto`);
   if (!description?.includes(name) || !description.includes('Bisontes DUX')) errors.push(`${label}: meta description no relaciona nombre y club`);
   if (canonical !== url) errors.push(`${label}: canonical ${canonical || 'ausente'}; esperado ${url}`);

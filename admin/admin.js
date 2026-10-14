@@ -188,7 +188,7 @@
       store.sha = result.content.sha;
       store.dirty = false;
       renderAll();
-      setStatus('Guardado ✓ La web se actualizará sola en 1-2 minutos.', 'ok');
+      setStatus('Guardado ✓ Ya está en GitHub. La web tarda 2-4 minutos en mostrarlo: no hace falta volver a guardar. Si luego no lo ves, recarga la página con Ctrl+F5 (en el móvil, recarga normal).', 'ok');
     } catch (error) {
       if (error.status === 409) setStatus('Alguien cambió el archivo mientras editabas. Recarga la página y vuelve a aplicar los cambios.', 'err');
       else setStatus(`No se pudo guardar: ${error.message}`, 'err');
