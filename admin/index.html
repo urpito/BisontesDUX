@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin | Bisontes DUX</title>
-  <meta name="description" content="Panel interno de Bisontes DUX para editar la plantilla y el blog." />
+  <meta name="description" content="Panel interno de Bisontes DUX para editar la web: plantilla, textos, patrocinadores y blog." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/png" href="/BisontesDUX/favicon.png" />
   <link rel="stylesheet" href="admin.css" />
@@ -12,6 +12,7 @@
 <body>
   <header class="top">
     <h1>Bisontes DUX · Admin</h1>
+    <a class="top-link" href="/BisontesDUX/" target="_blank" rel="noopener">Ver la web ↗</a>
     <span id="who" class="muted"></span>
     <button type="button" id="logout" class="link" hidden>Cerrar sesión</button>
   </header>
@@ -43,6 +44,8 @@
   <main id="panel" hidden>
     <nav class="tabs" role="tablist">
       <button type="button" role="tab" data-tab="players" aria-selected="true">Plantilla</button>
+      <button type="button" role="tab" data-tab="site" aria-selected="false">Textos de la web</button>
+      <button type="button" role="tab" data-tab="sponsors" aria-selected="false">Patrocinadores</button>
       <button type="button" role="tab" data-tab="blog" aria-selected="false">Blog</button>
     </nav>
     <p id="status" class="status" role="status" aria-live="polite"></p>
@@ -50,18 +53,38 @@
     <!-- PLANTILLA -->
     <section id="tab-players" class="tab">
       <div class="toolbar">
+        <input type="search" id="players-search" placeholder="Buscar por nombre, apodo o dorsal…" aria-label="Buscar en la plantilla" />
         <button type="button" id="add-player">+ Añadir persona</button>
-        <button type="button" id="save-players" class="primary">Guardar plantilla</button>
+        <button type="button" data-save="players" class="primary">Guardar plantilla</button>
       </div>
-      <p class="muted">El orden de la lista es el orden en la web. El «apodo» es lo que sale estampado en la espalda de la camiseta (si no hay, sale el apellido).</p>
+      <p class="muted">El orden de la lista es el orden en la web. Abre una persona para editar su ficha completa. Nada se publica hasta que pulses «Guardar».</p>
       <div id="players-list"></div>
+    </section>
+
+    <!-- TEXTOS -->
+    <section id="tab-site" class="tab" hidden>
+      <div class="toolbar">
+        <span class="muted">Formato: <code>**negrita**</code> · <code>[texto](https://enlace)</code></span>
+        <button type="button" data-save="site" class="primary">Guardar textos</button>
+      </div>
+      <div id="site-form"></div>
+    </section>
+
+    <!-- PATROCINADORES -->
+    <section id="tab-sponsors" class="tab" hidden>
+      <div class="toolbar">
+        <button type="button" id="add-sponsor">+ Añadir patrocinador</button>
+        <button type="button" data-save="sponsors" class="primary">Guardar patrocinadores</button>
+      </div>
+      <p class="muted">Salen en la portada y en la página «Patrocina». El «principal» va primero y destacado. Logo mejor con fondo transparente (PNG).</p>
+      <div id="sponsors-list"></div>
     </section>
 
     <!-- BLOG -->
     <section id="tab-blog" class="tab" hidden>
       <div class="toolbar">
         <button type="button" id="add-post">+ Nueva entrada</button>
-        <button type="button" id="save-blog" class="primary">Guardar blog</button>
+        <button type="button" data-save="blog" class="primary">Guardar blog</button>
       </div>
       <p class="muted">Cuerpo: separa los párrafos con una línea en blanco. Una línea que empiece por <code>## </code> es un subtítulo.</p>
       <div id="posts-list"></div>

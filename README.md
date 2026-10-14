@@ -13,6 +13,15 @@ Web oficial estática, publicada en GitHub Pages bajo `https://urpito.github.io/
 
 La plantilla se muestra en la sección `#plantilla` del index. Las antiguas URLs `/plantilla/` y `/jugadores/` solo redirigen ahí; las fichas individuales siguen en `jugadores/<nombre>/`.
 
+## Panel de admin (/admin/)
+
+`https://urpito.github.io/BisontesDUX/admin/` edita toda la web sin tocar código y guarda en GitHub con un token (instrucciones en la propia página); la Action «Generar web» publica en 1-2 minutos.
+
+- **Plantilla** (`data/players.js`): tipo, nombre, apodo, dorsal, posición, capitán, edad, foto, hasta dos nacionalidades con bandera, trayectoria por etapas, bio, estadísticas y redes. Buscador y enlace a cada ficha.
+- **Textos de la web** (`data/site.js`): «Sobre nosotros» y los datos del club, plantilla, valores, patrocinadores, Instagram, «Quiero jugar» y newsletter. Admite `**negrita**` y `[texto](enlace)`. El generador los vuelca en `index.html` entre los marcadores `SITE-…`.
+- **Patrocinadores** (`data/sponsors.js`) y **Blog** (`data/blog.js`).
+- Las banderas salen de `data/countries.js` (nombre en español → código ISO).
+
 ## Header y footer
 
 El menú y el footer son los mismos en todas las páginas y salen de `NAV_SECTIONS` y `NAV_PAGES` en `scripts/generate-site.mjs` (primero las secciones del index, luego las páginas propias, con Patrocina a la derecha). En las páginas escritas a mano (`index.html`, `aviso-legal.html`, `privacidad.html`, `404.html`) se insertan entre los marcadores `GENERATED-HEADER` y `GENERATED-FOOTER`: no edites lo que hay dentro, cambia el script y ejecuta `npm run build`.

@@ -323,7 +323,7 @@ ul { list-style: none; }
 /* ----------------------------------------------------------
    VALORES — tres palabras en el rosa del escudo
    ---------------------------------------------------------- */
-.values-list { margin-top: clamp(32px, 5vw, 64px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 3px solid var(--pink); }
+.values-list { margin-top: clamp(32px, 5vw, 64px); display: grid; grid-template-columns: repeat(var(--values, 3), minmax(0, 1fr)); border-top: 3px solid var(--pink); }
 .values-list li { padding: 28px clamp(16px, 2.5vw, 36px) 8px 0; }
 .values-list li + li { padding-left: clamp(16px, 2.5vw, 36px); border-left: 1px solid var(--kit-line); }
 .values-list__word { font-family: var(--display); font-weight: 900; font-size: clamp(2.2rem, 4.2vw, 4rem); line-height: 0.9; text-transform: uppercase; overflow-wrap: anywhere; }

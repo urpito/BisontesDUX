@@ -18,6 +18,8 @@ function readData(file, variable) {
 
 const players = readData('data/players.js', 'players');
 const sponsors = readData('data/sponsors.js', 'sponsors');
+const site = readData('data/site.js', 'site');
+const COUNTRY_CODES = readData('data/countries.js', 'countries');
 
 const positionNames = {
   POR: 'portero', DFC: 'defensa central', LI: 'lateral izquierdo', LD: 'lateral derecho',
@@ -227,11 +229,6 @@ function dorsalLabel(player) {
 
 /* Banderas (imagen de flagcdn; los emojis de bandera salen como letras en Windows).
    Para un país nuevo, añade su nombre y su código ISO de dos letras. */
-const COUNTRY_CODES = {
-  'España': 'es', 'Estados Unidos': 'us', 'Italia': 'it', 'Colombia': 'co', 'Países Bajos': 'nl',
-  'Polonia': 'pl', 'Venezuela': 've', 'Filipinas': 'ph', 'Ecuador': 'ec'
-};
-
 function flag(country) {
   const code = COUNTRY_CODES[country];
   if (!code) return escapeHtml(country);
@@ -664,6 +661,40 @@ function heroBlock() {
 <!-- GENERATED-HERO:END -->`;
 }
 
+/* ---------------- TEXTOS DE LA PORTADA (data/site.js) ---------------- */
+/* **negrita**, [texto](enlace) y saltos de línea, sobre texto escapado. */
+function richText(value, { breaks = false } = {}) {
+  let html = escapeHtml(value)
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\[([^\]]+)\]\(((?:https?:\/\/|mailto:|\/|#)[^)\s]+)\)/g, (match, text, href) => {
+      const external = /^https?:/.test(href) && !href.startsWith(SITE_URL);
+      return `<a href="${href}"${external ? ' target="_blank" rel="noopener"' : ''}>${text}</a>`;
+    });
+  if (breaks) html = html.replace(/\n/g, '<br>');
+  return html;
+}
+
+const siteBlocks = {
+  ABOUT: () => `<h2 class="section-title">${escapeHtml(site.about.title)}</h2>
+      ${site.about.paragraphs.map((text, index) => `<p${index === 0 ? ' class="about-lead"' : ''}>${richText(text)}</p>`).join('\n      ')}`,
+  FACTS: () => `<dl class="kit-label__facts">
+        ${site.about.facts.map(fact => `<div><dt>${escapeHtml(fact.label)}</dt><dd>${richText(fact.value, { breaks: true })}</dd></div>`).join('\n        ')}
+      </dl>`,
+  ROSTER: () => `<h2 class="section-title">${escapeHtml(site.roster.title)}</h2>
+    <p class="section-intro">${richText(site.roster.intro)}</p>`,
+  VALUES: () => `<h2 class="section-title">${escapeHtml(site.values.title)}</h2>
+  <ul class="values-list" style="--values: ${site.values.items.length}">
+    ${site.values.items.map(item => `<li><h3 class="values-list__word">${escapeHtml(item.word)}</h3><p>${richText(item.text)}</p></li>`).join('\n    ')}
+  </ul>`,
+  SPONSORS: () => `<h2 class="section-title">${escapeHtml(site.sponsors.title)}</h2>
+    <p class="section-intro">${richText(site.sponsors.intro)}</p>`,
+  INSTAGRAM: () => `<h2 class="section-title">${escapeHtml(site.instagram.title)}</h2>
+      <p>${richText(site.instagram.text)}</p>`,
+  JOIN: () => `<h2 class="section-title">${escapeHtml(site.join.title)}</h2>
+      <p>${richText(site.join.text)}</p>`,
+  NEWSLETTER: () => `<h2 class="newsletter-title">${escapeHtml(site.newsletter.title)}</h2>`
+};
+
 const indexPath = path.join(ROOT, 'index.html');
 let index = fs.readFileSync(indexPath, 'utf8');
 const generatedRoster = `<!-- GENERATED-ROSTER:START -->\n${roster.map(player => rosterCard(player)).join('\n')}\n<!-- GENERATED-ROSTER:END -->`;
@@ -673,6 +704,11 @@ index = index.replace(markerPattern, generatedRoster);
 const heroPattern = /<!-- GENERATED-HERO:START -->[\s\S]*?<!-- GENERATED-HERO:END -->/;
 if (!heroPattern.test(index)) throw new Error('No se encontraron los marcadores GENERATED-HERO en index.html');
 index = index.replace(heroPattern, heroBlock());
+for (const [name, render] of Object.entries(siteBlocks)) {
+  const pattern = new RegExp(`<!-- SITE-${name}:START -->[\\s\\S]*?<!-- SITE-${name}:END -->`);
+  if (!pattern.test(index)) throw new Error(`No se encontraron los marcadores SITE-${name} en index.html`);
+  index = index.replace(pattern, () => `<!-- SITE-${name}:START -->\n${render()}\n<!-- SITE-${name}:END -->`);
+}
 if (!headerPattern.test(index) || !footerPattern.test(index)) throw new Error('Faltan los marcadores GENERATED-HEADER/FOOTER en index.html');
 index = index.replace(headerPattern, siteHeader({ home: true })).replace(footerPattern, siteFooter());
 const teamSchema = {

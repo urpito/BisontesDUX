@@ -1,8 +1,9 @@
 /* ============================================================
    BISONTES DUX — panel de admin
-   Lee y escribe data/players.js y data/blog.js en GitHub con la
-   API de contenidos. Al guardar, la GitHub Action "Generar web"
-   regenera las páginas y GitHub Pages publica en 1-2 minutos.
+   Lee y escribe los archivos de data/ en GitHub con la API de
+   contenidos: plantilla, textos de la portada, patrocinadores y
+   blog. Al guardar, la GitHub Action "Generar web" regenera las
+   páginas y GitHub Pages publica en 1-2 minutos.
    ============================================================ */
 (function () {
   'use strict';
@@ -17,13 +18,27 @@
     ['POR', 'Portero'], ['DFC', 'Defensa central'], ['LI', 'Lateral izquierdo'], ['LD', 'Lateral derecho'],
     ['MC', 'Mediocentro'], ['MCO', 'Mediocentro ofensivo'], ['EI', 'Extremo izquierdo'], ['ED', 'Extremo derecho'], ['DC', 'Delantero centro']
   ];
+  const SOCIALS = [['instagram', 'Instagram'], ['tiktok', 'TikTok'], ['x', 'X'], ['facebook', 'Facebook']];
+
+  /* Cada pestaña edita un archivo de data/ que define una variable. */
+  const FILES = {
+    players: { path: 'data/players.js', variable: 'players', folder: 'assets/uploads', label: 'la plantilla' },
+    site: { path: 'data/site.js', variable: 'site', label: 'los textos de la web' },
+    sponsors: { path: 'data/sponsors.js', variable: 'sponsors', folder: 'assets/sponsors', label: 'los patrocinadores' },
+    blog: { path: 'data/blog.js', variable: 'posts', folder: 'assets/blog', label: 'el blog' }
+  };
 
   const $ = sel => document.querySelector(sel);
   let token = '';
+  let countries = {};
   const state = {
-    players: { list: [], header: '', sha: null, dirty: false },
-    blog: { list: [], header: '', sha: null, dirty: false },
-    pendingUploads: new Map() /* objeto (jugador o entrada) → { field, blob, name } */
+    players: { data: [], header: '', sha: null, dirty: false },
+    site: { data: {}, header: '', sha: null, dirty: false },
+    sponsors: { data: [], header: '', sha: null, dirty: false },
+    blog: { data: [], header: '', sha: null, dirty: false },
+    pendingUploads: new Map(), /* objeto (persona, patrocinador o entrada) → { field, blob, name, kind } */
+    open: new Set(),           /* elementos desplegados (se mantienen al repintar) */
+    search: ''
   };
 
   /* ---------------- utilidades ---------------- */
@@ -63,6 +78,15 @@
   }
   function today() {
     return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Madrid' }).format(new Date());
+  }
+  function move(list, from, to) {
+    if (to < 0 || to >= list.length) return;
+    const [item] = list.splice(from, 1);
+    list.splice(to, 0, item);
+  }
+  function setOptional(obj, key, value) {
+    if (value === '' || value === undefined || value === false || (Array.isArray(value) && !value.length)) delete obj[key];
+    else obj[key] = value;
   }
 
   /* Reduce una imagen a WebP (mantiene transparencia) para que la web cargue rápido. */
@@ -109,32 +133,39 @@
     });
   }
 
-  /* data/*.js son JavaScript: se separa el comentario de cabecera y se evalúa la lista. */
+  /* data/*.js son JavaScript: se separa el comentario de cabecera y se evalúa la variable. */
   function parseDataFile(text, variable) {
     const index = text.indexOf(`const ${variable}`);
     if (index === -1) throw new Error(`No encuentro "const ${variable}" en el archivo`);
-    const list = new Function(`${text}\n;return ${variable};`)();
-    return { header: text.slice(0, index), list };
+    const data = new Function(`${text}\n;return ${variable};`)();
+    return { header: text.slice(0, index), data };
   }
-  function serializeDataFile(header, variable, list) {
-    return `${header}const ${variable} = ${JSON.stringify(list, null, 2)};\n`;
+  function serializeDataFile(header, variable, data) {
+    return `${header}const ${variable} = ${JSON.stringify(data, null, 2)};\n`;
   }
 
   async function loadAll() {
     setStatus('Cargando datos de GitHub…');
-    const [players, blog] = await Promise.all([readFile('data/players.js'), readFile('data/blog.js')]);
-    Object.assign(state.players, parseDataFile(players.text, 'players'), { sha: players.sha, dirty: false });
-    Object.assign(state.blog, parseDataFile(blog.text, 'posts'), { sha: blog.sha, dirty: false });
-    renderPlayers();
-    renderPosts();
+    const kinds = Object.keys(FILES);
+    const [files, countryFile] = await Promise.all([Promise.all(kinds.map(kind => readFile(FILES[kind].path))), readFile('data/countries.js')]);
+    kinds.forEach((kind, i) => Object.assign(state[kind], parseDataFile(files[i].text, FILES[kind].variable), { sha: files[i].sha, dirty: false }));
+    countries = parseDataFile(countryFile.text, 'countries').data;
+    renderAll();
     setStatus('');
   }
 
-  async function uploadPending(items, folder) {
-    for (const item of items) {
-      const pending = state.pendingUploads.get(item);
-      if (!pending) continue;
-      const path = `${folder}/${pending.name}`;
+  function renderAll() {
+    renderPlayers();
+    renderSite();
+    renderSponsors();
+    renderPosts();
+  }
+
+  /* ---------------- guardar ---------------- */
+  async function uploadPending(kind) {
+    for (const [item, pending] of state.pendingUploads) {
+      if (pending.kind !== kind) continue;
+      const path = `${FILES[kind].folder}/${pending.name}`;
       setStatus(`Subiendo imagen ${pending.name}…`);
       await writeFile(path, await blobToB64(pending.blob), `admin: imagen ${pending.name}`);
       item[pending.field] = path;
@@ -142,28 +173,23 @@
     }
   }
 
+  const VALIDATORS = { players: validatePlayers, site: validateSite, sponsors: validateSponsors, blog: validatePosts };
+
   async function save(kind) {
-    const isPlayers = kind === 'players';
+    const file = FILES[kind];
     const store = state[kind];
-    const button = $(isPlayers ? '#save-players' : '#save-blog');
+    const button = document.querySelector(`[data-save="${kind}"]`);
     button.disabled = true;
     try {
-      if (isPlayers) {
-        const problem = validatePlayers(store.list);
-        if (problem) throw new Error(problem);
-        await uploadPending(store.list, 'assets/uploads');
-      } else {
-        const problem = validatePosts(store.list);
-        if (problem) throw new Error(problem);
-        await uploadPending(store.list, 'assets/blog');
-      }
+      const problem = VALIDATORS[kind](store.data);
+      if (problem) throw new Error(problem);
+      if (file.folder) await uploadPending(kind);
       setStatus('Guardando…');
-      const file = isPlayers ? 'data/players.js' : 'data/blog.js';
-      const text = serializeDataFile(store.header, isPlayers ? 'players' : 'posts', store.list);
-      const result = await writeFile(file, b64encode(text), isPlayers ? 'admin: actualiza la plantilla' : 'admin: actualiza el blog', store.sha);
+      const text = serializeDataFile(store.header, file.variable, store.data);
+      const result = await writeFile(file.path, b64encode(text), `admin: actualiza ${file.label}`, store.sha);
       store.sha = result.content.sha;
       store.dirty = false;
-      isPlayers ? renderPlayers() : renderPosts();
+      renderAll();
       setStatus('Guardado ✓ La web se actualizará sola en 1-2 minutos.', 'ok');
     } catch (error) {
       if (error.status === 409) setStatus('Alguien cambió el archivo mientras editabas. Recarga la página y vuelve a aplicar los cambios.', 'err');
@@ -171,6 +197,18 @@
     } finally {
       button.disabled = false;
     }
+  }
+
+  function markDirty(kind) {
+    state[kind].dirty = true;
+    const button = document.querySelector(`[data-save="${kind}"]`);
+    if (!button.textContent.endsWith('*')) button.textContent += ' *';
+  }
+  function resetSaveLabels() {
+    document.querySelectorAll('[data-save]').forEach(button => {
+      button.textContent = button.textContent.replace(/ \*$/, '');
+      if (state[button.dataset.save].dirty) button.textContent += ' *';
+    });
   }
 
   /* ---------------- validación ---------------- */
@@ -190,6 +228,19 @@
     }
     return '';
   }
+  function validateSite(site) {
+    const titles = [['about', 'Sobre nosotros'], ['roster', 'Plantilla'], ['values', 'Valores'], ['sponsors', 'Patrocinadores'], ['instagram', 'Instagram'], ['join', 'Quiero jugar'], ['newsletter', 'Newsletter']];
+    for (const [key, label] of titles) if (!String(site[key]?.title || '').trim()) return `Falta el título de «${label}».`;
+    if (!site.about.paragraphs.some(text => text.trim())) return '«Sobre nosotros» necesita al menos un párrafo.';
+    if (site.values.items.some(item => !item.word.trim() || !item.text.trim())) return 'Cada valor necesita palabra y texto.';
+    if (site.about.facts.some(fact => !fact.label.trim() || !fact.value.trim())) return 'Cada dato del club necesita nombre y valor (o bórralo).';
+    return '';
+  }
+  function validateSponsors(list) {
+    for (const s of list) if (!String(s.name || '').trim()) return 'Hay un patrocinador sin nombre.';
+    if (list.filter(s => s.tier === 'principal').length > 1) return 'Solo puede haber un patrocinador principal.';
+    return '';
+  }
   function validatePosts(list) {
     const slugs = new Set();
     for (const post of list) {
@@ -203,12 +254,7 @@
     return '';
   }
 
-  /* ---------------- formularios ---------------- */
-  function markDirty(kind) {
-    state[kind].dirty = true;
-    const summary = document.querySelector(kind === 'players' ? '#save-players' : '#save-blog');
-    summary.textContent = kind === 'players' ? 'Guardar plantilla *' : 'Guardar blog *';
-  }
+  /* ---------------- piezas de formulario ---------------- */
   function photoUrl(path) {
     if (!path) return `${SITE}assets/logo.png`;
     return /^https?:/.test(path) ? path : `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${path}`;
@@ -216,15 +262,50 @@
   function field(label, html, full) {
     return `<div${full ? ' class="full"' : ''}><label>${label}</label>${html}</div>`;
   }
+  function flagImg(country) {
+    const code = countries[country];
+    return code ? `<img class="flag" src="https://flagcdn.com/${code}.svg" alt="" />` : '';
+  }
+  function countrySelect(key, value) {
+    const names = Object.keys(countries).sort((a, b) => a.localeCompare(b, 'es'));
+    const unknown = value && !countries[value] ? `<option value="${esc(value)}" selected>${esc(value)} (sin bandera)</option>` : '';
+    return `<span class="with-flag">${flagImg(value)}<select data-k="${key}"><option value="">—</option>${unknown}${names.map(name => `<option${name === value ? ' selected' : ''}>${esc(name)}</option>`).join('')}</select></span>`;
+  }
+  /* Lista editable de filas: cada fila con ↑ ↓ ✕ y un botón para añadir. */
+  function rows(list, prefix, renderRow, addLabel) {
+    return `<div class="rows">${list.map((item, i) => `<div class="row">${renderRow(item, i)}
+        <span class="row-actions">
+          <button type="button" data-act="${prefix}-up" data-i="${i}" ${i === 0 ? 'disabled' : ''} aria-label="Subir">↑</button>
+          <button type="button" data-act="${prefix}-down" data-i="${i}" ${i === list.length - 1 ? 'disabled' : ''} aria-label="Bajar">↓</button>
+          <button type="button" data-act="${prefix}-del" data-i="${i}" class="danger" aria-label="Quitar">✕</button>
+        </span></div>`).join('')}
+      <button type="button" data-act="${prefix}-add" class="add">+ ${addLabel}</button></div>`;
+  }
+  function keepOpen(details, item) {
+    details.open = state.open.has(item);
+    details.addEventListener('toggle', () => (details.open ? state.open.add(item) : state.open.delete(item)));
+  }
+
+  /* ---------------- plantilla ---------------- */
+  function playerType(p) {
+    return p.role ? String(p.role).toLowerCase() : (String(p.dorsal).toUpperCase() === 'COACH' ? 'entrenador' : 'jugador');
+  }
 
   function renderPlayers() {
     const wrap = $('#players-list');
-    $('#save-players').textContent = 'Guardar plantilla';
+    resetSaveLabels();
     wrap.innerHTML = '';
-    state.players.list.forEach((p, i) => {
-      const type = p.role ? String(p.role).toLowerCase() : (String(p.dorsal).toUpperCase() === 'COACH' ? 'entrenador' : 'jugador');
+    const query = slugify(state.search);
+    state.players.data.forEach((p, i) => {
+      const type = playerType(p);
+      const haystack = slugify(`${fullName(p.name)} ${p.nickname || ''} ${p.dorsal ?? ''} ${p.position || ''}`);
+      if (query && !haystack.includes(query)) return;
       const pending = state.pendingUploads.get(p);
       const preview = pending ? URL.createObjectURL(pending.blob) : photoUrl(p.photo || (type === 'jugador' ? `assets/jugador${p.dorsal}.png` : ''));
+      const slug = p.slug || slugify(fullName(p.name));
+      const nats = p.nationalities || [];
+      const trajectory = p.trajectory || [];
+      const stats = Object.entries(p.stats || {});
       const details = document.createElement('details');
       details.className = 'item';
       details.innerHTML = `
@@ -232,106 +313,299 @@
           <img src="${esc(preview)}" alt="" onerror="this.src='${SITE}assets/logo.png'" />
           <strong>${esc(fullName(p.name) || 'Nueva persona')}</strong>
           ${p.nickname ? `<span class="muted">«${esc(p.nickname)}»</span>` : ''}
+          ${p.captain ? '<span class="captain" title="Capitán">C</span>' : ''}
+          <span class="flags">${nats.map(flagImg).join('')}</span>
           <span class="tag">${type === 'jugador' ? `Dorsal ${esc(p.dorsal ?? '?')} · ${esc(p.position || '')}` : esc(p.position || type)}</span>
           <span class="spacer">
+            ${p.name ? `<a href="${SITE}jugadores/${esc(slug)}/" target="_blank" rel="noopener">Ver ficha</a>` : ''}
             <button type="button" data-act="up" ${i === 0 ? 'disabled' : ''} aria-label="Subir">↑</button>
-            <button type="button" data-act="down" ${i === state.players.list.length - 1 ? 'disabled' : ''} aria-label="Bajar">↓</button>
+            <button type="button" data-act="down" ${i === state.players.data.length - 1 ? 'disabled' : ''} aria-label="Bajar">↓</button>
             <button type="button" data-act="delete" class="danger">Borrar</button>
           </span>
         </summary>
         <div class="fields">
+          <h3 class="full">Datos básicos</h3>
           ${field('Tipo', `<select data-k="type">
               <option value="jugador"${type === 'jugador' ? ' selected' : ''}>Jugador</option>
               <option value="entrenador"${type === 'entrenador' ? ' selected' : ''}>Entrenador</option>
               <option value="directiva"${type === 'directiva' ? ' selected' : ''}>Directiva</option></select>`)}
-          ${field('Nombre («Apellido, Nombre» o un solo nombre)', `<input data-k="name" value="${esc(p.name)}" />`)}
-          ${field('Apodo (va en la espalda de la camiseta)', `<input data-k="nickname" value="${esc(p.nickname)}" placeholder="Opcional" />`)}
+          ${field('Nombre completo («Apellido, Nombre»)', `<input data-k="name" value="${esc(p.name)}" placeholder="Arias, Miguel" />`)}
+          ${field('Apodo (tarjeta y espalda de la camiseta)', `<input data-k="nickname" value="${esc(p.nickname)}" placeholder="Opcional: Miguelín" />`)}
           ${type === 'jugador'
             ? field('Dorsal', `<input data-k="dorsal" type="number" min="1" max="99" value="${esc(p.dorsal)}" />`) +
-              field('Posición', `<select data-k="position">${POSITIONS.map(([code, label]) => `<option value="${code}"${p.position === code ? ' selected' : ''}>${label} (${code})</option>`).join('')}</select>`)
+              field('Posición', `<select data-k="position">${POSITIONS.map(([code, label]) => `<option value="${code}"${p.position === code ? ' selected' : ''}>${label} (${code})</option>`).join('')}</select>`) +
+              field('Capitán', `<label class="check"><input type="checkbox" data-k="captain"${p.captain ? ' checked' : ''} /> Lleva el brazalete (escudito «C»)</label>`)
             : field('Cargo', `<input data-k="position" value="${esc(p.position)}" placeholder="${type === 'entrenador' ? 'ENTRENADOR' : 'COMMUNITY MANAGER'}" />`)}
+          ${field('Edad', `<input data-k="age" type="number" min="5" max="99" value="${esc(p.age)}" placeholder="Opcional" />`)}
           ${field('Foto', `<div class="photo-row"><img src="${esc(preview)}" alt="" onerror="this.src='${SITE}assets/logo.png'" /><div><input type="file" data-k="photo" accept="image/*" /><p class="hint">Mejor recortada con fondo transparente (PNG). Se convierte sola a WebP.</p>${p.photo ? `<p class="hint">Actual: ${esc(p.photo)} <button type="button" class="link" data-act="nophoto">quitar</button></p>` : ''}</div></div>`, true)}
-          ${field('Nacionalidades (separadas por coma, máx. 2)', `<input data-k="nationalities" value="${esc((p.nationalities || []).join(', '))}" />`)}
-          ${field('Edad', `<input data-k="age" type="number" min="5" max="99" value="${esc(p.age)}" />`)}
-          ${field('Trayectoria (una línea por etapa, la más reciente primero)', `<textarea data-k="trajectory">${esc((p.trajectory || []).join('\n'))}</textarea>`, true)}
-          ${field('Bio corta', `<textarea data-k="bio">${esc(p.bio)}</textarea>`, true)}
-          ${field('Instagram (URL)', `<input data-k="socials.instagram" type="url" value="${esc(p.socials?.instagram)}" />`)}
-          ${field('TikTok (URL)', `<input data-k="socials.tiktok" type="url" value="${esc(p.socials?.tiktok)}" />`)}
-          ${field('X (URL)', `<input data-k="socials.x" type="url" value="${esc(p.socials?.x)}" />`)}
+
+          <h3 class="full">Nacionalidad</h3>
+          ${field('Nacionalidad', countrySelect('nat0', nats[0]))}
+          ${field('Segunda nacionalidad (opcional)', countrySelect('nat1', nats[1]))}
+
+          <h3 class="full">Trayectoria <span class="hint">(la etapa más reciente primero; p. ej. «2025–actualidad · Bisontes DUX»)</span></h3>
+          <div class="full">${rows(trajectory, 'traj', (item, n) => `<input data-k="traj.${n}" value="${esc(item)}" placeholder="2023–2025 · Club anterior" />`, 'Añadir etapa')}</div>
+
+          <h3 class="full">Presentación</h3>
+          ${field('Bio corta (sale en su ficha)', `<textarea data-k="bio" placeholder="Unas líneas sobre el jugador">${esc(p.bio)}</textarea>`, true)}
+
+          <h3 class="full">Estadísticas <span class="hint">(opcional; p. ej. «Goles» · «7»)</span></h3>
+          <div class="full">${rows(stats, 'stat', ([label, value], n) => `<input data-k="stat-label.${n}" value="${esc(label)}" placeholder="Goles" /><input data-k="stat-value.${n}" value="${esc(value)}" placeholder="7" />`, 'Añadir estadística')}</div>
+
+          <h3 class="full">Redes sociales</h3>
+          ${SOCIALS.map(([key, label]) => field(`${label} (enlace)`, `<input data-k="socials.${key}" type="url" value="${esc(p.socials?.[key])}" placeholder="https://…" />`)).join('')}
         </div>`;
+      keepOpen(details, p);
       bindPlayer(details, p, i);
       wrap.appendChild(details);
     });
-  }
-
-  function setOptional(obj, key, value) {
-    if (value === '' || value === undefined || (Array.isArray(value) && !value.length)) delete obj[key];
-    else obj[key] = value;
+    if (!wrap.children.length) wrap.innerHTML = '<p class="muted">No hay nadie que coincida con la búsqueda.</p>';
   }
 
   function bindPlayer(details, p, i) {
     details.addEventListener('click', e => {
-      const act = e.target.dataset && e.target.dataset.act;
-      if (!act) return;
+      const button = e.target.closest('[data-act]');
+      if (!button) return;
+      const act = button.dataset.act;
+      const n = Number(button.dataset.i);
       e.preventDefault();
-      const list = state.players.list;
+      const list = state.players.data;
       if (act === 'delete') {
         if (!confirm(`¿Borrar a ${fullName(p.name) || 'esta persona'}? Su ficha desaparecerá de la web al guardar.`)) return;
         list.splice(i, 1);
-      } else if (act === 'up') [list[i - 1], list[i]] = [list[i], list[i - 1]];
-      else if (act === 'down') [list[i + 1], list[i]] = [list[i], list[i + 1]];
+      } else if (act === 'up') move(list, i, i - 1);
+      else if (act === 'down') move(list, i, i + 1);
       else if (act === 'nophoto') { delete p.photo; state.pendingUploads.delete(p); }
+      else if (act.startsWith('traj-')) {
+        p.trajectory = p.trajectory || [];
+        if (act === 'traj-add') p.trajectory.push('');
+        if (act === 'traj-del') p.trajectory.splice(n, 1);
+        if (act === 'traj-up') move(p.trajectory, n, n - 1);
+        if (act === 'traj-down') move(p.trajectory, n, n + 1);
+        setOptional(p, 'trajectory', p.trajectory);
+      } else if (act.startsWith('stat-')) {
+        const entries = Object.entries(p.stats || {});
+        if (act === 'stat-add') {
+          let label = 'Nueva estadística';
+          for (let k = 2; entries.some(([name]) => name === label); k++) label = `Nueva estadística ${k}`;
+          entries.push([label, '']);
+        }
+        if (act === 'stat-del') entries.splice(n, 1);
+        if (act === 'stat-up') move(entries, n, n - 1);
+        if (act === 'stat-down') move(entries, n, n + 1);
+        setOptional(p, 'stats', entries.length ? Object.fromEntries(entries) : '');
+      } else return;
       markDirty('players');
       renderPlayers();
     });
     details.addEventListener('change', async e => {
       const key = e.target.dataset.k;
       if (!key) return;
-      const value = e.target.value.trim();
+      const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value.trim();
+      let repaint = false;
       if (key === 'type') {
         if (value === 'jugador') { delete p.role; p.dorsal = ''; p.position = 'MC'; }
-        else { p.role = value; delete p.dorsal; p.position = value === 'entrenador' ? 'ENTRENADOR' : 'COMMUNITY MANAGER'; }
-        markDirty('players');
-        renderPlayers();
-        details.open = true;
-        return;
-      }
-      if (key === 'photo') {
+        else { p.role = value; delete p.dorsal; delete p.captain; p.position = value === 'entrenador' ? 'ENTRENADOR' : 'COMMUNITY MANAGER'; }
+        repaint = true;
+      } else if (key === 'photo') {
         const file = e.target.files[0];
         if (!file) return;
         try {
           const blob = await toWebp(file, 900);
           const slug = p.slug || slugify(fullName(p.name)) || 'persona';
-          state.pendingUploads.set(p, { field: 'photo', blob, name: `${slug}-${Date.now()}.webp` });
+          state.pendingUploads.set(p, { field: 'photo', blob, name: `${slug}-${Date.now()}.webp`, kind: 'players' });
           setStatus('Foto preparada. Se subirá al guardar.');
-        } catch (error) { setStatus(error.message, 'err'); }
-      } else if (key === 'dorsal') p.dorsal = value === '' ? '' : Number(value);
+        } catch (error) { setStatus(error.message, 'err'); return; }
+        repaint = true;
+      } else if (key === 'dorsal') { p.dorsal = value === '' ? '' : Number(value); repaint = true; }
       else if (key === 'age') setOptional(p, 'age', value === '' ? '' : Number(value));
-      else if (key === 'nationalities') setOptional(p, 'nationalities', value.split(',').map(v => v.trim()).filter(Boolean).slice(0, 2));
-      else if (key === 'trajectory') setOptional(p, 'trajectory', value.split('\n').map(v => v.trim()).filter(Boolean));
-      else if (key.startsWith('socials.')) {
+      else if (key === 'captain') { setOptional(p, 'captain', value); repaint = true; }
+      else if (key === 'nat0' || key === 'nat1') {
+        const nats = [...(p.nationalities || [])];
+        nats[key === 'nat0' ? 0 : 1] = value;
+        setOptional(p, 'nationalities', nats.filter(Boolean));
+        repaint = true;
+      } else if (key.startsWith('traj.')) {
+        p.trajectory[Number(key.split('.')[1])] = value;
+      } else if (key.startsWith('stat-')) {
+        const entries = Object.entries(p.stats || {});
+        const n = Number(key.split('.')[1]);
+        if (key.startsWith('stat-label.')) entries[n][0] = value;
+        else entries[n][1] = value;
+        p.stats = Object.fromEntries(entries);
+      } else if (key.startsWith('socials.')) {
         const network = key.split('.')[1];
         p.socials = p.socials || {};
         setOptional(p.socials, network, value);
         if (!Object.keys(p.socials).length) delete p.socials;
-      } else if (key === 'name') p.name = value;
-      else if (key === 'position') p.position = value.toUpperCase();
-      else setOptional(p, key, value);
+      } else if (key === 'name') { p.name = value; repaint = true; }
+      else if (key === 'position') { p.position = value.toUpperCase(); repaint = true; }
+      else { setOptional(p, key, value); repaint = key === 'nickname'; }
       markDirty('players');
-      if (key === 'name' || key === 'nickname' || key === 'photo' || key === 'dorsal' || key === 'position') {
-        const open = details.open;
-        renderPlayers();
-        $('#players-list').children[state.players.list.indexOf(p)].open = open;
-      }
+      if (repaint) renderPlayers();
     });
   }
 
+  /* Al guardar, las filas vacías no se guardan. */
+  function tidyPlayers() {
+    for (const p of state.players.data) {
+      if (p.trajectory) setOptional(p, 'trajectory', p.trajectory.map(t => String(t).trim()).filter(Boolean));
+      if (p.stats) {
+        const entries = Object.entries(p.stats).filter(([label, value]) => String(label).trim() && String(value).trim());
+        setOptional(p, 'stats', entries.length ? Object.fromEntries(entries) : '');
+      }
+    }
+  }
+
+  /* ---------------- textos de la web ---------------- */
+  function siteInput(path, value, options = {}) {
+    return options.area
+      ? `<textarea data-site="${path}" rows="${options.rows || 3}">${esc(value)}</textarea>`
+      : `<input data-site="${path}" value="${esc(value)}" />`;
+  }
+
+  function renderSite() {
+    const s = state.site.data;
+    const box = $('#site-form');
+    if (!s.about) { box.innerHTML = ''; return; }
+    box.innerHTML = `
+      <section class="block">
+        <h3>Sobre nosotros</h3>
+        ${field('Título', siteInput('about.title', s.about.title), true)}
+        <label>Párrafos (el primero sale más grande)</label>
+        ${rows(s.about.paragraphs, 'site:about.paragraphs', (text, n) => siteInput(`about.paragraphs.${n}`, text, { area: true }), 'Añadir párrafo')}
+        <label>Datos del club (la «etiqueta» de la derecha)</label>
+        ${rows(s.about.facts, 'site:about.facts', (fact, n) => `${siteInput(`about.facts.${n}.label`, fact.label)}${siteInput(`about.facts.${n}.value`, fact.value, { area: true, rows: 2 })}`, 'Añadir dato')}
+      </section>
+      <section class="block">
+        <h3>Plantilla</h3>
+        ${field('Título', siteInput('roster.title', s.roster.title), true)}
+        ${field('Entradilla', siteInput('roster.intro', s.roster.intro, { area: true }), true)}
+      </section>
+      <section class="block">
+        <h3>Valores</h3>
+        ${field('Título', siteInput('values.title', s.values.title), true)}
+        ${rows(s.values.items, 'site:values.items', (item, n) => `${siteInput(`values.items.${n}.word`, item.word)}${siteInput(`values.items.${n}.text`, item.text, { area: true })}`, 'Añadir valor')}
+      </section>
+      <section class="block">
+        <h3>Patrocinadores (portada)</h3>
+        ${field('Título', siteInput('sponsors.title', s.sponsors.title), true)}
+        ${field('Entradilla', siteInput('sponsors.intro', s.sponsors.intro, { area: true }), true)}
+      </section>
+      <section class="block">
+        <h3>Instagram</h3>
+        ${field('Título', siteInput('instagram.title', s.instagram.title), true)}
+        ${field('Texto', siteInput('instagram.text', s.instagram.text, { area: true }), true)}
+      </section>
+      <section class="block">
+        <h3>Quiero jugar</h3>
+        ${field('Título', siteInput('join.title', s.join.title), true)}
+        ${field('Texto', siteInput('join.text', s.join.text, { area: true }), true)}
+      </section>
+      <section class="block">
+        <h3>Newsletter</h3>
+        ${field('Título', siteInput('newsletter.title', s.newsletter.title), true)}
+      </section>`;
+  }
+
+  function sitePath(path) {
+    const keys = path.split('.');
+    let target = state.site.data;
+    for (const key of keys.slice(0, -1)) target = target[key];
+    return { target, key: keys[keys.length - 1] };
+  }
+
+  $('#site-form').addEventListener('change', e => {
+    const path = e.target.dataset.site;
+    if (!path) return;
+    const { target, key } = sitePath(path);
+    target[key] = e.target.value.trim();
+    markDirty('site');
+  });
+  $('#site-form').addEventListener('click', e => {
+    const button = e.target.closest('[data-act^="site:"]');
+    if (!button) return;
+    e.preventDefault();
+    const [, rest] = button.dataset.act.split(':');
+    const action = rest.slice(rest.lastIndexOf('-') + 1);
+    const listPath = rest.slice(0, rest.lastIndexOf('-'));
+    const { target, key } = sitePath(listPath);
+    const list = target[key];
+    const n = Number(button.dataset.i);
+    if (action === 'add') list.push(listPath.endsWith('facts') ? { label: '', value: '' } : listPath.endsWith('items') ? { word: '', text: '' } : '');
+    if (action === 'del') list.splice(n, 1);
+    if (action === 'up') move(list, n, n - 1);
+    if (action === 'down') move(list, n, n + 1);
+    markDirty('site');
+    renderSite();
+  });
+
+  /* ---------------- patrocinadores ---------------- */
+  function renderSponsors() {
+    const wrap = $('#sponsors-list');
+    wrap.innerHTML = '';
+    state.sponsors.data.forEach((s, i) => {
+      const pending = state.pendingUploads.get(s);
+      const logo = pending ? URL.createObjectURL(pending.blob) : (s.logo ? photoUrl(s.logo) : '');
+      const details = document.createElement('details');
+      details.className = 'item';
+      details.innerHTML = `
+        <summary>
+          ${logo ? `<img src="${esc(logo)}" alt="" class="logo" />` : ''}
+          <strong>${esc(s.name || 'Nuevo patrocinador')}</strong>
+          <span class="tag">${s.tier === 'principal' ? 'Principal' : 'Colaborador'}</span>
+          <span class="spacer">
+            <button type="button" data-act="up" ${i === 0 ? 'disabled' : ''} aria-label="Subir">↑</button>
+            <button type="button" data-act="down" ${i === state.sponsors.data.length - 1 ? 'disabled' : ''} aria-label="Bajar">↓</button>
+            <button type="button" data-act="delete" class="danger">Borrar</button>
+          </span>
+        </summary>
+        <div class="fields">
+          ${field('Nombre', `<input data-k="name" value="${esc(s.name)}" />`)}
+          ${field('Tipo', `<select data-k="tier"><option value="principal"${s.tier === 'principal' ? ' selected' : ''}>Patrocinador principal</option><option value="colaborador"${s.tier !== 'principal' ? ' selected' : ''}>Colaborador</option></select>`)}
+          ${field('Web o Instagram (enlace)', `<input data-k="url" type="url" value="${esc(s.url)}" placeholder="https://…" />`)}
+          ${field('Descripción (una frase)', `<textarea data-k="description">${esc(s.description)}</textarea>`, true)}
+          ${field('Logo', `<div class="photo-row">${logo ? `<img src="${esc(logo)}" alt="" />` : ''}<div><input type="file" data-k="logo" accept="image/*" /><p class="hint">PNG o SVG con fondo transparente, unos 200×80 px.</p></div></div>`, true)}
+        </div>`;
+      keepOpen(details, s);
+      details.addEventListener('click', e => {
+        const button = e.target.closest('[data-act]');
+        if (!button) return;
+        e.preventDefault();
+        const list = state.sponsors.data;
+        if (button.dataset.act === 'delete') {
+          if (!confirm(`¿Borrar a ${s.name || 'este patrocinador'}?`)) return;
+          list.splice(i, 1);
+        } else if (button.dataset.act === 'up') move(list, i, i - 1);
+        else if (button.dataset.act === 'down') move(list, i, i + 1);
+        markDirty('sponsors');
+        renderSponsors();
+      });
+      details.addEventListener('change', async e => {
+        const key = e.target.dataset.k;
+        if (!key) return;
+        if (key === 'logo') {
+          const file = e.target.files[0];
+          if (!file) return;
+          try {
+            const blob = await toWebp(file, 600);
+            state.pendingUploads.set(s, { field: 'logo', blob, name: `${slugify(s.name) || 'patrocinador'}-${Date.now()}.webp`, kind: 'sponsors' });
+            setStatus('Logo preparado. Se subirá al guardar.');
+          } catch (error) { setStatus(error.message, 'err'); return; }
+        } else s[key] = e.target.value.trim();
+        markDirty('sponsors');
+        if (key === 'name' || key === 'tier' || key === 'logo') renderSponsors();
+      });
+      wrap.appendChild(details);
+    });
+  }
+
+  /* ---------------- blog ---------------- */
   function renderPosts() {
     const wrap = $('#posts-list');
-    $('#save-blog').textContent = 'Guardar blog';
     wrap.innerHTML = '';
-    if (!state.blog.list.length) wrap.innerHTML = '<p class="muted">Todavía no hay entradas.</p>';
-    state.blog.list.forEach((post, i) => {
+    if (!state.blog.data.length) wrap.innerHTML = '<p class="muted">Todavía no hay entradas.</p>';
+    state.blog.data.forEach((post, i) => {
       const pending = state.pendingUploads.get(post);
       const cover = pending ? URL.createObjectURL(pending.blob) : (post.cover ? photoUrl(post.cover) : '');
       const details = document.createElement('details');
@@ -356,14 +630,15 @@
           ${field('Texto alternativo de la portada', `<input data-k="coverAlt" value="${esc(post.coverAlt)}" placeholder="Qué se ve en la foto" />`)}
           ${field('Cuerpo', `<textarea data-k="body" style="min-height:260px">${esc((post.body || []).join('\n\n'))}</textarea>`, true)}
         </div>`;
+      keepOpen(details, post);
       details.addEventListener('click', e => {
-        const act = e.target.dataset && e.target.dataset.act;
-        if (!act) return;
+        const button = e.target.closest('[data-act]');
+        if (!button) return;
         e.preventDefault();
-        if (act === 'delete') {
+        if (button.dataset.act === 'delete') {
           if (!confirm(`¿Borrar la entrada «${post.title || 'sin título'}»?`)) return;
-          state.blog.list.splice(i, 1);
-        } else if (act === 'nocover') { delete post.cover; delete post.coverAlt; state.pendingUploads.delete(post); }
+          state.blog.data.splice(i, 1);
+        } else if (button.dataset.act === 'nocover') { delete post.cover; delete post.coverAlt; state.pendingUploads.delete(post); }
         markDirty('blog');
         renderPosts();
       });
@@ -376,17 +651,14 @@
           if (!file) return;
           try {
             const blob = await toWebp(file, 1600);
-            state.pendingUploads.set(post, { field: 'cover', blob, name: `${post.slug || slugify(post.title) || 'entrada'}-${Date.now()}.webp` });
+            state.pendingUploads.set(post, { field: 'cover', blob, name: `${post.slug || slugify(post.title) || 'entrada'}-${Date.now()}.webp`, kind: 'blog' });
             setStatus('Portada preparada. Se subirá al guardar.');
           } catch (error) { setStatus(error.message, 'err'); return; }
         } else if (key === 'body') post.body = e.target.value.split(/\n\s*\n/).map(v => v.trim()).filter(Boolean);
         else if (key === 'title') post.title = value;
         else setOptional(post, key, value);
         markDirty('blog');
-        if (key === 'title' || key === 'date' || key === 'cover') {
-          renderPosts();
-          $('#posts-list').children[state.blog.list.indexOf(post)].open = true;
-        }
+        if (key === 'title' || key === 'date' || key === 'cover') renderPosts();
       });
       wrap.appendChild(details);
     });
@@ -433,29 +705,45 @@
 
   document.querySelectorAll('[data-tab]').forEach(tab => tab.addEventListener('click', () => {
     document.querySelectorAll('[data-tab]').forEach(t => t.setAttribute('aria-selected', String(t === tab)));
-    $('#tab-players').hidden = tab.dataset.tab !== 'players';
-    $('#tab-blog').hidden = tab.dataset.tab !== 'blog';
+    for (const kind of Object.keys(FILES)) $(`#tab-${kind}`).hidden = tab.dataset.tab !== kind;
   }));
 
+  $('#players-search').addEventListener('input', e => {
+    state.search = e.target.value;
+    renderPlayers();
+  });
   $('#add-player').addEventListener('click', () => {
-    state.players.list.push({ dorsal: '', name: '', position: 'MC' });
+    const player = { dorsal: '', name: '', position: 'MC' };
+    state.players.data.push(player);
+    state.open.add(player);
+    state.search = '';
+    $('#players-search').value = '';
     markDirty('players');
     renderPlayers();
-    const items = $('#players-list').children;
-    items[items.length - 1].open = true;
-    items[items.length - 1].scrollIntoView({ block: 'center' });
+    $('#players-list').lastElementChild.scrollIntoView({ block: 'center' });
+  });
+  $('#add-sponsor').addEventListener('click', () => {
+    const sponsor = { tier: 'colaborador', name: '', description: '', logo: '', url: '' };
+    state.sponsors.data.push(sponsor);
+    state.open.add(sponsor);
+    markDirty('sponsors');
+    renderSponsors();
+    $('#sponsors-list').lastElementChild.scrollIntoView({ block: 'center' });
   });
   $('#add-post').addEventListener('click', () => {
-    state.blog.list.unshift({ title: '', date: today(), excerpt: '', body: [] });
+    const post = { title: '', date: today(), excerpt: '', body: [] };
+    state.blog.data.unshift(post);
+    state.open.add(post);
     markDirty('blog');
     renderPosts();
-    $('#posts-list').children[0].open = true;
   });
-  $('#save-players').addEventListener('click', () => save('players'));
-  $('#save-blog').addEventListener('click', () => save('blog'));
+  document.querySelectorAll('[data-save]').forEach(button => button.addEventListener('click', () => {
+    if (button.dataset.save === 'players') tidyPlayers();
+    save(button.dataset.save);
+  }));
 
   window.addEventListener('beforeunload', e => {
-    if (state.players.dirty || state.blog.dirty) { e.preventDefault(); e.returnValue = ''; }
+    if (Object.keys(FILES).some(kind => state[kind].dirty)) { e.preventDefault(); e.returnValue = ''; }
   });
 
   let saved = '';
