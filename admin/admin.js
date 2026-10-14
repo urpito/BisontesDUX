@@ -183,18 +183,91 @@
       if (problem) throw new Error(problem);
       if (file.folder) await uploadPending(kind);
       setStatus('Guardando…');
+      const savedAt = Date.now() - 5000;
       const text = serializeDataFile(store.header, file.variable, store.data);
       const result = await writeFile(file.path, b64encode(text), `admin: actualiza ${file.label}`, store.sha);
       store.sha = result.content.sha;
       store.dirty = false;
       renderAll();
-      setStatus('Guardado ✓ Ya está en GitHub. La web tarda 2-4 minutos en mostrarlo: no hace falta volver a guardar. Si luego no lo ves, recarga la página con Ctrl+F5 (en el móvil, recarga normal).', 'ok');
+      setStatus('Guardado ✓ No hace falta volver a guardar.', 'ok');
+      trackPublish(savedAt);
     } catch (error) {
       if (error.status === 409) setStatus('Alguien cambió el archivo mientras editabas. Recarga la página y vuelve a aplicar los cambios.', 'err');
       else setStatus(`No se pudo guardar: ${error.message}`, 'err');
     } finally {
       button.disabled = false;
     }
+  }
+
+  /* ---------------- barra de publicación ----------------
+     Pregunta a GitHub (API pública de Actions) por las tareas lanzadas desde que se guardó:
+     «Generar web» regenera las páginas y «pages build and deployment» las publica.
+     La barra avanza con una estimación (~2,5 min) y solo llega al 100 % cuando GitHub
+     confirma que la última publicación ha terminado bien. */
+  const PUBLISH_ESTIMATE = 150000;
+  let publishTimer = null;
+
+  function publishBar(percent, text, kind = '') {
+    let box = $('#publish');
+    if (!box) {
+      box = document.createElement('div');
+      box.id = 'publish';
+      box.className = 'publish';
+      box.innerHTML = '<div class="publish-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"><span></span></div><p class="publish-text" aria-live="polite"></p>';
+      $('#status').after(box);
+    }
+    box.hidden = false;
+    box.className = `publish ${kind}`;
+    box.querySelector('.publish-bar').setAttribute('aria-valuenow', String(Math.round(percent)));
+    box.querySelector('.publish-bar span').style.width = `${percent}%`;
+    box.querySelector('.publish-text').textContent = text;
+  }
+
+  async function runsSince(since) {
+    const created = new Date(since).toISOString().replace(/\.\d+Z$/, 'Z');
+    const res = await fetch(`https://api.github.com/repos/${REPO}/actions/runs?per_page=20&created=%3E%3D${created}`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`GitHub ${res.status}`);
+    return (await res.json()).workflow_runs || [];
+  }
+
+  function trackPublish(since) {
+    clearTimeout(publishTimer);
+    const started = Date.now();
+    let seenRuns = false;
+    const tick = async () => {
+      const elapsed = Date.now() - started;
+      const estimate = Math.min(95, (elapsed / PUBLISH_ESTIMATE) * 100);
+      let text = 'Preparando la publicación…';
+      try {
+        const runs = await runsSince(since);
+        if (runs.length) seenRuns = true;
+        const build = runs.filter(run => run.name === 'Generar web');
+        const deploys = runs.filter(run => run.name === 'pages build and deployment')
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        const active = runs.some(run => run.status !== 'completed');
+        if (build.some(run => run.conclusion === 'failure')) {
+          publishBar(100, 'Ha fallado la regeneración de la web. Avisa a quien mantiene la web (los datos sí están guardados).', 'err');
+          return;
+        }
+        if (seenRuns && !active && deploys[0] && deploys[0].conclusion === 'success') {
+          publishBar(100, '¡Publicado! Ya se ve en la web (si no, recarga con Ctrl+F5).', 'ok');
+          return;
+        }
+        if (build.some(run => run.status !== 'completed')) text = 'Regenerando las páginas…';
+        else if (deploys.some(run => run.status !== 'completed')) text = 'Publicando en la web…';
+        else if (seenRuns) text = 'Terminando…';
+      } catch (error) {
+        text = 'Publicando… (no se puede consultar el progreso exacto)';
+      }
+      if (elapsed > 10 * 60000) {
+        publishBar(100, 'Está tardando más de lo normal. Recarga la web en unos minutos; si no aparece, avisa.', 'err');
+        return;
+      }
+      publishBar(estimate, `${text} Suele tardar 2-3 minutos.`);
+      publishTimer = setTimeout(tick, 12000);
+    };
+    publishBar(2, 'Preparando la publicación… Suele tardar 2-3 minutos.');
+    publishTimer = setTimeout(tick, 4000);
   }
 
   function markDirty(kind) {

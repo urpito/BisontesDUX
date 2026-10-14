@@ -68,3 +68,13 @@ button.add { justify-self: start; font-size: 13px; }
   .row > input:first-child:not(:only-of-type) { flex: 1 1 100%; }
 }
 label.check input { width: auto; }
+
+/* Barra de publicación tras guardar */
+.publish { margin: 0 0 14px; padding: 10px 14px; background: #fff; border: 1px solid var(--line); border-radius: 6px; }
+.publish-bar { height: 10px; background: #e8e8e8; border-radius: 99px; overflow: hidden; }
+.publish-bar span { display: block; height: 100%; width: 0; background: var(--grey); border-radius: 99px; transition: width .8s ease; }
+.publish.ok .publish-bar span { background: var(--ok); }
+.publish.err .publish-bar span { background: var(--err); }
+.publish-text { margin: 6px 0 0; font-size: 13px; font-weight: 600; }
+.publish.ok .publish-text { color: var(--ok); }
+.publish.err .publish-text { color: var(--err); }
