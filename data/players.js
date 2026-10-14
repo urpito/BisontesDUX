@@ -60,11 +60,12 @@ const players = [
       "España"
     ],
     "trajectory": [
-      "Cantera F.C.",
-      "A.D.C. Malasaña",
       "Castellón",
+      "A.D.C. Malasaña",
+      "Cantera F.C.",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "bio": "Jose lleva décadas en el fútbol base. Comenzó su carrera en Castellón, su ciudad natal, y más tarde se mudó a Madrid, donde dejó el fútbol por un tiempo. Después regresó a los campos: primero como entrenador, luego como directivo y, finalmente, cerrando el ciclo otra vez como jugador. Actualmente es delantero en el Cantera F.C. y uno de los entrenadores de Bisontes Dux. Fuera del campo, trabaja en su propio estudio, La Palma 52 Sound, como director de sonido para películas y series. Además, es uno de los fundadores y el presidente de la Asociación Tod@s Juegan."
   },
   {
     "role": "directiva",
