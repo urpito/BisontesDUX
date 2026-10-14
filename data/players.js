@@ -79,7 +79,8 @@ const players = [
       "A.D.C. Malasaña",
       "Cantera F.C.",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "bio": "Fabio es el responsable de las redes sociales y la web de Bisontes Dux. Tiene experiencia de éxito tanto de jugador como de Community Manager. Dejó de jugar la temporada pasada en los Bisontes, aunque hay rumores de que podría volver a competir. Es de Cerdeña (Italia), pero lleva mucho tiempo viviendo en Madrid, donde estudia Informática y muestra un gran interés por el emprendimiento."
   },
   {
     "dorsal": 1,
