@@ -8,6 +8,7 @@ Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identif
 
 - [Web oficial de Bisontes DUX](https://urpito.github.io/BisontesDUX/): información general del club, sobre nosotros y plantilla con jugadores y cuerpo técnico.
 - [Blog de Bisontes DUX](https://urpito.github.io/BisontesDUX/blog/): noticias y novedades del club.
+- [Galería de Bisontes DUX](https://urpito.github.io/BisontesDUX/galeria/): las mejores fotos de los partidos.
 - [Patrocina Bisontes DUX](https://urpito.github.io/BisontesDUX/patrocina-bisontes-dux/): información para posibles colaboradores.
 - [Datos públicos de jugadores](https://urpito.github.io/BisontesDUX/players.json): versión JSON generada desde la plantilla.
 

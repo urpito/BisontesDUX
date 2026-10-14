@@ -124,13 +124,13 @@ function jsonLd(value) {
   return JSON.stringify(value).replace(/</g, '\\u003c');
 }
 
-function head({ title, description, canonical, image, type = 'website', prefix = '' }) {
+function head({ title, description, canonical, image, type = 'website', prefix = '', robots = 'index, follow, max-image-preview:large' }) {
   return `
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(description)}" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="robots" content="${robots}" />
   <meta name="theme-color" content="#545454" />
   <link rel="canonical" href="${canonical}" />
   <meta property="og:type" content="${type}" />
@@ -163,6 +163,7 @@ const NAV_SECTIONS = [
   ['join', 'Únete']
 ];
 const NAV_PAGES = [
+  ['galeria/', 'Galería'],
   ['blog/', 'Blog'],
   ['patrocina-bisontes-dux/', 'Patrocina']
 ];
@@ -530,6 +531,80 @@ function sponsorPage() {
 </main>${siteFooter()}<script src="${prefix}js/site.js" defer></script></body></html>`;
 }
 
+/* ---------------- GALERÍA ----------------
+   Las fotos no están en el repositorio: viven en Supabase (supabase/galeria.sql).
+   Aquí solo se generan las dos páginas y se incrusta la plantilla para etiquetar. */
+const SUPABASE_JS = {
+  src: 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js',
+  integrity: 'sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP'
+};
+
+const galleryRoster = [...roster.filter(person => !person.coach), ...roster.filter(person => person.coach)].map(person => {
+  const shown = person.nickname || person.name;
+  return {
+    slug: person.slug,
+    name: shown,
+    label: person.coach ? `${shown} (${person.kind === 'directiva' ? 'club' : 'entrenador'})` : `${person.dorsal} · ${shown}`,
+    staff: person.coach
+  };
+});
+
+function galleryScripts(prefix, app) {
+  return `<script id="galeria-roster" type="application/json">${jsonLd(galleryRoster)}</script>
+  <script src="${SUPABASE_JS.src}" integrity="${SUPABASE_JS.integrity}" crossorigin="anonymous" defer></script>
+  <script src="${prefix}js/galeria-config.js" defer></script>
+  <script src="${prefix}js/galeria-comun.js" defer></script>
+  <script src="${prefix}js/${app}.js" defer></script>`;
+}
+
+function galleryPage() {
+  const prefix = '../';
+  const canonical = `${SITE_URL}galeria/`;
+  const title = 'Galería de Bisontes DUX | Fotos de los partidos';
+  const description = 'Las mejores fotos de los partidos y del día a día de Bisontes DUX, club de fútbol de Madrid.';
+  const schema = { '@context': 'https://schema.org', '@type': 'ImageGallery', '@id': `${canonical}#gallery`, url: canonical, name: 'Galería de Bisontes DUX', description, inLanguage: 'es', about: { '@id': TEAM_ID, '@type': 'SportsTeam', name: 'Bisontes DUX', url: SITE_URL } };
+  return `<!DOCTYPE html>
+<html lang="es"><head>${head({ title, description, canonical, image: `${SITE_URL}assets/logo.png`, prefix })}
+  <script type="application/ld+json">${jsonLd(schema)}</script>
+</head><body class="subpage-body">
+  ${siteHeader({ current: 'galeria/' })}
+  <main class="gallery-page">
+    <div class="subpage-hero"><h1 class="font-display">Galería</h1><p>Las mejores fotos de los partidos de la manada, elegidas por el club.</p></div>
+    <div id="galeria-publica" class="gallery" aria-live="polite"><p class="gallery-loading">Cargando fotos…</p></div>
+    <noscript><p class="gallery-empty">Activa JavaScript para ver las fotos.</p></noscript>
+    <aside class="gallery-card gallery-private-cta" aria-labelledby="galeria-privada-titulo">
+      <h2 id="galeria-privada-titulo" class="font-display">Galería privada</h2>
+      <p>Para los jugadores del club: todas las fotos de cada partido, con filtro para ver solo las tuyas y descarga en buena calidad. Hay que entrar con tu cuenta.</p>
+      <a class="btn btn-dark" href="${SITE_PATH}galeria/privada/">Entrar en la galería privada</a>
+    </aside>
+  </main>
+  ${siteFooter()}
+  <script src="${prefix}js/site.js" defer></script>
+  ${galleryScripts(prefix, 'galeria')}
+</body></html>`;
+}
+
+function galleryPrivatePage() {
+  const prefix = '../../';
+  const canonical = `${SITE_URL}galeria/privada/`;
+  const title = 'Galería privada | Bisontes DUX';
+  const description = 'Acceso de los jugadores de Bisontes DUX a todas las fotos de los partidos.';
+  return `<!DOCTYPE html>
+<html lang="es"><head>${head({ title, description, canonical, image: `${SITE_URL}assets/logo.png`, prefix, robots: 'noindex, nofollow' })}
+</head><body class="subpage-body">
+  ${siteHeader({ current: 'galeria/' })}
+  <main class="gallery-page gallery-page--private">
+    <nav class="breadcrumbs" aria-label="Migas de pan"><a href="${SITE_PATH}">Inicio</a><span>/</span><a href="${SITE_PATH}galeria/">Galería</a><span>/</span><span aria-current="page">Galería privada</span></nav>
+    <div class="subpage-hero subpage-hero--compact"><h1 class="font-display">Galería privada</h1><p>Todas las fotos de los partidos, solo para la manada.</p></div>
+    <div id="galeria-app" class="gallery-app" aria-live="polite"><p class="gallery-loading">Cargando…</p></div>
+    <noscript><p class="gallery-empty">Activa JavaScript para entrar en la galería privada.</p></noscript>
+  </main>
+  ${siteFooter()}
+  <script src="${prefix}js/site.js" defer></script>
+  ${galleryScripts(prefix, 'galeria-privada')}
+</body></html>`;
+}
+
 function write(file, content) {
   const target = path.join(ROOT, file);
   fs.mkdirSync(path.dirname(target), { recursive: true });
@@ -546,6 +621,8 @@ write('plantilla/index.html', redirectPage('Plantilla de Bisontes DUX'));
 write('jugadores/index.html', redirectPage('Jugadores de Bisontes DUX'));
 write('patrocina-bisontes-dux/index.html', sponsorPage());
 write('blog/index.html', blogIndexPage());
+write('galeria/index.html', galleryPage());
+write('galeria/privada/index.html', galleryPrivatePage());
 const postDirs = new Set(posts.map(post => post.slug));
 if (fs.existsSync(path.join(ROOT, 'blog'))) {
   for (const entry of fs.readdirSync(path.join(ROOT, 'blog'), { withFileTypes: true })) {
@@ -617,7 +694,7 @@ if (!teamMarkerPattern.test(index)) throw new Error('No se encontraron los marca
 index = index.replace(teamMarkerPattern, generatedTeamSchema);
 fs.writeFileSync(indexPath, index);
 
-const sitemapUrls = [SITE_URL, `${SITE_URL}patrocina-bisontes-dux/`, `${SITE_URL}blog/`, ...posts.map(post => post.url), ...roster.map(player => player.pageUrl)];
+const sitemapUrls = [SITE_URL, `${SITE_URL}patrocina-bisontes-dux/`, `${SITE_URL}blog/`, `${SITE_URL}galeria/`, ...posts.map(post => post.url), ...roster.map(player => player.pageUrl)];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${sitemapUrls.map((url, index) => `  <url>\n    <loc>${url}</loc>\n    <lastmod>${TODAY}</lastmod>\n    <changefreq>${index === 0 ? 'weekly' : 'monthly'}</changefreq>\n    <priority>${index === 0 ? '1.0' : index < 3 + posts.length ? '0.8' : '0.6'}</priority>\n  </url>`).join('\n')}
@@ -635,6 +712,7 @@ Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identif
 
 - [Web oficial de Bisontes DUX](${SITE_URL}): información general del club, sobre nosotros y plantilla con jugadores y cuerpo técnico.
 - [Blog de Bisontes DUX](${SITE_URL}blog/): noticias y novedades del club.
+- [Galería de Bisontes DUX](${SITE_URL}galeria/): las mejores fotos de los partidos.
 - [Patrocina Bisontes DUX](${SITE_URL}patrocina-bisontes-dux/): información para posibles colaboradores.
 - [Datos públicos de jugadores](${SITE_URL}players.json): versión JSON generada desde la plantilla.
 

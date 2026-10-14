@@ -21,6 +21,10 @@ El menú y el footer son los mismos en todas las páginas y salen de `NAV_SECTIO
 
 Las entradas están en `data/blog.js` (instrucciones dentro del archivo). Tras añadir o borrar una entrada, ejecuta `npm run build`: se generan `blog/` y `blog/<slug>/` y se actualiza el sitemap.
 
+## Galería
+
+`galeria/` (pública, con las fotos destacadas) y `galeria/privada/` (con cuenta: todas las fotos, filtro por jugador, subida y accesos para admins) se generan con `npm run build`, pero las fotos y las cuentas no están en el repositorio: viven en Supabase. Puesta en marcha, uso y límites: [`supabase/README.md`](supabase/README.md). La conexión está en `js/galeria-config.js`; la lógica, en `js/galeria-comun.js`, `js/galeria.js` y `js/galeria-privada.js`.
+
 No hay dependencias de npm ni servidor: Node solo se usa para regenerar HTML estático. Los enlaces internos principales utilizan explícitamente el subdirectorio `/BisontesDUX/` de GitHub Pages.
 
 ### Editar nacionalidad y trayectoria

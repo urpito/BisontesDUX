@@ -83,7 +83,7 @@ const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => m
 const blogContext = {};
 vm.runInNewContext(`${fs.readFileSync(path.join(ROOT, 'data/blog.js'), 'utf8')}\nthis.__posts = posts;`, blogContext);
 const expectedPosts = blogContext.__posts.length;
-const expectedUrls = expectedPlayers + expectedPosts + 3; // home, patrocina, blog
+const expectedUrls = expectedPlayers + expectedPosts + 4; // home, patrocina, blog, galeria
 if (sitemapUrls.length !== expectedUrls) errors.push(`sitemap: ${sitemapUrls.length} URLs; se esperaban ${expectedUrls}`);
 
 /* Header y footer idénticos en todas las páginas (salvo los enlaces de scroll del index). */

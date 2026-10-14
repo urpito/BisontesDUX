@@ -222,7 +222,7 @@ Columna central de 1320px como máximo con márgenes laterales `pad` (16px en m�
 
 El hero ocupa la pantalla: rejilla de 5/6 columnas con el texto a la izquierda y la espalda de la camiseta a la derecha (silueta de la prenda con cuello rosa, apodo o apellido estampado y jugador recortado delante; sin dorsal en la portada), y la tira de dorsales a todo el ancho abajo. En móvil (≤680px) se apila: texto, camiseta de 250–340px de alto y tira de dorsales en columna; las dos acciones quedan lado a lado.
 
-Las rejillas de contenido son asimétricas (7/4 en «sobre nosotros», 4/7 en Instagram y Quiero jugar) y pasan a una columna a 1100px. La plantilla es una rejilla automática de tarjetas de mínimo 210px con huecos de 14px, y dos columnas fijas en móvil. Los valores y las oportunidades de patrocinio son tres columnas separadas por hilos, bajo una raya rosa de 3px, que se apilan a 860px. El menú pasa a desplegable a 1100px.
+Las rejillas de contenido son asimétricas (7/4 en «sobre nosotros», 4/7 en Instagram y Quiero jugar) y pasan a una columna a 1100px. La plantilla es una rejilla automática de tarjetas de mínimo 210px con huecos de 14px, y dos columnas fijas en móvil. Los valores y las oportunidades de patrocinio son tres columnas separadas por hilos, bajo una raya rosa de 3px, que se apilan a 860px. El menú pasa a desplegable a 1260px (compacto entre 1261 y 1420px).
 
 ## Elevation & Depth
 
@@ -268,7 +268,7 @@ Firmes y planos, con letra ensanchada de etiqueta.
 - **Error:** borde inferior rojo (`#b3261e`) cuando el valor no es válido; los mensajes de estado pasan a rosa sobre gris sombra.
 
 ### Navigation
-Header fijo en gris sombra con textura, cerrado por la banda de ribete (el cuello). Escudo en círculo blanco de 48px y marca en display con «DUX» en rosa. Enlaces en etiqueta ensanchada al 80% de blanco; en hover o página actual pasan a blanco con una raya rosa de 3px que crece desde la izquierda. Primero van los enlaces que bajan a secciones del index y, tras un hilo separador, las páginas propias; el último es la CTA rosa «Patrocina». A 1100px se convierte en botón hamburguesa y desplegable a todo el ancho con separadores de hilo. Pendiente: la etiqueta «Sponsors» (anglicismo) se mantiene hasta que el dueño decida.
+Header fijo en gris sombra con textura, cerrado por la banda de ribete (el cuello). Escudo en círculo blanco de 48px y marca en display con «DUX» en rosa. Enlaces en etiqueta ensanchada al 80% de blanco; en hover o página actual pasan a blanco con una raya rosa de 3px que crece desde la izquierda. Primero van los enlaces que bajan a secciones del index y, tras un hilo separador, las páginas propias; el último es la CTA rosa «Patrocina». A 1260px se convierte en botón hamburguesa y desplegable a todo el ancho con separadores de hilo. Pendiente: la etiqueta «Sponsors» (anglicismo) se mantiene hasta que el dueño decida.
 
 ### Tira de dorsales (componente firma)
 Debajo del hero, sobre gris sombra y con ribete arriba: la etiqueta «Elige dorsal» y una fila de números de 52px (48 y 44px en pantallas pequeñas) con desplazamiento horizontal. Al tocar un número, la espalda de la camiseta cambia: el apodo o apellido se desvanece y desenfocan (0.18s), se cambian los datos y vuelven «planchados» desde un 114% de escala con desenfoque de 10px (0.5s), mientras el jugador entra subiendo 24px (0.55s), con la curva `cubic-bezier(0.16, 1, 0.3, 1)`. El número activo se muestra pulsado en rosa. Se maneja con flechas izquierda/derecha. Con `prefers-reduced-motion: reduce` el cambio es inmediato, sin animación.
