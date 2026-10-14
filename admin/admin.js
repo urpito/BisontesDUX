@@ -1,18 +1,21 @@
 /* ============================================================
    BISONTES DUX — panel de admin
-   Lee y escribe los archivos de data/ en GitHub con la API de
-   contenidos: plantilla, textos de la portada, patrocinadores y
-   blog. Al guardar, la GitHub Action "Generar web" regenera las
-   páginas y GitHub Pages publica en 1-2 minutos.
+   Se entra con la cuenta de la galería (Supabase Auth). Lee y
+   guarda los archivos de data/ en GitHub a través de la función
+   admin-github de Supabase, que guarda la llave de GitHub y solo
+   deja pasar a los admins. Al guardar, la GitHub Action "Generar
+   web" regenera las páginas y GitHub Pages publica en 1-2 minutos.
    ============================================================ */
 (function () {
   'use strict';
 
   const REPO = 'urpito/BisontesDUX';
   const BRANCH = 'main';
-  const API = `https://api.github.com/repos/${REPO}`;
   const SITE = '/BisontesDUX/';
-  const TOKEN_KEY = 'bisontes-admin-token';
+  const config = window.BISONTES_GALERIA || {};
+  const client = window.supabase && config.supabaseUrl
+    ? window.supabase.createClient(config.supabaseUrl, config.supabaseKey, { auth: { persistSession: true, storageKey: 'bisontes-galeria' } })
+    : null;
 
   const POSITIONS = [
     ['POR', 'Portero'], ['DFC', 'Defensa central'], ['LI', 'Lateral izquierdo'], ['LD', 'Lateral derecho'],
@@ -29,7 +32,6 @@
   };
 
   const $ = sel => document.querySelector(sel);
-  let token = '';
   let countries = {};
   const state = {
     players: { data: [], header: '', sha: null, dirty: false },
@@ -107,30 +109,26 @@
     });
   }
 
-  /* ---------------- GitHub ---------------- */
-  async function gh(path, options = {}) {
-    const res = await fetch(path.startsWith('http') ? path : `${API}${path}`, {
-      ...options,
-      headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', ...(options.headers || {}) }
-    });
-    if (!res.ok) {
-      let detail = '';
-      try { detail = (await res.json()).message || ''; } catch (e) { /* sin cuerpo */ }
-      const error = new Error(`GitHub ${res.status}${detail ? `: ${detail}` : ''}`);
-      error.status = res.status;
-      throw error;
+  /* ---------------- GitHub (a través de la función admin-github) ---------------- */
+  async function callGithub(body) {
+    const { data, error } = await client.functions.invoke('admin-github', { body });
+    if (error) {
+      let detail = error.message;
+      let status = 0;
+      try { status = error.context.status; detail = (await error.context.json()).error || detail; } catch (e) { /* sin detalle */ }
+      const failure = new Error(detail);
+      failure.status = status;
+      throw failure;
     }
-    return res.status === 204 ? null : res.json();
+    return data;
   }
   async function readFile(path) {
-    const data = await gh(`/contents/${path}?ref=${BRANCH}&t=${Date.now()}`);
+    const data = await callGithub({ action: 'read', path });
     return { sha: data.sha, text: b64decode(data.content) };
   }
   async function writeFile(path, base64, message, sha) {
-    return gh(`/contents/${path}`, {
-      method: 'PUT',
-      body: JSON.stringify({ message, content: base64, branch: BRANCH, ...(sha ? { sha } : {}) })
-    });
+    const data = await callGithub({ action: 'write', path, content: base64, message, sha });
+    return { content: { sha: data.sha } };
   }
 
   /* data/*.js son JavaScript: se separa el comentario de cabecera y se evalúa la variable. */
@@ -665,16 +663,14 @@
   }
 
   /* ---------------- arranque ---------------- */
-  async function login(candidate, remember) {
-    token = candidate;
-    const user = await gh('https://api.github.com/user');
-    const repo = await gh('');
-    if (!repo.permissions || !repo.permissions.push) throw new Error('Este token no puede escribir en el repositorio.');
-    try {
-      sessionStorage.setItem(TOKEN_KEY, token);
-      if (remember) localStorage.setItem(TOKEN_KEY, token);
-    } catch (e) { /* almacenamiento bloqueado: se queda solo en memoria */ }
-    showPanel(`Conectado como ${user.login}`);
+  async function enter(session) {
+    const { data: isAdmin, error } = await client.rpc('gallery_is_admin');
+    if (error) throw error;
+    if (isAdmin !== true) {
+      await client.auth.signOut({ scope: 'local' });
+      throw new Error('Tu cuenta no es admin. Pide a un admin que te dé permiso en «Accesos» de la galería privada.');
+    }
+    showPanel(`Conectado como ${session.user.email}`);
     await loadAll();
   }
 
@@ -690,16 +686,19 @@
     const status = $('#login-status');
     status.textContent = 'Comprobando…';
     status.className = 'status';
-    try { await login($('#token').value.trim(), $('#remember').checked); }
-    catch (error) {
-      token = '';
-      status.textContent = error.status === 401 ? 'Token incorrecto o caducado.' : `No se pudo entrar: ${error.message}`;
+    try {
+      if (!client) throw new Error('No se ha podido conectar con Supabase.');
+      const { data, error } = await client.auth.signInWithPassword({ email: $('#email').value.trim(), password: $('#password').value });
+      if (error) throw new Error(/Invalid login/i.test(error.message) ? 'Correo o contraseña incorrectos.' : error.message);
+      await enter(data.session);
+    } catch (error) {
+      status.textContent = error.message;
       status.className = 'status err';
     }
   });
 
-  $('#logout').addEventListener('click', () => {
-    try { localStorage.removeItem(TOKEN_KEY); sessionStorage.removeItem(TOKEN_KEY); } catch (e) { /* nada */ }
+  $('#logout').addEventListener('click', async () => {
+    await client.auth.signOut({ scope: 'local' });
     location.reload();
   });
 
@@ -746,7 +745,14 @@
     if (Object.keys(FILES).some(kind => state[kind].dirty)) { e.preventDefault(); e.returnValue = ''; }
   });
 
-  let saved = '';
-  try { saved = sessionStorage.getItem(TOKEN_KEY) || localStorage.getItem(TOKEN_KEY) || ''; } catch (e) { /* nada */ }
-  if (saved) login(saved, false).catch(() => { token = ''; });
+  if (client) {
+    client.auth.getSession().then(({ data }) => {
+      if (data.session) enter(data.session).catch(error => setLoginError(error.message));
+    });
+  }
+  function setLoginError(message) {
+    const status = $('#login-status');
+    status.textContent = message;
+    status.className = 'status err';
+  }
 }());
