@@ -89,6 +89,7 @@ const players = [
     "position": "POR",
     "trajectory": [
       "Malasaña",
+      "Betis San Isidro",
       "25/26–actualidad · Bisontes DUX"
     ],
     "nickname": "Alejo",
