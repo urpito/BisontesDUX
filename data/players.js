@@ -91,7 +91,8 @@ const players = [
       "Malasaña",
       "2025–actualidad · Bisontes DUX"
     ],
-    "nickname": "Alejo"
+    "nickname": "Alejo",
+    "bio": "Alejo es el portero de Bisontes Dux y un especialista en tapar penaltis. Tras haber dejado el fútbol hace unos años, una gran oferta le convenció para sumarse a este proyecto. Actualmente afronta su segunda temporada en el club, donde estamos seguros de que seguirá rindiendo al máximo nivel"
   },
   {
     "dorsal": 3,
