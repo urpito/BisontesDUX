@@ -302,7 +302,8 @@ const players = [
     "trajectory": [
       "Malasaña",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Mario"
   },
   {
     "dorsal": 25,
