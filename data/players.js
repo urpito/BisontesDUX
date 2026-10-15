@@ -121,7 +121,8 @@ const players = [
       "Munibar Pizarrales",
       "Malasaña",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "bio": "Miguelín fichó por los Bisontes a mediados de la temporada 2025/26, después de disputar la primera parte del año en el Malasaña. Originario de Salamanca, Miguel viene de jugar unos años en el Munibar Pizarrales. Es un mediocampista ágil con buena visión de juego, y metió un hat-trick en su debut con nuestro equipo. En su tiempo libre, le puedes encontrar con sus amigos o en Las Ventas viendo una corrida."
   },
   {
     "dorsal": 5,
