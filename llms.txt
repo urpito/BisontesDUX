@@ -24,20 +24,20 @@ Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identif
 - [Max Lennart Lomander Rivela](https://urpito.github.io/BisontesDUX/jugadores/max-lennart-lomander-rivela/): delantero centro, dorsal 9.
 - [Filip Gabriel Tekiela](https://urpito.github.io/BisontesDUX/jugadores/filip-gabriel-tekiela/): delantero centro, dorsal 10.
 - [Luis Daniel Salas](https://urpito.github.io/BisontesDUX/jugadores/luis-daniel-salas/): extremo derecho, dorsal 11.
-- [Javi](https://urpito.github.io/BisontesDUX/jugadores/javi/): extremo derecho, dorsal 12.
-- [Carlitos](https://urpito.github.io/BisontesDUX/jugadores/carlitos/): defensa central, dorsal 14.
-- [Arturo Constantine](https://urpito.github.io/BisontesDUX/jugadores/arturo-constantine/): extremo izquierdo, dorsal 15.
-- [Cristhofer](https://urpito.github.io/BisontesDUX/jugadores/cristhofer/): extremo derecho, dorsal 17.
-- [Izan](https://urpito.github.io/BisontesDUX/jugadores/izan/): mediocentro, dorsal 20.
-- [Elías Naharro](https://urpito.github.io/BisontesDUX/jugadores/elias-naharro/): lateral izquierdo, dorsal 21.
-- [Mario Comas](https://urpito.github.io/BisontesDUX/jugadores/mario-comas/): lateral derecho, dorsal 22.
-- [Francisco Daza](https://urpito.github.io/BisontesDUX/jugadores/francisco-daza/): defensa central, dorsal 25.
-- [Leonardo](https://urpito.github.io/BisontesDUX/jugadores/leonardo/): defensa central, dorsal 28.
+- [Josshua Javier Garcia Villalba](https://urpito.github.io/BisontesDUX/jugadores/josshua-javier-garcia-villalba/): extremo derecho, dorsal 12.
+- [Carlos Raul Rivera Puente](https://urpito.github.io/BisontesDUX/jugadores/carlos-raul-rivera-puente/): defensa central, dorsal 14.
+- [Arturo Constantine Padilla](https://urpito.github.io/BisontesDUX/jugadores/arturo-constantine-padilla/): extremo izquierdo, dorsal 15.
+- [Cristhofer Alejandro Chavez Guzman](https://urpito.github.io/BisontesDUX/jugadores/cristhofer-alejandro-chavez-guzman/): extremo derecho, dorsal 17.
+- [Izan Morales Leiva](https://urpito.github.io/BisontesDUX/jugadores/izan-morales-leiva/): mediocentro, dorsal 20.
+- [Elías Naharro Idec](https://urpito.github.io/BisontesDUX/jugadores/elias-naharro-idec/): lateral izquierdo, dorsal 21.
+- [Mario Comas Trillo-Figueroa](https://urpito.github.io/BisontesDUX/jugadores/mario-comas-trillo-figueroa/): lateral derecho, dorsal 22.
+- [Francisco Javier Molina Diaz](https://urpito.github.io/BisontesDUX/jugadores/francisco-javier-molina-diaz/): defensa central, dorsal 25.
+- [Rodrigo Leonardo Cabrejos Ramirez](https://urpito.github.io/BisontesDUX/jugadores/rodrigo-leonardo-cabrejos-ramirez/): defensa central, dorsal 28.
 - [David Gonzalez](https://urpito.github.io/BisontesDUX/jugadores/david-gonzalez/): defensa central, dorsal 33.
-- [Dani Floria](https://urpito.github.io/BisontesDUX/jugadores/dani-floria/): defensa central, dorsal 42.
-- [Santi](https://urpito.github.io/BisontesDUX/jugadores/santi/): mediocentro, dorsal 67.
-- [Mateo](https://urpito.github.io/BisontesDUX/jugadores/mateo/): extremo derecho, dorsal 69.
-- [Diego Arrufat](https://urpito.github.io/BisontesDUX/jugadores/diego-arrufat/): mediocentro ofensivo, dorsal 99.
+- [Daniel Floria Sanchez](https://urpito.github.io/BisontesDUX/jugadores/daniel-floria-sanchez/): defensa central, dorsal 42.
+- [Santiago Lopez Lopez](https://urpito.github.io/BisontesDUX/jugadores/santiago-lopez-lopez/): mediocentro, dorsal 67.
+- [Mateo Gonzalez Riagada](https://urpito.github.io/BisontesDUX/jugadores/mateo-gonzalez-riagada/): extremo derecho, dorsal 69.
+- [Diego Arrufat Belloso](https://urpito.github.io/BisontesDUX/jugadores/diego-arrufat-belloso/): mediocentro ofensivo, dorsal 99.
 
 ## Cuerpo técnico
 
