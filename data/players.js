@@ -221,7 +221,7 @@ const players = [
   },
   {
     "dorsal": 12,
-    "name": "Javi",
+    "name": "Garcia Villalba, Josshua Javier",
     "position": "ED",
     "trajectory": [
       "Malasaña",
@@ -231,7 +231,7 @@ const players = [
   },
   {
     "dorsal": 14,
-    "name": "Carlitos",
+    "name": "Rivera Puente, Carlos Raul",
     "position": "DFC",
     "nationalities": [
       "Ecuador"
@@ -247,7 +247,7 @@ const players = [
   },
   {
     "dorsal": 15,
-    "name": "Constantine, Arturo",
+    "name": "Constantine Padilla, Arturo",
     "position": "EI",
     "nickname": "Arturito",
     "trajectory": [
@@ -257,7 +257,7 @@ const players = [
   },
   {
     "dorsal": 17,
-    "name": "Cristhofer",
+    "name": "Chavez Guzman, Cristhofer Alejandro",
     "position": "ED",
     "trajectory": [
       "CD Tajamar",
@@ -268,7 +268,7 @@ const players = [
   },
   {
     "dorsal": 20,
-    "name": "Izan",
+    "name": "Morales Leiva, Izan",
     "position": "MC",
     "nationalities": [
       "Colombia"
@@ -281,7 +281,7 @@ const players = [
   },
   {
     "dorsal": 21,
-    "name": "Naharro, Elías",
+    "name": "Naharro Idec, Elías",
     "position": "LI",
     "nationalities": [
       "España"
@@ -294,7 +294,7 @@ const players = [
   },
   {
     "dorsal": 22,
-    "name": "Comas, Mario",
+    "name": "Comas Trillo-Figueroa, Mario",
     "position": "LD",
     "nationalities": [
       "España"
@@ -306,7 +306,7 @@ const players = [
   },
   {
     "dorsal": 25,
-    "name": "Daza, Francisco",
+    "name": "Molina Diaz, Francisco Javier",
     "position": "DFC",
     "nationalities": [
       "Venezuela"
@@ -319,12 +319,13 @@ const players = [
   },
   {
     "dorsal": 28,
-    "name": "Leonardo",
+    "name": "Cabrejos Ramirez, Rodrigo Leonardo",
     "position": "DFC",
     "trajectory": [
       "ADC San Fermín",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Leonardo"
   },
   {
     "dorsal": 33,
@@ -341,7 +342,7 @@ const players = [
   },
   {
     "dorsal": 42,
-    "name": "Floria, Dani",
+    "name": "Floria Sanchez, Daniel",
     "position": "DFC",
     "nationalities": [
       "España"
@@ -355,7 +356,7 @@ const players = [
   },
   {
     "dorsal": 67,
-    "name": "Santi",
+    "name": "Lopez Lopez, Santiago",
     "position": "MC",
     "nationalities": [
       "España"
@@ -363,11 +364,12 @@ const players = [
     "trajectory": [
       "RCD Espanyol de Madrid",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Santi"
   },
   {
     "dorsal": 69,
-    "name": "Mateo",
+    "name": "Gonzalez Riagada, Mateo",
     "position": "ED",
     "nationalities": [
       "España"
@@ -375,11 +377,12 @@ const players = [
     "trajectory": [
       "RCD Espanyol de Madrid",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Mateo"
   },
   {
     "dorsal": 99,
-    "name": "Arrufat, Diego",
+    "name": "Arrufat Belloso, Diego",
     "position": "MCO",
     "captain": true,
     "nationalities": [
@@ -388,6 +391,7 @@ const players = [
     "trajectory": [
       "Malasaña",
       "2025–actualidad · Bisontes DUX"
-    ]
+    ],
+    "nickname": "Diego"
   }
 ];
