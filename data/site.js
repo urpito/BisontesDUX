@@ -20,9 +20,9 @@ const site = {
     "paragraphs": [
       "Bisontes DUX nació en 2025 aquí, en Madrid. Somos **la manada**: jugadores que venimos de distintos equipos de la ciudad y que nos juntamos para jugar la liga municipal de Orcasur.",
       "Nacimos para dar respuesta a algo que echábamos de menos: un equipo donde el fútbol encaje en tu vida, y no al revés. Sin agendas imposibles ni presión de más; venimos porque nos apetece y porque aquí se está a gusto.",
-      "Creemos que el fútbol tiene que ser divertido, no un curro ni una obligación más. Aun así, cuando suena el silbato damos la cara: competimos por los puestos altos de nuestra liga y no regalamos ni un balón.",
+      "Creemos que el fútbol tiene que ser divertido, no un curro ni una obligación más. Aun así, cuando suena el silbato damos la cara: competimos por los puestos altos de nuestra liga.",
       "Nos mueven tres ideas: diversión, equipo y respeto. Lo que pasa en el campo se queda en el campo; lo que se lleva uno a casa son los amigos.",
-      "En el pecho llevamos a [Todos Juegan](https://todosjuegan.org/), nuestro patrocinador principal: una asociación que conecta a jóvenes en riesgo de exclusión social con equipos deportivos para promover la inclusión social. Nos acompañan también Fratelli D'Italia, Alcze, ISOS y PcFactory.",
+      "En la camiseta llevamos a [Todos Juegan](https://todosjuegan.org/), nuestro patrocinador principal: una asociación que conecta a jóvenes en riesgo de exclusión social con equipos deportivos para promover la inclusión social. Nos acompañan también Fratelli D'Italia, Alcze, ISOS y PcFactory.",
       "Somos un club abierto: si quieres jugar con nosotros, apoyarnos como empresa o simplemente seguir a la manada, aquí tienes tu sitio."
     ],
     "facts": [
