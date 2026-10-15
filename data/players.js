@@ -106,7 +106,8 @@ const players = [
       "Malasaña",
       "2025–actualidad · Bisontes DUX"
     ],
-    "nickname": "Bruno"
+    "nickname": "Bruno",
+    "bio": "Bruno es un central contundente, líder de nuestra defensa, y uno de los capitanes del equipo. Destaca por su velocidad, su dominio del juego aéreo y la fuerza de sus entradas. Aunque parezca que no, siempre llega a robar el balón al rival o tapar su disparo. Llega tras convertirse en un auténtico referente durante sus años en el Malasaña. Dato curioso: su padre trabaja con Ben en Accenture."
   },
   {
     "dorsal": 4,
