@@ -89,7 +89,7 @@ const players = [
     "position": "POR",
     "trajectory": [
       "Malasaña",
-      "2025–actualidad · Bisontes DUX"
+      "25/26–actualidad · Bisontes DUX"
     ],
     "nickname": "Alejo",
     "bio": "Alejo es el portero de Bisontes Dux y un especialista en tapar penaltis. Tras haber dejado el fútbol hace unos años, una gran oferta le convenció para sumarse a este proyecto. Actualmente afronta su segunda temporada en el club, donde estamos seguros de que seguirá rindiendo al máximo nivel"
@@ -104,7 +104,7 @@ const players = [
     ],
     "trajectory": [
       "Malasaña",
-      "2025–actualidad · Bisontes DUX"
+      "25/26–actualidad · Bisontes DUX"
     ],
     "nickname": "Bruno",
     "bio": "Bruno es un central contundente, líder de nuestra defensa, y uno de los capitanes del equipo. Destaca por su velocidad, su dominio del juego aéreo y la fuerza de sus entradas. Aunque parezca que no, siempre llega a robar el balón al rival o tapar su disparo. Llega tras convertirse en un auténtico referente durante sus años en el Malasaña. Dato curioso: su padre trabaja con Ben en Accenture."
@@ -120,7 +120,7 @@ const players = [
     "trajectory": [
       "Munibar Pizarrales",
       "Malasaña",
-      "2025–actualidad · Bisontes DUX"
+      "25/26–actualidad · Bisontes DUX"
     ],
     "bio": "Miguelín fichó por los Bisontes a mediados de la temporada 2025/26, después de disputar la primera parte del año en el Malasaña. Originario de Salamanca, Miguel viene de jugar unos años en el Munibar Pizarrales. Es un mediocampista ágil con buena visión de juego, y metió un hat-trick en su debut con nuestro equipo. En su tiempo libre, le puedes encontrar con sus amigos o en Las Ventas viendo una corrida."
   },
@@ -134,7 +134,7 @@ const players = [
     ],
     "trajectory": [
       "Malasaña",
-      "2025–actualidad · Bisontes DUX"
+      "26/27–actualidad · Bisontes DUX"
     ],
     "nickname": "Tagara"
   },
@@ -149,7 +149,7 @@ const players = [
       "Malasaña",
       "Getafe",
       "San Cristobál",
-      "2025–actualidad · Bisontes DUX"
+      "25/26–actualidad · Bisontes DUX"
     ],
     "nickname": "Jose Anthony"
   },
@@ -161,7 +161,7 @@ const players = [
       "Colombia"
     ],
     "trajectory": [
-      "2025–actualidad · Bisontes DUX"
+      "25/26–actualidad · Bisontes DUX"
     ],
     "nickname": "Alan"
   },
@@ -175,7 +175,7 @@ const players = [
     "trajectory": [
       "Canal",
       "RCD Espanyol de Madrid",
-      "2025–actualidad · Bisontes DUX"
+      "26/27–actualidad · Bisontes DUX"
     ],
     "nickname": "Anton"
   },
@@ -190,7 +190,7 @@ const players = [
     "trajectory": [
       "Periso CF",
       "RCD Espanyol de Madrid",
-      "2025–actualidad · Bisontes DUX"
+      "26/27–actualidad · Bisontes DUX"
     ],
     "nickname": "Max"
   },
@@ -205,7 +205,7 @@ const players = [
     "trajectory": [
       "Malasaña",
       "Factory FC",
-      "2025–actualidad · Bisontes DUX"
+      "25/26–actualidad · Bisontes DUX"
     ],
     "nickname": "Filip"
   },
@@ -218,7 +218,7 @@ const players = [
     ],
     "trajectory": [
       "Malasaña",
-      "2025–actualidad · Bisontes DUX"
+      "25/26–actualidad · Bisontes DUX"
     ],
     "nickname": "LuisDa"
   },
@@ -228,9 +228,13 @@ const players = [
     "position": "ED",
     "trajectory": [
       "Malasaña",
-      "2025–actualidad · Bisontes DUX"
+      "26/27–actualidad · Bisontes DUX"
     ],
-    "nickname": "Javi"
+    "nickname": "Javi",
+    "nationalities": [
+      "Paraguay",
+      "España"
+    ]
   },
   {
     "dorsal": 14,
@@ -244,7 +248,7 @@ const players = [
       "Cantera F.C.",
       "Fundación Rayo Vallecano",
       "Factory FC",
-      "2025–actualidad · Bisontes DUX"
+      "25/26–actualidad · Bisontes DUX"
     ],
     "nickname": "Carlitos"
   },
@@ -255,7 +259,7 @@ const players = [
     "nickname": "Arturito",
     "trajectory": [
       "Malasaña",
-      "2025–actualidad · Bisontes DUX"
+      "25/26–actualidad · Bisontes DUX"
     ]
   },
   {
@@ -265,7 +269,7 @@ const players = [
     "trajectory": [
       "CD Tajamar",
       "Factory FC",
-      "2025–actualidad · Bisontes DUX"
+      "26/27–actualidad · Bisontes DUX"
     ],
     "nickname": "Cris"
   },
@@ -278,7 +282,7 @@ const players = [
     ],
     "trajectory": [
       "Malasaña",
-      "2025–actualidad · Bisontes DUX"
+      "26/27–actualidad · Bisontes DUX"
     ],
     "nickname": "Izan"
   },
@@ -291,7 +295,7 @@ const players = [
     ],
     "trajectory": [
       "Sport Villa de Vallecas",
-      "2025–actualidad · Bisontes DUX"
+      "25/26–actualidad · Bisontes DUX"
     ],
     "nickname": "Elías"
   },
@@ -304,7 +308,7 @@ const players = [
     ],
     "trajectory": [
       "Malasaña",
-      "2025–actualidad · Bisontes DUX"
+      "25/26–actualidad · Bisontes DUX"
     ],
     "nickname": "Mario"
   },
@@ -317,7 +321,7 @@ const players = [
     ],
     "trajectory": [
       "Malasaña",
-      "2025–actualidad · Bisontes DUX"
+      "25/26–actualidad · Bisontes DUX"
     ],
     "nickname": "Fran"
   },
@@ -327,7 +331,7 @@ const players = [
     "position": "DFC",
     "trajectory": [
       "ADC San Fermín",
-      "2025–actualidad · Bisontes DUX"
+      "26/27–actualidad · Bisontes DUX"
     ],
     "nickname": "Leonardo"
   },
@@ -340,7 +344,7 @@ const players = [
     ],
     "trajectory": [
       "Malasaña",
-      "2025–actualidad · Bisontes DUX"
+      "26/27–actualidad · Bisontes DUX"
     ],
     "nickname": "Coronel"
   },
@@ -354,7 +358,7 @@ const players = [
     "trajectory": [
       "Malasaña",
       "RCD Espanyol de Madrid",
-      "2025–actualidad · Bisontes DUX"
+      "26/27–actualidad · Bisontes DUX"
     ],
     "nickname": "Dani"
   },
@@ -367,7 +371,7 @@ const players = [
     ],
     "trajectory": [
       "RCD Espanyol de Madrid",
-      "2025–actualidad · Bisontes DUX"
+      "26/27–actualidad · Bisontes DUX"
     ],
     "nickname": "Santi"
   },
@@ -380,7 +384,7 @@ const players = [
     ],
     "trajectory": [
       "RCD Espanyol de Madrid",
-      "2025–actualidad · Bisontes DUX"
+      "26/27–actualidad · Bisontes DUX"
     ],
     "nickname": "Mateo"
   },
@@ -394,7 +398,7 @@ const players = [
     ],
     "trajectory": [
       "Malasaña",
-      "2025–actualidad · Bisontes DUX"
+      "25/26–actualidad · Bisontes DUX"
     ],
     "nickname": "Diego"
   }
