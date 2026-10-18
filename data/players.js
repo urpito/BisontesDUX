@@ -281,7 +281,8 @@ const players = [
       "Factory FC",
       "26/27–actualidad · Bisontes DUX"
     ],
-    "nickname": "Cris"
+    "nickname": "Cris",
+    "bio": "Cris es uno de los nuevos fichajes del Bisontes Dux. Tenemos muchas ganas de que se incorpore al equipo en las próximas semanas."
   },
   {
     "dorsal": 20,
@@ -343,7 +344,8 @@ const players = [
       "ADC San Fermín",
       "26/27–actualidad · Bisontes DUX"
     ],
-    "nickname": "Leonardo"
+    "nickname": "Leonardo",
+    "bio": "Leonardo es uno de los nuevos fichajes del Bisontes Dux. Tenemos muchas ganas de que se incorpore al equipo en las próximas semanas."
   },
   {
     "dorsal": 33,
@@ -383,7 +385,8 @@ const players = [
       "RCD Espanyol de Madrid",
       "26/27–actualidad · Bisontes DUX"
     ],
-    "nickname": "Santi"
+    "nickname": "Santi",
+    "bio": "Santi es uno de los nuevos fichajes del Bisontes Dux. Tenemos muchas ganas de que se incorpore al equipo en las próximas semanas."
   },
   {
     "dorsal": 69,
@@ -396,7 +399,8 @@ const players = [
       "RCD Espanyol de Madrid",
       "26/27–actualidad · Bisontes DUX"
     ],
-    "nickname": "Mateo"
+    "nickname": "Mateo",
+    "bio": "Mateo es uno de los nuevos fichajes del Bisontes Dux. Tenemos muchas ganas de que se incorpore al equipo en las próximas semanas."
   },
   {
     "dorsal": 99,
