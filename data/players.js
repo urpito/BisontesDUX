@@ -248,7 +248,7 @@ const players = [
   {
     "dorsal": 14,
     "name": "Rivera Puente, Carlos Raul",
-    "position": "DFC",
+    "position": "POR",
     "nationalities": [
       "Ecuador"
     ],
@@ -259,7 +259,7 @@ const players = [
       "Factory FC",
       "25/26–actualidad · Bisontes DUX"
     ],
-    "nickname": "Carlitos",
+    "nickname": "Carlos",
     "bio": "Carlos es uno de los porteros del Bisontes Dux y fue uno de los primeros jugadores de la plantilla original que montó Ben hace unos años. Ha pasado por muchos equipos últimamente, incluidos el Rayo Vallecano y el Cantera FC. Al igual que Alejo, es un especialista en parar penaltis. Además de ser muy buen portero, también puede jugar de defensa."
   },
   {
