@@ -363,7 +363,8 @@ const players = [
       "Malasaña",
       "26/27–actualidad · Bisontes DUX"
     ],
-    "nickname": "Coronel"
+    "nickname": "Coronel",
+    "bio": "Coronel es un central contundente que vuelve a ponerse las botas después de un año sin jugar. Va con todo y tiene una entrada muy fuerte. Se reincorpora así con su cuerpo técnico y sus antiguos compañeros. Fuera del campo es rapero y se le conoce por su nombre artístico, Glesh."
   },
   {
     "dorsal": 42,
