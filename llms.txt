@@ -17,7 +17,7 @@ Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identif
 - [Omar Alejandro Copa Moreno](https://urpito.github.io/BisontesDUX/jugadores/omar-alejandro-copa-moreno/): portero, dorsal 1.
 - [Bruno Navas Moreno](https://urpito.github.io/BisontesDUX/jugadores/bruno-navas-moreno/): defensa central, dorsal 3.
 - [Miguel Arias-Camisón Nieto](https://urpito.github.io/BisontesDUX/jugadores/miguel-arias-camison-nieto/): mediocentro, dorsal 4.
-- [Leonardo Jose Tagara Zombilla](https://urpito.github.io/BisontesDUX/jugadores/leonardo-jose-tagara-zombilla/): defensa central, dorsal 5.
+- [Leonardo Jose Tagara Zombilla](https://urpito.github.io/BisontesDUX/jugadores/leonardo-jose-tagara-zombilla/): lateral izquierdo, dorsal 5.
 - [Jose Anthony Arrango Guerra](https://urpito.github.io/BisontesDUX/jugadores/jose-anthony-arrango-guerra/): mediocentro, dorsal 6.
 - [Alan Gálvez Patiño](https://urpito.github.io/BisontesDUX/jugadores/alan-galvez-patino/): extremo izquierdo, dorsal 7.
 - [Anton Alsonso Franco](https://urpito.github.io/BisontesDUX/jugadores/anton-alsonso-franco/): mediocentro, dorsal 8.
