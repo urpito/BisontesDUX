@@ -138,7 +138,7 @@ const players = [
       "26/27–actualidad · Bisontes DUX"
     ],
     "nickname": "Tagara",
-    "bio": "Tagara es un lateral o extremo con mucha rapidez y buen ojo para la portería. Lleva años jugando con José y Ben en el Malasaña, y este año ha fichado por el Bisontes. Estamos encantados de tenerlo en el equipo y con muchas ganas de ver todo lo que va a aportar."
+    "bio": "Tagara es un lateral o extremo con mucha rapidez y buen ojo para la portería. Lleva años jugando con José y Ben en el Malasaña, y este año ha fichado por el Bisontes. Estamos encantados de tenerle en el equipo y con muchas ganas de ver todo lo que va a aportar."
   },
   {
     "dorsal": 6,
