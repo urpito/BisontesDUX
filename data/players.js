@@ -166,7 +166,8 @@ const players = [
     "trajectory": [
       "25/26–actualidad · Bisontes DUX"
     ],
-    "nickname": "Alan"
+    "nickname": "Alan",
+    "bio": "Alan es nuestro número 7 y vuelve tras una temporada en la que metió varios goles, pero todos golazos. Parece incapaz de meter un gol normalito. Puede jugar tanto de medio como de extremo. Ahora está en su segundo año y llega con muchas ganas de seguir aportando al equipo."
   },
   {
     "dorsal": 8,
