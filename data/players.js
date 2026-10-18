@@ -338,7 +338,8 @@ const players = [
       "Malasaña",
       "25/26–actualidad · Bisontes DUX"
     ],
-    "nickname": "Fran"
+    "nickname": "Fran",
+    "bio": "Fran es un miembro clave de nuestra defensa, donde suele jugar de central. Lleva un par de años jugando con sus entrenadores actuales y también genera mucho peligro ofensivo, especialmente a balón parado en córners y tiros libres. Más, su primo LuisDa también forma parte de la plantilla."
   },
   {
     "dorsal": 28,
