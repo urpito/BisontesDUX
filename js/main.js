@@ -61,7 +61,7 @@ function renderPlayers() {
       .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
     return `
-      <a class="player-card reveal" href="/BisontesDUX/jugadores/${slug}/" style="transition-delay:${delay}s" data-player-index="${index}">
+      <a class="player-card reveal" href="/BisontesDUX/jugadores/${slug}/" target="_blank" rel="noopener" style="transition-delay:${delay}s" data-player-index="${index}">
         <div class="player-card__img-wrap" style="width:100%;height:100%;position:relative;">
           <img
             src="${imgPath}"

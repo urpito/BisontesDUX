@@ -27,8 +27,8 @@
   --section: clamp(72px, 10vw, 136px);
   --ease:    cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* Punto de la camiseta: puntadas en V muy suaves */
-  --knit: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='14' viewBox='0 0 10 14'%3E%3Cpath d='M0 0l5 7 5-7M0 7l5 7 5-7' fill='none' stroke='%23ffffff' stroke-opacity='0.045' stroke-width='1'/%3E%3C/svg%3E");
+  /* Foco de luz suave (plantilla y fichas, en lugar del punto) */
+  --spot: radial-gradient(ellipse 90% 55% at 50% 0%, rgba(255,255,255,0.09), rgba(255,255,255,0) 70%);
   /* Ribete de cuello: canalé rosa */
   --rib: repeating-linear-gradient(90deg, var(--pink) 0 3px, var(--pink-rib) 3px 5px);
 }
@@ -43,7 +43,7 @@ body {
   font-size: 1.0625rem;
   line-height: 1.65;
   color: var(--white);
-  background: var(--kit) var(--knit);
+  background: var(--kit);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   caret-color: var(--pink);
@@ -111,7 +111,7 @@ ul { list-style: none; }
   height: calc(var(--nav-h) + var(--rib-h));
   padding: 0 var(--pad) var(--rib-h);
   display: flex; align-items: center; justify-content: space-between; gap: 24px;
-  background: var(--kit-deep) var(--knit);
+  background: var(--kit-deep);
   transition: box-shadow 0.3s;
 }
 #navbar::after {
@@ -157,9 +157,10 @@ ul { list-style: none; }
    ---------------------------------------------------------- */
 .section { position: relative; padding: var(--section) var(--pad); }
 .section > *, .section-head { max-width: 1320px; margin-left: auto; margin-right: auto; }
-.section--kit { background: var(--kit) var(--knit); }
-.section--kit-deep { background: var(--kit-deep) var(--knit); }
+.section--kit { background: var(--kit); }
+.section--kit-deep { background: var(--kit-deep); }
 .section--white { background: var(--white); color: var(--ink); }
+/* Plantilla, tarjetas y ficha: fondo liso con un foco de luz, sin las puntadas */
 .rib-top::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: var(--rib-h); background: var(--rib);
 }
@@ -179,7 +180,7 @@ ul { list-style: none; }
   grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
   grid-template-rows: 1fr auto;
   column-gap: clamp(24px, 4vw, 64px);
-  background: var(--kit) var(--knit);
+  background: var(--kit);
 }
 .kit-hero__copy { align-self: center; padding-bottom: clamp(24px, 4vw, 48px); position: relative; z-index: 2; }
 .kit-hero__crest { width: clamp(72px, 7vw, 104px); height: auto; border-radius: 50%; background: var(--white); box-shadow: 0 10px 28px rgba(0,0,0,0.25); margin-bottom: clamp(20px, 3vw, 36px); }
@@ -249,28 +250,55 @@ ul { list-style: none; }
 /* ----------------------------------------------------------
    SOBRE NOSOTROS — con la etiqueta cosida de la camiseta
    ---------------------------------------------------------- */
-.about-layout { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(40px, 7vw, 112px); align-items: start; }
+.about-layout { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(40px, 7vw, 112px); align-items: stretch; }
 .about-text .section-title { margin-bottom: 32px; max-width: 14ch; }
 .about-text p { max-width: 62ch; margin-bottom: 18px; color: var(--ink-soft); }
 .about-text p.about-lead { font-size: clamp(1.2rem, 2vw, 1.45rem); line-height: 1.5; color: var(--ink); }
 .about-text strong { color: var(--ink); font-weight: 800; }
 .about-text p a { color: var(--ink); font-weight: 700; text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 3px; text-underline-offset: 4px; }
 .about-text p a:hover { background: var(--pink); }
+.about-body { margin-top: 8px; columns: 2 260px; column-gap: clamp(24px, 3vw, 44px); }
+.about-text .about-body p { max-width: none; break-inside: avoid; font-size: 1rem; }
+.about-text .about-body p:first-child {
+  column-span: all; margin-bottom: 28px; padding: 4px 0 4px 22px; border-left: 6px solid var(--pink);
+  font-size: clamp(1.1rem, 1.6vw, 1.25rem); line-height: 1.5; font-weight: 600; color: var(--ink);
+}
+.club-numbers {
+  margin: 32px 0 36px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 3px solid var(--ink); border-bottom: 1px solid rgba(84,84,84,0.2);
+}
+.club-numbers div { padding: 16px 16px 18px 0; display: flex; flex-direction: column-reverse; gap: 4px; }
+.club-numbers div + div { padding-left: 16px; border-left: 1px solid rgba(84,84,84,0.2); }
+.club-numbers dd { font-family: var(--display); font-weight: 900; font-size: clamp(2.6rem, 5vw, 4rem); line-height: 0.9; font-variant-numeric: tabular-nums; }
+.club-numbers dt { font-size: 0.72rem; font-weight: 800; font-stretch: 112%; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); }
 .about-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
 
 .kit-label {
-  position: relative; padding: 32px 28px 28px;
-  background: var(--paper); color: var(--ink);
-  border-radius: 0 0 4px 4px;
+  position: relative; padding: 36px clamp(22px, 2.4vw, 32px) 26px;
+  background: var(--kit); color: var(--white);
+  border-radius: 0 0 6px 6px;
   border-top: var(--rib-h) solid transparent; border-image: var(--rib) 1;
-  border-bottom: 3px solid var(--ink);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.18);
+  display: flex; flex-direction: column;
 }
-.kit-label__crest { width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 10px; background: var(--white); }
-.kit-label__brand { text-align: center; font-family: var(--display); font-weight: 900; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 18px; }
-.kit-label__facts div { display: grid; grid-template-columns: 9.5em 1fr; gap: 12px; padding: 11px 0; border-top: 1px solid rgba(84,84,84,0.2); }
-.kit-label__facts dt { font-size: 0.72rem; font-weight: 800; font-stretch: 112%; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); padding-top: 2px; }
-.kit-label__facts dd { font-size: 0.95rem; line-height: 1.45; font-weight: 600; }
-.kit-label__facts a { text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+/* Pespunte: la etiqueta va cosida a la camiseta */
+.kit-label::after { content: ''; position: absolute; inset: 10px; border: 1.5px dashed rgba(255,255,255,0.22); border-radius: 3px; pointer-events: none; }
+.kit-label__crest { width: 112px; height: 112px; border-radius: 50%; margin: 0 auto 14px; background: var(--white); box-shadow: 0 0 0 5px var(--pink), 0 10px 24px rgba(0,0,0,0.3); }
+.kit-label__brand { text-align: center; font-family: var(--display); font-weight: 900; font-size: clamp(2.4rem, 3.2vw, 3rem); line-height: 1; text-transform: uppercase; letter-spacing: 0.08em; }
+.kit-label__kicker { margin: 10px 0 24px; text-align: center; font-size: 0.82rem; font-weight: 800; font-stretch: 112%; letter-spacing: 0.24em; text-transform: uppercase; color: var(--pink); }
+.kit-label__facts { flex: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: row dense; align-content: space-between; border-top: 1px solid var(--kit-line); }
+.kit-label__facts div { grid-column: 1 / -1; display: grid; align-content: start; gap: 6px; padding: 18px 0; border-bottom: 1px solid var(--kit-line); }
+.kit-label__facts div.is-short { grid-column: auto; }
+.kit-label__facts div.is-short:nth-child(odd of .is-short) { padding-right: 14px; border-right: 1px solid var(--kit-line); }
+.kit-label__facts div.is-short:nth-child(even of .is-short) { padding-left: 16px; }
+.kit-label__facts dt { font-size: 0.78rem; font-weight: 800; font-stretch: 112%; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pink); }
+.kit-label__facts dd { font-size: clamp(1.15rem, 1.5vw, 1.35rem); line-height: 1.35; font-weight: 600; }
+.kit-label__facts .is-big dd { font-family: var(--display); font-weight: 800; font-size: clamp(1.9rem, 2.6vw, 2.5rem); line-height: 1; text-transform: uppercase; letter-spacing: 0.01em; }
+.kit-label__facts a { color: var(--white); text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.kit-label__facts a:hover { color: var(--pink); }
+.kit-label__care { margin-top: 22px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; font-size: 0.8rem; font-weight: 800; font-stretch: 112%; letter-spacing: 0.14em; text-transform: uppercase; color: var(--on-kit-2); }
+.kit-label__care span { white-space: nowrap; }
+.kit-label__care span[aria-hidden] { color: var(--pink); }
 
 /* ----------------------------------------------------------
    PLANTILLA — tarjetas de jugador
@@ -286,10 +314,11 @@ ul { list-style: none; }
 .roster-filter__btn:hover { border-color: var(--white); }
 .roster-filter__btn[aria-pressed="true"] { background: var(--white); color: var(--ink); border-color: var(--white); }
 
+#plantilla { background: var(--spot), var(--kit); }
 #players-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
 .player-card {
   position: relative; display: flex; flex-direction: column; overflow: hidden;
-  background: var(--kit-soft) var(--knit); border-radius: 4px;
+  background: linear-gradient(180deg, #6a6a6a 0%, var(--kit-soft) 55%, #585858 100%); border-radius: 4px;
   box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 8px 20px rgba(0,0,0,0.12);
   transition: transform 0.3s var(--ease), box-shadow 0.3s;
 }
@@ -417,7 +446,7 @@ a.sponsor-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba
    ---------------------------------------------------------- */
 .footer-min {
   position: relative; padding: calc(56px + var(--rib-h)) var(--pad) 40px;
-  background: var(--kit-deep) var(--knit); text-align: center;
+  background: var(--kit-deep); text-align: center;
 }
 .footer-min::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: var(--rib-h); background: var(--rib); }
 .footer-min-brand { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 22px; }
@@ -449,13 +478,17 @@ a.sponsor-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba
 /* Ficha de jugador */
 .profile-page { max-width: 1240px; margin: 0 auto; padding: 0 var(--pad) var(--section); }
 .profile-card { margin-top: 28px; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); background: var(--white); color: var(--ink); border-radius: 6px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-.profile-photo { position: relative; min-height: 560px; padding-top: clamp(5.5rem, 9vw, 7rem); display: flex; align-items: flex-end; justify-content: center; background: var(--kit) var(--knit); overflow: hidden; }
+.profile-photo {
+  position: relative; min-height: 680px;
+  padding-top: clamp(4rem, 7vw, 5.5rem); display: flex; align-items: flex-end; justify-content: center;
+  background: var(--spot), var(--kit); overflow: hidden;
+}
 .profile-photo::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: var(--rib-h); background: var(--rib); }
 .profile-shirt { position: absolute; inset: 0 0 auto; display: grid; justify-items: center; font-family: var(--display); text-transform: uppercase; line-height: 0.8; user-select: none; }
 .profile-shirt__name { padding-top: 28px; font-weight: 800; font-size: clamp(1.8rem, 3.4vw, 3rem); letter-spacing: 0.12em; color: var(--white); }
 .profile-shirt__num { margin-top: 8px; font-weight: 900; font-size: clamp(11rem, 22vw, 20rem); color: var(--pink); }
 .profile-shirt__num--text { font-size: clamp(5rem, 10vw, 8rem); margin-top: 24px; }
-.profile-photo img { position: relative; z-index: 1; width: auto; max-width: 100%; max-height: 560px; object-fit: contain; object-position: bottom center; filter: drop-shadow(0 16px 24px rgba(0,0,0,0.3)); }
+.profile-photo img { position: relative; z-index: 1; flex-shrink: 0; width: auto; height: 840px; max-height: 100%; max-width: none; object-fit: contain; object-position: bottom center; filter: drop-shadow(0 16px 24px rgba(0,0,0,0.3)); }
 .profile-silhouette { position: relative; z-index: 1; width: 56%; align-self: center; display: flex; justify-content: center; }
 .profile-silhouette img { width: 100%; height: auto; border-radius: 50%; background: var(--white); }
 .profile-content { padding: clamp(28px, 4vw, 56px); }
@@ -564,7 +597,7 @@ a.sponsor-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba
     display: none; position: fixed; top: calc(var(--nav-h) + var(--rib-h)); left: 0; right: 0;
     max-height: calc(100svh - var(--nav-h) - var(--rib-h)); overflow-y: auto;
     flex-direction: column; align-items: stretch; gap: 0;
-    padding: 12px var(--pad) 24px; background: var(--kit-deep) var(--knit);
+    padding: 12px var(--pad) 24px; background: var(--kit-deep);
     box-shadow: 0 16px 32px rgba(0,0,0,0.3);
   }
   .nav-links.open { display: flex; }
@@ -575,9 +608,10 @@ a.sponsor-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba
 }
 
 @media (max-width: 1100px) {
-  .about-layout, .instagram-layout, .join-layout { grid-template-columns: 1fr; }
+  .about-layout, .instagram-layout, .join-layout { grid-template-columns: minmax(0, 1fr); }
   .kit-label { max-width: 520px; }
   .profile-card { grid-template-columns: 1fr; }
+  .profile-photo { min-height: 0; height: min(78svh, 640px); }
 }
 
 @media (max-width: 860px) {
@@ -625,8 +659,12 @@ a.sponsor-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba
   .player-card__name { font-size: 1.2rem; }
   .player-card__dorsal { font-size: 4.2rem; left: 8px; }
   .player-card__profile-link { display: none; }
-  .kit-label__facts div { grid-template-columns: 1fr; gap: 2px; }
-  .profile-photo { min-height: 440px; }
+  .profile-photo { height: min(70svh, 520px); }
+  .club-numbers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kit-label__facts .is-big dd { font-size: 1.55rem; overflow-wrap: anywhere; }
+  .kit-label__brand { font-size: 2.2rem; }
+  .club-numbers div:nth-child(3) { padding-left: 0; border-left: 0; }
+  .club-numbers div:nth-child(n+3) { border-top: 1px solid rgba(84,84,84,0.2); }
   .profile-facts { grid-template-columns: 1fr; }
 }
 
@@ -637,9 +675,17 @@ a.sponsor-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba
   font-family: var(--display); font-weight: 900; font-size: 1.15rem; line-height: 1;
   border: 2px solid currentColor; box-shadow: 0 2px 8px rgba(0,0,0,.25); vertical-align: middle;
 }
-.player-card__img-wrap .captain-badge { position: absolute; top: 12px; right: 12px; z-index: 2; }
+/* Guante de portero */
+.keeper-badge { display: inline-block; width: 38px; height: 48px; line-height: 0; vertical-align: middle; filter: drop-shadow(0 2px 4px rgba(0,0,0,.3)); }
+.keeper-badge svg { width: 100%; height: 100%; overflow: visible; }
+.keeper-badge .glove { fill: var(--white); stroke: var(--ink); stroke-width: 1.6; stroke-linejoin: round; }
+.keeper-badge .glove-cuff { fill: var(--pink); stroke: var(--ink); stroke-width: 1.6; }
+.person-badges { display: inline-flex; gap: 6px; align-items: center; }
+.player-card__img-wrap .person-badges { position: absolute; top: 12px; right: 12px; z-index: 2; }
 .profile-title { display: flex; align-items: center; gap: 12px; }
-.profile-title .captain-badge { width: 40px; height: 40px; font-size: 1.4rem; margin-left: 6px; }
+.profile-title .person-badges { margin-left: 6px; }
+.profile-title .captain-badge { width: 40px; height: 40px; font-size: 1.4rem; }
+.profile-title .keeper-badge { width: 42px; height: 52px; }
 
 /* Banderas de nacionalidad en la ficha */
 .flag { display: inline-block; width: 36px; height: 24px; object-fit: cover; border-radius: 3px; box-shadow: 0 0 0 1px rgba(0,0,0,.15); vertical-align: middle; margin-right: 6px; }
@@ -662,7 +708,7 @@ a.sponsor-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba
 .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(calc(50% - 5px), 210px), 1fr)); gap: 10px; }
 .gallery-thumb {
   position: relative; display: block; width: 100%; aspect-ratio: 4 / 5; padding: 0; border: 0; border-radius: 4px; overflow: hidden; cursor: zoom-in;
-  background: var(--kit-soft) var(--knit); box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  background: var(--kit-soft); box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s var(--ease); }
 .gallery-thumb:hover img { transform: scale(1.04); }
@@ -746,7 +792,7 @@ a.sponsor-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba
 
 /* Visor a pantalla completa */
 body:has(dialog[open]) { overflow: hidden; }
-.gallery-viewer { width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: var(--kit-deep) var(--knit); color: var(--white); }
+.gallery-viewer { width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: var(--kit-deep); color: var(--white); }
 .gallery-viewer[open] { display: grid; grid-template-rows: auto minmax(0, 1fr); }
 .gallery-viewer::backdrop { background: rgba(0,0,0,0.6); }
 .gallery-viewer__bar { display: flex; align-items: center; gap: 12px; padding: 10px clamp(12px, 3vw, 24px); padding-top: max(10px, env(safe-area-inset-top)); border-bottom: 1px solid var(--kit-line); }

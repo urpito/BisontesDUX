@@ -252,16 +252,26 @@ function captainBadge() {
   return '<span class="captain-badge" title="Capitán" aria-label="Capitán">C</span>';
 }
 
+/* Guante de portero, junto al escudito de capitán. */
+function keeperBadge() {
+  return '<span class="keeper-badge" title="Portero" aria-label="Portero"><svg viewBox="0 0 32 40" aria-hidden="true" focusable="false"><rect class="glove" x="4" y="15.5" width="5" height="12.5" rx="2.5" transform="rotate(-32 6.5 26)"/><rect class="glove" x="8.8" y="5.2" width="4.8" height="16" rx="2.4"/><rect class="glove" x="13.6" y="2" width="4.8" height="19" rx="2.4"/><rect class="glove" x="18.4" y="3.6" width="4.8" height="17.4" rx="2.4"/><rect class="glove" x="23.2" y="7.4" width="4.4" height="13.6" rx="2.2"/><path class="glove" d="M8 17.5h19.6V27a7 7 0 0 1-7 7h-5.6a7 7 0 0 1-7-7z"/><rect class="glove-cuff" x="9.6" y="32.4" width="16.4" height="6" rx="1.6"/></svg></span>';
+}
+
+function personBadges(player) {
+  const badges = (player.group === 'porteros' ? keeperBadge() : '') + (player.captain ? captainBadge() : '');
+  return badges ? `<span class="person-badges">${badges}</span>` : '';
+}
+
 function rosterCard(player, prefix = '') {
   const image = player.hasPortrait
     ? `<img src="${SITE_PATH}${player.photo}" alt="Retrato de ${escapeHtml(player.name)}, ${escapeHtml(player.position)} de Bisontes DUX" class="player-card__photo" width="720" height="900" loading="lazy" decoding="async" />`
     : `<div class="player-card__silhouette player-card__silhouette--visible" aria-hidden="true">${silhouette()}</div>`;
   const dorsalClass = player.coach ? 'player-card__dorsal player-card__dorsal--text' : 'player-card__dorsal';
-  return `<a class="player-card" href="${SITE_PATH}jugadores/${player.slug}/" data-group="${player.group}" data-track="player_card_click" data-player="${escapeHtml(player.name)}">
+  return `<a class="player-card" href="${SITE_PATH}jugadores/${player.slug}/" target="_blank" rel="noopener" data-group="${player.group}" data-track="player_card_click" data-player="${escapeHtml(player.name)}">
     <div class="player-card__img-wrap">
       ${image}
       <span class="${dorsalClass}" aria-hidden="true">${escapeHtml(dorsalLabel(player))}</span>
-      ${player.captain ? captainBadge() : ''}
+      ${personBadges(player)}
     </div>
     <div class="player-card__info">
       <h3 class="player-card__name">${escapeHtml(player.cardName)}</h3>
@@ -337,7 +347,7 @@ function playerPage(player) {
     <article class="profile-card">
       <div class="profile-photo"><span class="profile-shirt" aria-hidden="true"><span class="profile-shirt__name">${escapeHtml(player.shirtName)}</span><span class="profile-shirt__num${player.coach ? ' profile-shirt__num--text' : ''}">${escapeHtml(dorsalLabel(player))}</span></span>${imageMarkup}</div>
       <div class="profile-content">
-        <div class="profile-title"><h1 class="font-display">${escapeHtml(player.name)}</h1>${player.captain ? captainBadge() : ''}</div>
+        <div class="profile-title"><h1 class="font-display">${escapeHtml(player.name)}</h1>${personBadges(player)}</div>
         <p class="profile-role">${player.coach ? escapeHtml(player.position) : `${escapeHtml(player.position)} · Dorsal ${escapeHtml(player.dorsal)}`}</p>
         ${player.bio ? `<p class="profile-statement">${escapeHtml(player.bio)}</p>` : ''}
         <dl class="profile-facts">${facts.map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl>
@@ -660,7 +670,7 @@ function heroBlock() {
     <svg class="kit-hero__garment" viewBox="0 0 600 640" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false"><path class="kit-hero__garment-body" d="M210 20 C240 34 270 40 300 40 C330 40 360 34 390 20 L520 70 L600 220 L510 262 L478 214 L478 640 L122 640 L122 214 L90 262 L0 220 L80 70 Z"/><path class="kit-hero__garment-collar" d="M214 24 C242 37 270 44 300 44 C330 44 358 37 386 24"/></svg>
     <p class="kit-hero__back" aria-hidden="true"><span class="kit-hero__name" data-shirt-name>${escapeHtml(lead.shirtName)}</span></p>
     <img src="${SITE_PATH}${lead.photo}" alt="${escapeHtml(lead.name)}, ${escapeHtml(lead.position)} de Bisontes DUX" class="kit-hero__player" width="720" height="900" fetchpriority="high" data-shirt-photo />
-    <a class="kit-hero__caption" href="${SITE_PATH}jugadores/${lead.slug}/" data-shirt-link><strong data-shirt-fullname>${escapeHtml(lead.name)}</strong><span data-shirt-pos>${escapeHtml(lead.position)}</span><span class="kit-hero__caption-more">Ver ficha</span></a>
+    <a class="kit-hero__caption" href="${SITE_PATH}jugadores/${lead.slug}/" target="_blank" rel="noopener" data-shirt-link><strong data-shirt-fullname>${escapeHtml(lead.name)}</strong><span data-shirt-pos>${escapeHtml(lead.position)}</span><span class="kit-hero__caption-more">Ver ficha</span></a>
   </div>
   <div class="dorsal-strip" role="group" aria-label="Elige un dorsal para ver al jugador">
     <span class="dorsal-strip__label">Elige dorsal</span>
@@ -684,13 +694,42 @@ function richText(value, { breaks = false } = {}) {
   return html;
 }
 
+/* Marcador de «Sobre nosotros»: cifras sacadas de los datos, se actualizan solas. */
+function clubNumbers() {
+  const squad = roster.filter(player => !player.coach);
+  const countries = new Set(roster.flatMap(player => player.nationalities));
+  const founded = (site.about.facts.find(fact => /fundaci/i.test(fact.label)) || {}).value || '2025';
+  const items = [
+    [founded, 'Fundación'],
+    [squad.length, 'Jugadores'],
+    [countries.size, 'Nacionalidades'],
+    [sponsors.length, 'Patrocinadores']
+  ];
+  return `<dl class="club-numbers">${items.map(([value, label]) => `<div><dt>${label}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}</dl>`;
+}
+
 const siteBlocks = {
   HERO: () => `<p class="kit-hero__sub">${richText(site.hero.tagline)}</p>`,
-  ABOUT: () => `<h2 class="section-title">${escapeHtml(site.about.title)}</h2>
-      ${site.about.paragraphs.map((text, index) => `<p${index === 0 ? ' class="about-lead"' : ''}>${richText(text)}</p>`).join('\n      ')}`,
-  FACTS: () => `<dl class="kit-label__facts">
-        ${site.about.facts.map(fact => `<div><dt>${escapeHtml(fact.label)}</dt><dd>${richText(fact.value, { breaks: true })}</dd></div>`).join('\n        ')}
-      </dl>`,
+  ABOUT: () => {
+    const [lead, ...rest] = site.about.paragraphs;
+    return `<h2 class="section-title">${escapeHtml(site.about.title)}</h2>
+      <p class="about-lead">${richText(lead || '')}</p>
+      ${clubNumbers()}
+      <div class="about-body">
+      ${rest.map(text => `<p>${richText(text)}</p>`).join('\n      ')}
+      </div>`;
+  },
+  FACTS: () => {
+    /* Datos breves en letra grande; los muy cortos van de dos en dos y, si sobra uno, ocupa la fila entera. */
+    const plain = fact => !/[\n\[]/.test(fact.value);
+    const big = site.about.facts.map(fact => plain(fact) && String(fact.value).length <= 28);
+    const short = site.about.facts.map(fact => plain(fact) && String(fact.value).length <= 16);
+    if (short.filter(Boolean).length % 2) short[short.lastIndexOf(true)] = false;
+    const cls = i => [big[i] && 'is-big', short[i] && 'is-short'].filter(Boolean).join(' ');
+    return `<dl class="kit-label__facts">
+        ${site.about.facts.map((fact, i) => `<div${cls(i) ? ` class="${cls(i)}"` : ''}><dt>${escapeHtml(fact.label)}</dt><dd>${richText(fact.value, { breaks: true })}</dd></div>`).join('\n        ')}
+      </dl>`;
+  },
   ROSTER: () => `<h2 class="section-title">${escapeHtml(site.roster.title)}</h2>
     <p class="section-intro">${richText(site.roster.intro)}</p>`,
   VALUES: () => `<h2 class="section-title">${escapeHtml(site.values.title)}</h2>

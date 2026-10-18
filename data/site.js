@@ -39,10 +39,6 @@ const site = {
         "value": "Liga municipal de Orcasur"
       },
       {
-        "label": "Apodo",
-        "value": "La manada"
-      },
-      {
         "label": "Entrenadores",
         "value": "Ben Gunduz · Jose Ignacio Arrufat"
       },
