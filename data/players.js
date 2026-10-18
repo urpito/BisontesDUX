@@ -324,7 +324,8 @@ const players = [
       "Malasaña",
       "25/26–actualidad · Bisontes DUX"
     ],
-    "nickname": "Mario"
+    "nickname": "Mario",
+    "bio": "Mario es un mediocentro fuerte que vuelve al equipo tras un año de muy buenos resultados. Destaca sobre todo por su trabajo como pivote defensivo, cortando los ataques del rival e iniciando las jugadas de los nuestros."
   },
   {
     "dorsal": 25,
