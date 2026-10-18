@@ -153,7 +153,8 @@ const players = [
       "San Cristobál",
       "25/26–actualidad · Bisontes DUX"
     ],
-    "nickname": "Jose Anthony"
+    "nickname": "Jose Anthony",
+    "bio": "José Anthony está en su segunda temporada con el Bisontes, donde juega de mediocentro ofensivo o falso nueve. El año pasado fue nuestro máximo goleador y tiene una gran trayectoria tras haber pasado por equipos como el Getafe y el San Cristóbal. Tiene muchísimo regate, un buen tiro y, de vez en cuando, se saca de la manga algo de magia, como aquella chilena que metió hace unos años."
   },
   {
     "dorsal": 7,
