@@ -310,7 +310,8 @@ const players = [
       "Sport Villa de Vallecas",
       "25/26–actualidad · Bisontes DUX"
     ],
-    "nickname": "Elías"
+    "nickname": "Elías",
+    "bio": "Elías vuelve al Bisontes Dux tras una temporada en la que destacó como la navaja suiza de la defensa. Puede jugar en cualquier puesto de la línea defensiva. Viene de haber jugado unos años en el Sport Villa de Vallecas, se entiende bien con los demás defensas y forman un bloque fuerte a la hora de defender la portería."
   },
   {
     "dorsal": 22,
