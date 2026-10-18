@@ -296,7 +296,8 @@ const players = [
       "Malasaña",
       "26/27–actualidad · Bisontes DUX"
     ],
-    "nickname": "Izan"
+    "nickname": "Izan",
+    "bio": "Izan es un mediocentro con mucha creatividad y un especialista en ocasiones a balón parado. Viene de haber jugado en el Malasaña, pero lo dejó temporalmente para entrenar artes marciales. Ahora ha vuelto a los campos de fútbol para disputar esta temporada con el Bisontes y volver a jugar con muchos chavales de su etapa anterior. Tenemos muchas ganas de que se sume al equipo."
   },
   {
     "dorsal": 21,
