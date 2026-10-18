@@ -270,7 +270,8 @@ const players = [
     "trajectory": [
       "Malasaña",
       "25/26–actualidad · Bisontes DUX"
-    ]
+    ],
+    "bio": "Arturito es uno de los jugadores con mas flow de la plantilla. Es un extremo muy habil, con mucho regate, y es un especialista en hacer caños. Es uno de los maximos goleadores de la temporada pasada, y es imposible que termine un partido sin sacar una jugada de las suyas. Estamos seguros que siga dandonos buenos recuerdos en el campo."
   },
   {
     "dorsal": 17,
