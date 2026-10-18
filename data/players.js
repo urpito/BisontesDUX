@@ -242,7 +242,8 @@ const players = [
     "nationalities": [
       "Paraguay",
       "España"
-    ]
+    ],
+    "bio": "Javi es uno de los nuevos fichajes del Bisontes, aunque ya ha jugado con Ben y José en equipos anteriores. Juega sobre todo en la delantera, donde mete mucha caña. Tiene buen regate, buen tiro, y es un jugador bastante rápido. Estamos muy emocionados de que haya vuelto a los campos de fútbol."
   },
   {
     "dorsal": 14,
