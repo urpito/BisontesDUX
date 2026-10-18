@@ -197,7 +197,8 @@ const players = [
       "RCD Espanyol de Madrid",
       "26/27–actualidad · Bisontes DUX"
     ],
-    "nickname": "Max"
+    "nickname": "Max",
+    "bio": "Max es uno de los nuevos fichajes del Bisontes Dux. Tenemos muchas ganas de que se incorpore al equipo en las próximas semanas."
   },
   {
     "dorsal": 10,
