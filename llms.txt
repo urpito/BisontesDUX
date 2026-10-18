@@ -25,7 +25,7 @@ Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identif
 - [Filip Gabriel Tekiela](https://urpito.github.io/BisontesDUX/jugadores/filip-gabriel-tekiela/): delantero centro, dorsal 10.
 - [Luis Daniel Salas](https://urpito.github.io/BisontesDUX/jugadores/luis-daniel-salas/): extremo derecho, dorsal 11.
 - [Josshua Javier Garcia Villalba](https://urpito.github.io/BisontesDUX/jugadores/josshua-javier-garcia-villalba/): extremo derecho, dorsal 12.
-- [Carlos Raul Rivera Puente](https://urpito.github.io/BisontesDUX/jugadores/carlos-raul-rivera-puente/): defensa central, dorsal 14.
+- [Carlos Raul Rivera Puente](https://urpito.github.io/BisontesDUX/jugadores/carlos-raul-rivera-puente/): portero, dorsal 14.
 - [Arturo Constantine Padilla](https://urpito.github.io/BisontesDUX/jugadores/arturo-constantine-padilla/): extremo izquierdo, dorsal 15.
 - [Cristhofer Alejandro Chavez Guzman](https://urpito.github.io/BisontesDUX/jugadores/cristhofer-alejandro-chavez-guzman/): extremo derecho, dorsal 17.
 - [Izan Morales Leiva](https://urpito.github.io/BisontesDUX/jugadores/izan-morales-leiva/): mediocentro, dorsal 20.
