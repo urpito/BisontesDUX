@@ -378,7 +378,8 @@ const players = [
       "RCD Espanyol de Madrid",
       "26/27–actualidad · Bisontes DUX"
     ],
-    "nickname": "Dani"
+    "nickname": "Dani",
+    "bio": "Dani ficha por el equipo tras una etapa en el Espanyol, aunque ya había jugado con varios jugadores de Bisontes en el pasado. Es un defensa rápido y muy ágil que destaca quien sabe salir desde atras con un balón."
   },
   {
     "dorsal": 67,
