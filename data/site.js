@@ -58,7 +58,7 @@ const site = {
   },
   "roster": {
     "title": "La plantilla",
-    "intro": "Jugadores, cuerpo técnico y directiva de la temporada 2026. Toca una tarjeta para ver la ficha oficial de cada uno."
+    "intro": "Jugadores, cuerpo técnico y directiva de la temporada 2026/27. Toca una tarjeta para ver la ficha oficial de cada uno."
   },
   "values": {
     "title": "Lo que nos une",
