@@ -420,7 +420,7 @@ async function handle(req, res) {
   // Comprobación de origen en las peticiones que cambian algo (CSRF).
   if (method !== 'GET' && method !== 'HEAD') {
     const origin = req.headers.origin;
-    if (origin && origin !== ORIGIN && !/^https:\/\/www\.bisontesdux\.es$/.test(origin) && !/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) throw new HttpError(403, 'Origen no permitido');
+    if (origin && origin !== ORIGIN && !/^https:\/\/www\.bisontesdux\.es$/.test(origin) && !/^http:\/\/([a-z]+\.)?(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) throw new HttpError(403, 'Origen no permitido');
   }
 
   if (route === '/health') return send(res, 200, { ok: true, videos_en_cola: videoQueue.length + (videoBusy ? 1 : 0) });
