@@ -90,18 +90,35 @@
         <header class="gallery-group__head">
           <h2 id="galeria-grupo-${index}">${esc(group.title)}</h2>
           ${group.date ? `<time datetime="${esc(group.date)}">${formatDate(group.date)}</time>` : ''}
-          <span class="gallery-group__count">${group.photos.length} ${group.photos.length === 1 ? 'foto' : 'fotos'}</span>
+          <span class="gallery-group__count">${countLabel(group.photos)}</span>
         </header>
         <ul class="gallery-grid">
           ${group.photos.map(photo => {
-            const src = thumbUrl(photo);
-            return `<li><button type="button" class="gallery-thumb" data-photo="${esc(photo.id)}" aria-label="Ver en grande: ${esc(photoAlt(photo))}">
-              ${src ? `<img src="${esc(src)}" alt="" loading="lazy" decoding="async" />` : '<span class="gallery-thumb__missing">Sin vista previa</span>'}
+            const video = photo.media_type === 'video';
+            const ready = !video || photo.status === 'ready';
+            const src = ready ? thumbUrl(photo) : '';
+            const missing = !ready ? (photo.status === 'error' ? 'Vídeo no válido' : 'Preparando vídeo…') : 'Sin vista previa';
+            return `<li><button type="button" class="gallery-thumb${video ? ' gallery-thumb--video' : ''}" data-photo="${esc(photo.id)}" aria-label="${video ? 'Ver vídeo' : 'Ver en grande'}: ${esc(photoAlt(photo))}"${ready ? '' : ' disabled'}>
+              ${src ? `<img src="${esc(src)}" alt="" loading="lazy" decoding="async" />` : `<span class="gallery-thumb__missing">${missing}</span>`}
+              ${video && ready ? `<span class="gallery-thumb__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>${photo.duration ? `<span class="gallery-thumb__time">${formatDuration(photo.duration)}</span>` : ''}` : ''}
               ${options.badge && photo.is_public ? '<span class="gallery-thumb__flag">Pública</span>' : ''}
             </button></li>`;
           }).join('')}
         </ul>
       </section>`).join('');
+  }
+
+  function countLabel(items) {
+    const videos = items.filter(item => item.media_type === 'video').length;
+    const photos = items.length - videos;
+    const parts = [];
+    if (photos) parts.push(`${photos} ${photos === 1 ? 'foto' : 'fotos'}`);
+    if (videos) parts.push(`${videos} ${videos === 1 ? 'vídeo' : 'vídeos'}`);
+    return parts.join(' y ') || '0 fotos';
+  }
+  function formatDuration(seconds) {
+    const s = Math.round(seconds);
+    return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
   }
 
   function errorMessage(error) {
@@ -114,8 +131,9 @@
     if (/rate limit|too many/i.test(text)) return 'Demasiados intentos seguidos. Espera un minuto y vuelve a probar.';
     if (/weak_password|Password should|at least 8|al menos 8/i.test(text)) return 'La contraseña tiene que tener al menos 8 caracteres.';
     if (/Failed to fetch|NetworkError|Load failed|network/i.test(text)) return 'No hay conexión con la galería. Revisa tu internet y vuelve a probar.';
+    if (/Hay que entrar/i.test(text)) return 'Tu sesión ha caducado: vuelve a entrar.';
     if (/row-level security|permission denied|42501|Unauthorized|not allowed/i.test(text)) return 'No tienes permiso para hacer eso.';
-    if (/Payload too large|maximum allowed size|exceeded/i.test(text)) return 'La foto pesa demasiado.';
+    if (/Payload too large|maximum allowed size|exceeded|demasiado/i.test(text)) return 'El archivo pesa demasiado.';
     return error.message || String(error);
   }
 
@@ -147,7 +165,13 @@
     const img = new Image();
     img.className = 'gallery-viewer__img';
     img.alt = '';
-    dialog.querySelector('.gallery-viewer__stage').prepend(img);
+    const video = document.createElement('video');
+    video.className = 'gallery-viewer__img gallery-viewer__video';
+    video.controls = true;
+    video.playsInline = true;
+    video.preload = 'metadata';
+    video.hidden = true;
+    dialog.querySelector('.gallery-viewer__stage').prepend(img, video);
     const count = dialog.querySelector('.gallery-viewer__count');
     const caption = dialog.querySelector('.gallery-viewer__caption');
     const actions = dialog.querySelector('.gallery-viewer__actions');
@@ -172,6 +196,24 @@
         return button;
       }));
       navs.forEach(nav => { nav.hidden = list.length < 2; });
+      video.pause();
+      if (photo.media_type === 'video') {
+        img.hidden = true;
+        video.hidden = false;
+        video.setAttribute('aria-label', photoAlt(photo));
+        const thumbUrl = options.thumb ? options.thumb(photo) : '';
+        if (thumbUrl) video.poster = thumbUrl; else video.removeAttribute('poster');
+        try {
+          const src = await options.resolve(photo);
+          if (mine === token) video.src = src;
+        } catch (error) {
+          if (mine === token) caption.insertAdjacentHTML('beforeend', '<p class="gallery-viewer__error">No se ha podido cargar el vídeo.</p>');
+        }
+        return;
+      }
+      video.hidden = true;
+      video.removeAttribute('src');
+      img.hidden = false;
       img.alt = photoAlt(photo);
       const thumb = options.thumb ? options.thumb(photo) : '';
       if (thumb) img.src = thumb; else img.removeAttribute('src');
@@ -227,6 +269,8 @@
     dialog.addEventListener('close', () => {
       token++;
       img.removeAttribute('src');
+      video.pause();
+      video.removeAttribute('src');
       if (opener && opener.isConnected) opener.focus();
     });
 

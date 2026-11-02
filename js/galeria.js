@@ -67,7 +67,7 @@
   (async function load() {
     const { data, error } = await G.getClient()
       .from('gallery_photos')
-      .select('id, full_path, thumb_path, width, height, event, taken_on, caption, players')
+      .select('id, full_path, thumb_path, width, height, event, taken_on, caption, players, media_type, status, duration')
       .eq('is_public', true)
       .order('taken_on', { ascending: false, nullsFirst: false })
       .order('created_at', { ascending: false });

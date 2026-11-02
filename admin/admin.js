@@ -766,7 +766,7 @@
     status.textContent = 'Comprobando…';
     status.className = 'status';
     try {
-      if (!client) throw new Error('No se ha podido conectar con Supabase.');
+      if (!client) throw new Error('No se ha podido conectar con el servidor del club.');
       const { data, error } = await client.auth.signInWithPassword({ email: $('#email').value.trim(), password: $('#password').value });
       if (error) throw new Error(/Invalid login/i.test(error.message) ? 'Correo o contraseña incorrectos.' : error.message);
       await enter(data.session);

@@ -1029,7 +1029,7 @@
 
   if (!client) {
     show('login');
-    $('#login-status').textContent = 'No se ha podido conectar con Supabase.';
+    $('#login-status').textContent = 'No se ha podido conectar con el servidor del club.';
   } else {
     client.auth.getSession().then(({ data }) => {
       if (!data.session) { show('login'); return; }

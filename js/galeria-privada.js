@@ -383,8 +383,8 @@
   /* ---------------- subir fotos (admins) ---------------- */
   function uploadFormHtml() {
     return `<form id="form-upload" class="gallery-card gallery-form">
-      <h2 class="font-display">Subir fotos</h2>
-      <div class="form-field"><label for="upload-files">Fotos</label><input id="upload-files" type="file" name="files" accept="image/*" multiple /></div>
+      <h2 class="font-display">Subir fotos y vídeos</h2>
+      <div class="form-field"><label for="upload-files">Fotos y vídeos</label><input id="upload-files" type="file" name="files" accept="image/*,video/*" multiple /></div>
       <div class="form-grid">
         <div class="form-field"><label for="upload-event">Partido o evento</label><input id="upload-event" name="event" list="gallery-events" maxlength="120" placeholder="Jornada 3 · Bisontes DUX – Rival" /></div>
         <div class="form-field"><label for="upload-date">Fecha</label><input id="upload-date" type="date" name="taken_on" /></div>
@@ -392,8 +392,8 @@
       </div>
       <fieldset class="gallery-people"><legend>Quién sale <span>(se aplica a todas; luego puedes ajustarlo foto a foto)</span></legend>${peopleCheckboxes([])}</fieldset>
       <label class="gallery-check"><input type="checkbox" name="is_public" /> Destacadas: mostrarlas también en la galería pública</label>
-      <p class="gallery-hint">Solo fotos de jugadores que hayan firmado la autorización de imagen. Antes de subirlas se reducen y se les quitan los datos de ubicación.</p>
-      <button class="btn btn-dark" type="submit">Subir fotos</button>
+      <p class="gallery-hint">Solo de jugadores que hayan firmado la autorización de imagen. Las fotos se reducen y pierden los datos de ubicación antes de subirse. Los vídeos (hasta 4 GB) se suben por partes y el servidor los convierte para que se vean en cualquier móvil: tardan unos minutos en aparecer.</p>
+      <button class="btn btn-dark" type="submit">Subir</button>
       <p class="form-status" role="status"></p>
       <ol class="gallery-progress"></ol>
       <datalist id="gallery-events"></datalist>
@@ -490,7 +490,7 @@
   async function upload(form) {
     const files = [...form.elements.files.files];
     const status = form.querySelector('.form-status');
-    if (!files.length) { setStatus(status, 'Elige al menos una foto.', 'err'); return; }
+    if (!files.length) { setStatus(status, 'Elige al menos una foto o un vídeo.', 'err'); return; }
     const data = new FormData(form);
     const meta = {
       event: clean(data.get('event')),
@@ -513,9 +513,14 @@
         mark(index, 'Subiendo…');
         setStatus(status, `Subiendo ${index + 1} de ${files.length}…`);
         try {
-          state.photos.push(await uploadOne(file, meta));
+          if (file.type.startsWith('video/')) {
+            state.photos.push(await client.videos.upload(file, meta, part => mark(index, `Subiendo… ${Math.round(part * 100)} %`)));
+            mark(index, 'Subido ✓ (convirtiendo el vídeo)', 'is-ok');
+          } else {
+            state.photos.push(await uploadOne(file, meta));
+            mark(index, 'Subida ✓', 'is-ok');
+          }
           done++;
-          mark(index, 'Subida ✓', 'is-ok');
         } catch (error) {
           mark(index, G.errorMessage(error), 'is-error');
         }
@@ -525,7 +530,7 @@
     const failed = files.length - done;
     setStatus(status, failed
       ? `Se han subido ${done} de ${files.length}. Revisa las que han fallado.`
-      : `¡Listo! ${done} ${done === 1 ? 'foto subida' : 'fotos subidas'}. Ya están en «Fotos».`, failed ? 'err' : 'ok');
+      : `¡Listo! ${done} ${done === 1 ? 'archivo subido' : 'archivos subidos'}. Ya están en «Fotos».`, failed ? 'err' : 'ok');
     if (done) {
       form.elements.files.value = '';
       await afterPhotosChanged();

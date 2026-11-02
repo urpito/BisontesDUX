@@ -714,6 +714,12 @@ a.sponsor-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba
 .gallery-thumb:hover img { transform: scale(1.04); }
 .gallery-thumb__flag { position: absolute; top: 8px; left: 8px; padding: 3px 9px; border-radius: 999px; background: var(--white); color: var(--ink); font-size: 0.66rem; font-weight: 800; font-stretch: 110%; letter-spacing: 0.08em; text-transform: uppercase; }
 .gallery-thumb__missing { display: grid; place-items: center; height: 100%; padding: 12px; font-size: 0.8rem; color: var(--on-kit-2); }
+.gallery-thumb:disabled { cursor: progress; }
+.gallery-thumb--video { cursor: pointer; }
+.gallery-thumb__play { position: absolute; left: 50%; top: 50%; display: grid; place-items: center; width: 54px; height: 54px; transform: translate(-50%, -50%); border-radius: 50%; background: rgba(22,22,22,0.55); color: var(--white); box-shadow: 0 0 0 3px var(--pink); transition: transform 0.2s var(--ease), background 0.2s; }
+.gallery-thumb__play svg { width: 26px; height: 26px; margin-left: 3px; }
+.gallery-thumb--video:hover .gallery-thumb__play { transform: translate(-50%, -50%) scale(1.08); background: var(--ink); }
+.gallery-thumb__time { position: absolute; right: 8px; bottom: 8px; padding: 2px 8px; border-radius: 999px; background: rgba(22,22,22,0.7); color: var(--white); font-size: 0.72rem; font-weight: 700; font-variant-numeric: tabular-nums; }
 
 /* Tarjetas blancas: acceso, avisos, subida, accesos y enlace a la privada */
 .gallery-card { position: relative; background: var(--white); color: var(--ink); border-radius: 6px; padding: clamp(24px, 4vw, 40px); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
@@ -812,6 +818,8 @@ body:has(dialog[open]) { overflow: hidden; }
   border-radius: 3px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); transition: opacity 0.2s;
 }
 .gallery-viewer__img.is-loading { opacity: 0.8; }
+.gallery-viewer__video { width: auto; height: auto; background: #000; }
+.gallery-viewer__img[hidden] { display: none; }
 .gallery-viewer__nav {
   position: absolute; top: 50%; z-index: 1; display: grid; place-items: center; width: 52px; height: 52px; transform: translateY(-50%);
   background: rgba(22,22,22,0.55); border: 0; border-radius: 50%; cursor: pointer; font-size: 2rem; line-height: 1; color: var(--white);

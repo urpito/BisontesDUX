@@ -549,13 +549,9 @@ function sponsorPage() {
 }
 
 /* ---------------- GALERÍA ----------------
-   Las fotos no están en el repositorio: viven en Supabase (supabase/galeria.sql).
+   Las fotos y vídeos no están en el repositorio: viven en urpilandia y los
+   sirve la API propia (server/server.mjs) a través de js/bisontes-api.js.
    Aquí solo se generan las dos páginas y se incrusta la plantilla para etiquetar. */
-const SUPABASE_JS = {
-  src: 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js',
-  integrity: 'sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP'
-};
-
 const galleryRoster = [...roster.filter(person => !person.coach), ...roster.filter(person => person.coach)].map(person => {
   const shown = person.cardName;
   return {
@@ -568,7 +564,7 @@ const galleryRoster = [...roster.filter(person => !person.coach), ...roster.filt
 
 function galleryScripts(prefix, app) {
   return `<script id="galeria-roster" type="application/json">${jsonLd(galleryRoster)}</script>
-  <script src="${SUPABASE_JS.src}" integrity="${SUPABASE_JS.integrity}" crossorigin="anonymous" defer></script>
+  <script src="${prefix}js/bisontes-api.js" defer></script>
   <script src="${prefix}js/galeria-config.js" defer></script>
   <script src="${prefix}js/galeria-comun.js" defer></script>
   <script src="${prefix}js/${app}.js" defer></script>`;
