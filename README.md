@@ -85,3 +85,30 @@ El token se guarda solo en tu navegador. No marques «Recordarlo» en ordenadore
 
 - `nickname`: es lo que va estampado en la espalda de la camiseta (portada y ficha). Si no hay apodo, sale el apellido.
 - El staff no lleva dorsal, sino `role: "entrenador"` o `role: "directiva"`, con el cargo en `position` (por ejemplo, `"COMMUNITY MANAGER"`).
+
+## Partido en directo (`/admin/partido/`)
+
+Panel para el móvil, con la misma cuenta que el resto del admin.
+
+- **Partidos:** rival, fecha, campo, casa o fuera, competición y minutos por parte.
+- **11 inicial:** eliges el sistema y tocas cada posición del campo para poner a un jugador; luego suplentes y capitán. «Crear historia del 11 inicial» la deja lista para revisar y compartir (no se publica sola).
+- **Directo:** empieza el partido → descanso → 2.ª parte → final, con el minuto calculado solo. Gol (goleador, asistencia y foto), gol en contra, amarilla, roja y penalti (a favor o en contra, gol o fallado). Cualquier gol se puede marcar como **gol anulado** (fuera de juego o falta): sale del marcador y genera su historia.
+- **Fotos:** se suben a la galería privada con el nombre del partido.
+- **Historias:** cada evento genera su historia de Instagram (1080×1920) en el propio móvil, con los datos del partido (marcador, minuto, jugador o apodo). Si la publicación automática está activada y Instagram conectado, se publica sola; si no, queda «lista» y se comparte con el botón «Compartir» del móvil.
+- **Sin cobertura:** las acciones se guardan en el móvil y se suben solas al volver la conexión (arriba pone «Guardando…» o «sin guardar»).
+
+Los datos van en `data/partidos.js` (GitHub, por la función `admin-github`). Ese archivo no lanza la Action «Generar web».
+
+Para usar vuestra plantilla de Canva en las historias, exportad el fondo de cada tipo como PNG de 1080×1920 y guardadlo en `assets/historias/<tipo>.png` (`gol`, `gol_contra`, `amarilla`, `roja`, `penalti`, `anulado`, `inicio`, `descanso`, `final`, `once`). Los textos se pintan encima.
+
+### Conectar Instagram (publicación automática)
+
+1. La cuenta de Instagram del club tiene que ser **profesional** (empresa o creador).
+2. En [developers.facebook.com](https://developers.facebook.com) crea una app con el producto **Instagram API** (inicio de sesión con Instagram) y añade la cuenta del club. Permisos: `instagram_business_basic` e `instagram_business_content_publish`. Genera el **token de acceso** y apunta el **ID de usuario de Instagram**.
+3. En Supabase → *Edge Functions* → nueva función `instagram-story`, pega `supabase/functions/instagram-story/index.ts` y desactiva **Verify JWT**.
+4. En *Edge Functions* → *Secrets*, añade `IG_USER_ID` e `IG_ACCESS_TOKEN`.
+5. El token dura 60 días. Renuévalo antes de que caduque abriendo
+   `https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=TU_TOKEN`
+   y cambia el secreto por el nuevo.
+
+Hasta que esté conectado, el panel funciona igual y las historias se comparten a mano.
