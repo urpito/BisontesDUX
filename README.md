@@ -112,3 +112,25 @@ Para usar vuestra plantilla de Canva en las historias, exportad el fondo de cada
    y cambia el secreto por el nuevo.
 
 Hasta que esté conectado, el panel funciona igual y las historias se comparten a mano.
+
+## Servidor propio (urpilandia) — sustituye a Supabase
+
+La web se sirve en `https://bisontesdux.es` desde urpilandia, con nginx y una configuración propia, independiente de SillaMC:
+
+- **Web:** `/var/www/bisontesdux`. El temporizador `bisontesdux-deploy.timer` mira GitHub cada minuto y copia la rama publicada (`~/.bisontesdux-branch`, normalmente `main`) con `~/bisontesdux-deploy.sh`. Si cambia `server/`, reinicia la API.
+- **API:** `server/server.mjs` (servicio `bisontesdux-api`, solo en `127.0.0.1:8810`, publicado en `/api`). Lleva las cuentas y sesiones, los accesos de la galería, las fotos y vídeos, el guardado en GitHub del admin y la publicación de historias en Instagram. Usa Node 22 sin dependencias.
+- **Datos:** `/srv/bisontesdux`, con la base de datos `bisontesdux.db` y `media/publica` y `media/privada`. Cuando se conecte el disco nuevo, se mueve esa carpeta y se cambia `BDX_DATA` en el servicio y la ruta en `/etc/nginx/snippets/bisontesdux-site.conf`.
+- **Vídeos:** se suben por trozos (hasta 4 GB) y `ffmpeg` los pasa a MP4 H.264 con miniatura. Se ven con avance y retroceso.
+- **Llaves:** `~/.bisontesdux-secretos` (chmod 600), con `GITHUB_TOKEN` y, cuando toque, `IG_USER_ID` e `IG_ACCESS_TOKEN`. Nunca van en la web ni en el repositorio.
+- **Navegador:** `js/bisontes-api.js` sustituye a supabase-js (imita sus llamadas), así que la galería y los paneles no cambian.
+
+Herramientas, en urpilandia, dentro de `~/bisontesdux-web`:
+
+```bash
+node --no-warnings server/cuentas.mjs lista
+node --no-warnings server/cuentas.mjs admin correo@ejemplo.com
+node --no-warnings server/cuentas.mjs clave correo@ejemplo.com
+node --no-warnings server/migrar-supabase.mjs --solo-ver
+```
+
+`migrar-supabase.mjs` copia cuentas (con su contraseña), accesos, fotos y archivos desde Supabase. Necesita `SUPABASE_DB_URL` y `SUPABASE_SERVICE_KEY` en el archivo de llaves y `postgresql-client`. Las contraseñas de Supabase se aceptan tal cual y se recifran al primer inicio de sesión.
