@@ -578,9 +578,10 @@ http.createServer(async (req, res) => {
   try {
     await handle(req, res);
   } catch (error) {
-    const status = error instanceof HttpError ? error.status : 500;
-    if (status === 500) console.error(error);
-    if (!res.headersSent) send(res, status, { error: status === 500 ? 'Error interno' : error.message, ...(error.extra || {}) });
+    const known = error instanceof HttpError;
+    const status = known ? error.status : 500;
+    if (!known) console.error(error);
+    if (!res.headersSent) send(res, status, { error: known ? error.message : 'Error interno', ...(error.extra || {}) });
     else res.end();
   }
 }).listen(PORT, '127.0.0.1', () => console.log(`bisontesdux-api en 127.0.0.1:${PORT}, datos en ${DATA}`));

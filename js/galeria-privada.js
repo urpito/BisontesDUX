@@ -283,7 +283,7 @@
         <p class="form-status" role="status"></p>
       </form>
       ${admin ? `<div class="roster-filter gallery-tabs" role="tablist" aria-label="Secciones de la galería privada">
-        ${tab('fotos', 'Fotos', true)}${tab('subir', 'Subir fotos', false)}${tab('accesos', 'Accesos <span class="gallery-badge" hidden></span>', false)}
+        ${tab('fotos', 'Fotos', true)}${tab('subir', 'Subir', false)}${tab('accesos', 'Accesos <span class="gallery-badge" hidden></span>', false)}
       </div>` : ''}
       <section id="panel-fotos" data-panel="fotos"${admin ? ' role="tabpanel" aria-labelledby="tab-fotos"' : ''}>
         <div class="gallery-filters"></div>
