@@ -63,7 +63,7 @@ for (const file of htmlFiles) {
       : new URL(relative.replaceAll(path.sep, '/'), SITE_URL).href;
   for (const attribute of html.matchAll(/\s(?:href|src)="([^"]+)"/gi)) {
     const value = attribute[1];
-    if (/^(?:https?:|mailto:|tel:|#|data:|javascript:)/i.test(value)) continue;
+    if (/^(?:https?:|mailto:|tel:|#|data:|javascript:|\{\{)/i.test(value)) continue; // {{ … }}: etiquetas de Brevo en newsletter/
     const resolved = new URL(value, pageUrl);
     if (resolved.origin !== new URL(SITE_URL).origin || !resolved.pathname.startsWith('/BisontesDUX/')) continue;
     const localPath = decodeURIComponent(resolved.pathname.slice('/BisontesDUX/'.length));
@@ -87,7 +87,8 @@ const expectedUrls = expectedPlayers + expectedPosts + 4; // home, patrocina, bl
 if (sitemapUrls.length !== expectedUrls) errors.push(`sitemap: ${sitemapUrls.length} URLs; se esperaban ${expectedUrls}`);
 
 /* Header y footer idénticos en todas las páginas (salvo los enlaces de scroll del index). */
-const pagesWithLayout = htmlFiles.filter(file => !/(?:^|[/\\])(?:plantilla|jugadores|admin)[/\\]index\.html$/.test(path.relative(ROOT, file)));
+/* newsletter/ son plantillas de email: no llevan el header ni el footer de la web. */
+const pagesWithLayout = htmlFiles.filter(file => !/(?:^|[/\\])(?:plantilla|jugadores|admin)[/\\]index\.html$/.test(path.relative(ROOT, file)) && !/^(?:newsletter|admin)[/\\]/.test(path.relative(ROOT, file)));
 const footers = new Set();
 for (const file of pagesWithLayout) {
   const html = fs.readFileSync(file, 'utf8');
