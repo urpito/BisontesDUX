@@ -159,16 +159,18 @@ function limit(key, max, minutes) {
 
 /* ---------------- sesiones ---------------- */
 const sha256 = value => crypto.createHash('sha256').update(value).digest('hex');
-function startSession(res, userId) {
+/* «Secure» solo cuando nginx avisa de que la conexión es HTTPS (en producción, siempre). */
+const secureFlag = req => (req.headers['x-forwarded-proto'] === 'https' ? '; Secure' : '');
+function startSession(req, res, userId) {
   const token = crypto.randomBytes(32).toString('base64url');
   const expires = new Date(Date.now() + SESSION_DAYS * 86400000);
   db.prepare('INSERT INTO sessions (token_hash, user_id, expires_at) VALUES (?, ?, ?)').run(sha256(token), userId, expires.toISOString());
-  res.setHeader('Set-Cookie', `bdx_session=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Expires=${expires.toUTCString()}`);
+  res.setHeader('Set-Cookie', `bdx_session=${token}; Path=/; HttpOnly${secureFlag(req)}; SameSite=Lax; Expires=${expires.toUTCString()}`);
 }
 function endSession(req, res) {
   const token = cookies(req).bdx_session;
   if (token) db.prepare('DELETE FROM sessions WHERE token_hash = ?').run(sha256(token));
-  res.setHeader('Set-Cookie', 'bdx_session=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0');
+  res.setHeader('Set-Cookie', `bdx_session=; Path=/; HttpOnly${secureFlag(req)}; SameSite=Lax; Max-Age=0`);
 }
 function currentUser(req) {
   const token = cookies(req).bdx_session;
@@ -435,7 +437,7 @@ async function handle(req, res) {
     const row = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
     if (!row || !(await verifyPassword(String(body.password || ''), row.password_hash))) throw new HttpError(400, 'Invalid login credentials');
     if (!row.password_hash.startsWith('scrypt$')) db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run(hashPassword(String(body.password)), row.id);
-    startSession(res, row.id);
+    startSession(req, res, row.id);
     return send(res, 200, { user: { id: row.id, email: row.email } });
   }
   if (route === '/auth/signup' && method === 'POST') {
@@ -450,7 +452,7 @@ async function handle(req, res) {
     db.prepare('INSERT INTO users (id, email, password_hash) VALUES (?, ?, ?)').run(id, email, hashPassword(password));
     db.prepare('INSERT INTO members (user_id, email, name, player_slug) VALUES (?, ?, ?, ?)')
       .run(id, email, String(body.name || '').trim().slice(0, 80) || null, String(body.player_slug || '').trim() || null);
-    startSession(res, id);
+    startSession(req, res, id);
     return send(res, 200, { user: { id, email } });
   }
   if (route === '/auth/logout' && method === 'POST') {
