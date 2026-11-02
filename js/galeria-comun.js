@@ -6,7 +6,7 @@
 (function () {
   'use strict';
 
-  const SITE = '/BisontesDUX/';
+  const SITE = '/';
   const BUCKETS = { public: 'galeria-publica', private: 'galeria-privada' };
   const config = window.BISONTES_GALERIA || {};
   let client = null;

@@ -61,7 +61,7 @@ function renderPlayers() {
       .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
     return `
-      <a class="player-card reveal" href="/BisontesDUX/jugadores/${slug}/" target="_blank" rel="noopener" style="transition-delay:${delay}s" data-player-index="${index}">
+      <a class="player-card reveal" href="/jugadores/${slug}/" target="_blank" rel="noopener" style="transition-delay:${delay}s" data-player-index="${index}">
         <div class="player-card__img-wrap" style="width:100%;height:100%;position:relative;">
           <img
             src="${imgPath}"
@@ -441,7 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNewsletter();
 });
 
-/* Al llegar desde otra página con #seccion (p. ej. /BisontesDUX/#plantilla), baja hasta ella
+/* Al llegar desde otra página con #seccion (p. ej. /#plantilla), baja hasta ella
    cuando ya está todo cargado, para que el salto no se pierda. */
 if (location.hash && 'scrollRestoration' in history) history.scrollRestoration = 'manual';
 window.addEventListener('load', () => {

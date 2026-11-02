@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://urpito.github.io/BisontesDUX/sitemap.xml
+Sitemap: https://bisontesdux.es/sitemap.xml

@@ -5,8 +5,8 @@ import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const SITE_URL = 'https://urpito.github.io/BisontesDUX/';
-const SITE_PATH = '/BisontesDUX/';
+const SITE_URL = 'https://bisontesdux.es/';
+const SITE_PATH = '/';
 const LIVE = process.argv.includes('--live');
 const errors = [];
 const warnings = [];
@@ -138,7 +138,7 @@ if (LIVE) {
   }
 
   try {
-    const originRobots = await fetch('https://urpito.github.io/robots.txt', { redirect: 'manual' });
+    const originRobots = await fetch('https://bisontesdux.es/robots.txt', { redirect: 'manual' });
     if (originRobots.status !== 200) warnings.push(`La raíz del host /robots.txt devuelve HTTP ${originRobots.status}; el robots del subdirectorio no se descubre automáticamente.`);
   } catch (error) { warnings.push(`No se pudo comprobar robots.txt del origen: ${error.message}`); }
 }

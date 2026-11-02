@@ -1,17 +1,17 @@
 {
   "team": {
     "name": "Bisontes DUX",
-    "url": "https://urpito.github.io/BisontesDUX/",
+    "url": "https://bisontesdux.es/",
     "sport": "Fútbol",
     "location": "Madrid, España"
   },
   "players": [
     {
       "name": "Omar Alejandro Copa Moreno",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/omar-alejandro-copa-moreno/",
+      "url": "https://bisontesdux.es/jugadores/omar-alejandro-copa-moreno/",
       "position": "portero",
       "dorsal": 1,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador1.png",
+      "image": "https://bisontesdux.es/assets/jugador1.png",
       "trajectory": [
         "Malasaña",
         "Betis San Isidro",
@@ -20,10 +20,10 @@
     },
     {
       "name": "Bruno Navas Moreno",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/bruno-navas-moreno/",
+      "url": "https://bisontesdux.es/jugadores/bruno-navas-moreno/",
       "position": "defensa central",
       "dorsal": 3,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador3.png",
+      "image": "https://bisontesdux.es/assets/jugador3.png",
       "nationalities": [
         "España"
       ],
@@ -34,7 +34,7 @@
     },
     {
       "name": "Miguel Arias-Camisón Nieto",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/miguel-arias-camison-nieto/",
+      "url": "https://bisontesdux.es/jugadores/miguel-arias-camison-nieto/",
       "position": "mediocentro",
       "dorsal": 4,
       "nationalities": [
@@ -48,7 +48,7 @@
     },
     {
       "name": "Leonardo Jose Tagara Zombilla",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/leonardo-jose-tagara-zombilla/",
+      "url": "https://bisontesdux.es/jugadores/leonardo-jose-tagara-zombilla/",
       "position": "lateral izquierdo",
       "dorsal": 5,
       "nationalities": [
@@ -62,7 +62,7 @@
     },
     {
       "name": "Jose Anthony Arrango Guerra",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/jose-anthony-arrango-guerra/",
+      "url": "https://bisontesdux.es/jugadores/jose-anthony-arrango-guerra/",
       "position": "mediocentro",
       "dorsal": 6,
       "nationalities": [
@@ -77,10 +77,10 @@
     },
     {
       "name": "Alan Gálvez Patiño",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/alan-galvez-patino/",
+      "url": "https://bisontesdux.es/jugadores/alan-galvez-patino/",
       "position": "extremo izquierdo",
       "dorsal": 7,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador7.png",
+      "image": "https://bisontesdux.es/assets/jugador7.png",
       "nationalities": [
         "Colombia"
       ],
@@ -90,7 +90,7 @@
     },
     {
       "name": "Anton Alsonso Franco",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/anton-alsonso-franco/",
+      "url": "https://bisontesdux.es/jugadores/anton-alsonso-franco/",
       "position": "mediocentro",
       "dorsal": 8,
       "nationalities": [
@@ -104,7 +104,7 @@
     },
     {
       "name": "Max Lennart Lomander Rivela",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/max-lennart-lomander-rivela/",
+      "url": "https://bisontesdux.es/jugadores/max-lennart-lomander-rivela/",
       "position": "delantero centro",
       "dorsal": 9,
       "nationalities": [
@@ -119,10 +119,10 @@
     },
     {
       "name": "Filip Gabriel Tekiela",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/filip-gabriel-tekiela/",
+      "url": "https://bisontesdux.es/jugadores/filip-gabriel-tekiela/",
       "position": "delantero centro",
       "dorsal": 10,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador10.png",
+      "image": "https://bisontesdux.es/assets/jugador10.png",
       "nationalities": [
         "Polonia"
       ],
@@ -134,10 +134,10 @@
     },
     {
       "name": "Luis Daniel Salas",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/luis-daniel-salas/",
+      "url": "https://bisontesdux.es/jugadores/luis-daniel-salas/",
       "position": "extremo derecho",
       "dorsal": 11,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador11.png",
+      "image": "https://bisontesdux.es/assets/jugador11.png",
       "nationalities": [
         "Venezuela"
       ],
@@ -148,7 +148,7 @@
     },
     {
       "name": "Josshua Javier Garcia Villalba",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/josshua-javier-garcia-villalba/",
+      "url": "https://bisontesdux.es/jugadores/josshua-javier-garcia-villalba/",
       "position": "extremo derecho",
       "dorsal": 12,
       "nationalities": [
@@ -162,7 +162,7 @@
     },
     {
       "name": "Carlos Raul Rivera Puente",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/carlos-raul-rivera-puente/",
+      "url": "https://bisontesdux.es/jugadores/carlos-raul-rivera-puente/",
       "position": "portero",
       "dorsal": 14,
       "nationalities": [
@@ -178,10 +178,10 @@
     },
     {
       "name": "Arturo Constantine Padilla",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/arturo-constantine-padilla/",
+      "url": "https://bisontesdux.es/jugadores/arturo-constantine-padilla/",
       "position": "extremo izquierdo",
       "dorsal": 15,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador15.png",
+      "image": "https://bisontesdux.es/assets/jugador15.png",
       "trajectory": [
         "Malasaña",
         "25/26–actualidad · Bisontes DUX"
@@ -189,10 +189,10 @@
     },
     {
       "name": "Cristhofer Alejandro Chavez Guzman",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/cristhofer-alejandro-chavez-guzman/",
+      "url": "https://bisontesdux.es/jugadores/cristhofer-alejandro-chavez-guzman/",
       "position": "extremo derecho",
       "dorsal": 17,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador17.png",
+      "image": "https://bisontesdux.es/assets/jugador17.png",
       "trajectory": [
         "CD Tajamar",
         "Factory FC",
@@ -201,7 +201,7 @@
     },
     {
       "name": "Izan Morales Leiva",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/izan-morales-leiva/",
+      "url": "https://bisontesdux.es/jugadores/izan-morales-leiva/",
       "position": "mediocentro",
       "dorsal": 20,
       "nationalities": [
@@ -214,10 +214,10 @@
     },
     {
       "name": "Elías Naharro Idec",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/elias-naharro-idec/",
+      "url": "https://bisontesdux.es/jugadores/elias-naharro-idec/",
       "position": "lateral izquierdo",
       "dorsal": 21,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador21.png",
+      "image": "https://bisontesdux.es/assets/jugador21.png",
       "nationalities": [
         "España"
       ],
@@ -228,7 +228,7 @@
     },
     {
       "name": "Mario Comas Trillo-Figueroa",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/mario-comas-trillo-figueroa/",
+      "url": "https://bisontesdux.es/jugadores/mario-comas-trillo-figueroa/",
       "position": "lateral derecho",
       "dorsal": 22,
       "nationalities": [
@@ -241,10 +241,10 @@
     },
     {
       "name": "Francisco Javier Molina Diaz",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/francisco-javier-molina-diaz/",
+      "url": "https://bisontesdux.es/jugadores/francisco-javier-molina-diaz/",
       "position": "defensa central",
       "dorsal": 25,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador25.png",
+      "image": "https://bisontesdux.es/assets/jugador25.png",
       "nationalities": [
         "Venezuela"
       ],
@@ -255,7 +255,7 @@
     },
     {
       "name": "Rodrigo Leonardo Cabrejos Ramirez",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/rodrigo-leonardo-cabrejos-ramirez/",
+      "url": "https://bisontesdux.es/jugadores/rodrigo-leonardo-cabrejos-ramirez/",
       "position": "defensa central",
       "dorsal": 28,
       "trajectory": [
@@ -265,7 +265,7 @@
     },
     {
       "name": "David Gonzalez",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/david-gonzalez/",
+      "url": "https://bisontesdux.es/jugadores/david-gonzalez/",
       "position": "defensa central",
       "dorsal": 33,
       "nationalities": [
@@ -278,10 +278,10 @@
     },
     {
       "name": "Daniel Floria Sanchez",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/daniel-floria-sanchez/",
+      "url": "https://bisontesdux.es/jugadores/daniel-floria-sanchez/",
       "position": "defensa central",
       "dorsal": 42,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador42.png",
+      "image": "https://bisontesdux.es/assets/jugador42.png",
       "nationalities": [
         "España"
       ],
@@ -293,10 +293,10 @@
     },
     {
       "name": "Santiago Lopez Lopez",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/santiago-lopez-lopez/",
+      "url": "https://bisontesdux.es/jugadores/santiago-lopez-lopez/",
       "position": "mediocentro",
       "dorsal": 67,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador67.png",
+      "image": "https://bisontesdux.es/assets/jugador67.png",
       "nationalities": [
         "España"
       ],
@@ -307,10 +307,10 @@
     },
     {
       "name": "Mateo Gonzalez Riagada",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/mateo-gonzalez-riagada/",
+      "url": "https://bisontesdux.es/jugadores/mateo-gonzalez-riagada/",
       "position": "extremo derecho",
       "dorsal": 69,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador69.png",
+      "image": "https://bisontesdux.es/assets/jugador69.png",
       "nationalities": [
         "España"
       ],
@@ -321,10 +321,10 @@
     },
     {
       "name": "Diego Arrufat Belloso",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/diego-arrufat-belloso/",
+      "url": "https://bisontesdux.es/jugadores/diego-arrufat-belloso/",
       "position": "mediocentro ofensivo",
       "dorsal": 99,
-      "image": "https://urpito.github.io/BisontesDUX/assets/jugador99.png",
+      "image": "https://bisontesdux.es/assets/jugador99.png",
       "nationalities": [
         "España"
       ],
@@ -337,17 +337,17 @@
   "staff": [
     {
       "name": "Ben Gunduz",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/ben-gunduz/",
+      "url": "https://bisontesdux.es/jugadores/ben-gunduz/",
       "role": "entrenador"
     },
     {
       "name": "Jose Ignacio Arrufat",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/jose-ignacio-arrufat/",
+      "url": "https://bisontesdux.es/jugadores/jose-ignacio-arrufat/",
       "role": "entrenador"
     },
     {
       "name": "Fabio Loi",
-      "url": "https://urpito.github.io/BisontesDUX/jugadores/fabio-loi/",
+      "url": "https://bisontesdux.es/jugadores/fabio-loi/",
       "role": "community manager"
     }
   ]

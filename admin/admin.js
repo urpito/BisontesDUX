@@ -11,7 +11,7 @@
 
   const REPO = 'urpito/BisontesDUX';
   const BRANCH = 'main';
-  const SITE = '/BisontesDUX/';
+  const SITE = '/';
   const config = window.BISONTES_GALERIA || {};
   const client = window.supabase && config.supabaseUrl
     ? window.supabase.createClient(config.supabaseUrl, config.supabaseKey, { auth: { persistSession: true, storageKey: 'bisontes-galeria' } })

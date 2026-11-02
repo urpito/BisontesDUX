@@ -14,7 +14,7 @@
   const C = { kit: '#545454', deep: '#3f3f3f', pink: '#FFC8DD', rib: '#F1B3CB', ink: '#161616', white: '#ffffff', yellow: '#f2c200', red: '#d0021b' };
   const DISPLAY = '"Big Shoulders Display", "Archivo", sans-serif';
   const TEXT = '"Archivo", system-ui, sans-serif';
-  const SITE = location.pathname.startsWith('/BisontesDUX/') ? '/BisontesDUX/' : '/';
+  const SITE = '/';
 
   /* Posiciones de cada sistema (x, y en % del campo; la portería propia abajo). */
   const FORMATIONS = {

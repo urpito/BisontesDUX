@@ -4,7 +4,8 @@ import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const SITE_URL = 'https://urpito.github.io/BisontesDUX/';
+const SITE_URL = 'https://bisontesdux.es/';
+const SITE_PATH = '/';
 const errors = [];
 const warnings = [];
 
@@ -65,8 +66,8 @@ for (const file of htmlFiles) {
     const value = attribute[1];
     if (/^(?:https?:|mailto:|tel:|#|data:|javascript:|\{\{)/i.test(value)) continue; // {{ … }}: etiquetas de Brevo en newsletter/
     const resolved = new URL(value, pageUrl);
-    if (resolved.origin !== new URL(SITE_URL).origin || !resolved.pathname.startsWith('/BisontesDUX/')) continue;
-    const localPath = decodeURIComponent(resolved.pathname.slice('/BisontesDUX/'.length));
+    if (resolved.origin !== new URL(SITE_URL).origin || !resolved.pathname.startsWith(SITE_PATH)) continue;
+    const localPath = decodeURIComponent(resolved.pathname.slice(SITE_PATH.length));
     const target = path.join(ROOT, localPath);
     const exists = fs.existsSync(target) || fs.existsSync(path.join(target, 'index.html'));
     if (!exists) errors.push(`${relative}: recurso o enlace local inexistente: ${value}`);
@@ -102,7 +103,7 @@ if (new Set(sitemapUrls).size !== sitemapUrls.length) errors.push('sitemap: cont
 for (const url of sitemapUrls) if (!url.startsWith(SITE_URL)) errors.push(`sitemap: URL fuera del subdirectorio: ${url}`);
 
 const home = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
-const crawlablePlayerLinks = new Set(home.match(/href="\/BisontesDUX\/jugadores\/[^"/]+\/"/g) || []).size;
+const crawlablePlayerLinks = new Set(home.match(new RegExp(`href="${SITE_PATH}jugadores/[^"/]+/"`, 'g')) || []).size;
 if (crawlablePlayerLinks !== expectedPlayers) errors.push(`home: ${crawlablePlayerLinks} enlaces rastreables a fichas; se esperaban ${expectedPlayers}`);
 
 if (warnings.length) console.warn(warnings.join('\n'));

@@ -13,7 +13,7 @@
 // ============================================================
 import { createClient } from "npm:@supabase/supabase-js@2.116.0";
 
-const ALLOWED_ORIGINS = ["https://urpito.github.io", "https://bisontesdux.es", "http://localhost:8765"];
+const ALLOWED_ORIGINS = ["https://urpito.github.io", "https://bisontesdux.es", "https://www.bisontesdux.es", "http://localhost:8765"];
 const API = `https://graph.instagram.com/${Deno.env.get("IG_API_VERSION") || "v23.0"}`;
 
 function cors(origin: string | null) {

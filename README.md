@@ -1,6 +1,6 @@
 # Bisontes DUX
 
-Web oficial estática, publicada en GitHub Pages bajo `https://urpito.github.io/BisontesDUX/`.
+Web oficial estática, publicada en GitHub Pages bajo `https://bisontesdux.es/`.
 
 ## Actualizar plantilla, fichas y archivos de descubrimiento
 
@@ -15,7 +15,7 @@ La plantilla se muestra en la sección `#plantilla` del index. Las antiguas URLs
 
 ## Panel de admin (/admin/)
 
-`https://urpito.github.io/BisontesDUX/admin/` edita toda la web sin tocar código y guarda en GitHub con un token (instrucciones en la propia página); la Action «Generar web» publica en 1-2 minutos.
+`https://bisontesdux.es/admin/` edita toda la web sin tocar código y guarda en GitHub con un token (instrucciones en la propia página); la Action «Generar web» publica en 1-2 minutos.
 
 - **Plantilla** (`data/players.js`): tipo, nombre, apodo, dorsal, posición, capitán, «se encarga de», edad, foto, hasta dos nacionalidades con bandera, trayectoria por etapas (de la más antigua a la actual), bio, estadísticas y redes. Buscador y enlace a cada ficha.
 - **Textos de la web** (`data/site.js`): frase de la portada, «Sobre nosotros» y los datos del club, plantilla, valores, patrocinadores, Instagram, «Quiero jugar» y newsletter. Admite `**negrita**` y `[texto](enlace)`. El generador los vuelca en `index.html` entre los marcadores `SITE-…`.
@@ -34,7 +34,7 @@ Las entradas están en `data/blog.js` (instrucciones dentro del archivo). Tras a
 
 `galeria/` (pública, con las fotos destacadas) y `galeria/privada/` (con cuenta: todas las fotos, filtro por jugador, subida y accesos para admins) se generan con `npm run build`, pero las fotos y las cuentas no están en el repositorio: viven en Supabase. Puesta en marcha, uso y límites: [`supabase/README.md`](supabase/README.md). La conexión está en `js/galeria-config.js`; la lógica, en `js/galeria-comun.js`, `js/galeria.js` y `js/galeria-privada.js`.
 
-No hay dependencias de npm ni servidor: Node solo se usa para regenerar HTML estático. Los enlaces internos principales utilizan explícitamente el subdirectorio `/BisontesDUX/` de GitHub Pages.
+No hay dependencias de npm ni servidor: Node solo se usa para regenerar HTML estático. Los enlaces internos principales utilizan explícitamente el subdirectorio la raíz (`/`) de GitHub Pages.
 
 ### Editar nacionalidad y trayectoria
 
@@ -63,9 +63,9 @@ Usa una lista con un solo país si el jugador tiene una nacionalidad. Después e
 
 ## Nota sobre robots.txt en GitHub Pages
 
-El archivo se publica correctamente en `/BisontesDUX/robots.txt` y referencia el sitemap del proyecto. Los buscadores solicitan por convención el `robots.txt` de la raíz del host (`urpito.github.io/robots.txt`), que solo puede gestionarse desde el repositorio de la página de usuario. El sitemap de este proyecto puede enviarse directamente a Google Search Console y Bing Webmaster Tools.
+`robots.txt` está en la raíz del dominio (`https://bisontesdux.es/robots.txt`) y apunta al sitemap. El sitemap puede enviarse a Google Search Console y Bing Webmaster Tools.
 
-Tras cada cambio relevante de plantilla, envía `https://urpito.github.io/BisontesDUX/sitemap.xml` en ambos servicios. Un sitemap ayuda al descubrimiento, pero no garantiza indexación.
+Tras cada cambio relevante de plantilla, envía `https://bisontesdux.es/sitemap.xml` en ambos servicios. Un sitemap ayuda al descubrimiento, pero no garantiza indexación.
 
 ## llms.txt y players.json
 
@@ -73,7 +73,7 @@ Tras cada cambio relevante de plantilla, envía `https://urpito.github.io/Bisont
 
 ## Panel de admin
 
-En `https://urpito.github.io/BisontesDUX/admin/` hay un panel para editar la plantilla y el blog sin tocar código.
+En `https://bisontesdux.es/admin/` hay un panel para editar la plantilla y el blog sin tocar código.
 
 1. Crea una vez un token de GitHub (las instrucciones están en la propia página): *fine-grained*, solo para el repositorio `BisontesDUX`, con permiso **Contents: Read and write**.
 2. Entra con el token. Puedes añadir, editar, ordenar y borrar personas (jugador, entrenador o directiva, con apodo, foto, nacionalidad, trayectoria y redes) y entradas del blog (con portada).

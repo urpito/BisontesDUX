@@ -27,7 +27,7 @@ Bisontes DUX es a la vez un **proyecto social** y un **grupo de amigos**. El pat
 
 ## Capabilities and Constraints
 
-- Web estática en GitHub Pages, bajo el subdirectorio `https://urpito.github.io/BisontesDUX/`. Los enlaces internos usan `/BisontesDUX/` de forma absoluta.
+- Web estática en GitHub Pages, bajo el subdirectorio `https://bisontesdux.es/`. Los enlaces internos usan la raíz (`/`) de forma absoluta.
 - Sin framework ni dependencias de npm: Node solo regenera el HTML (`npm run build`, `npm run check`, `npm run check:live`).
 - Fuentes de datos: `data/players.js` (plantilla; cada persona puede tener `nickname`, que es lo que va en la espalda de la camiseta, y el staff lleva `role`: entrenador o directiva), `data/sponsors.js`, `data/joinForm.js`, `data/blog.js`.
 - Panel de admin en `/admin/` (funcional, sin diseño): edita plantilla y blog guardando en GitHub con un token personal; la Action «Generar web» regenera las páginas al hacer push.

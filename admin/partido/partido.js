@@ -12,7 +12,7 @@
 (function () {
   'use strict';
 
-  const SITE = location.pathname.startsWith('/BisontesDUX/') ? '/BisontesDUX/' : '/';
+  const SITE = '/';
   const DATA_PATH = 'data/partidos.js';
   const QUEUE_KEY = 'bisontes-partido-cola';
   const PLAYERS_KEY = 'bisontes-partido-plantilla';

@@ -12,7 +12,7 @@ import { createClient } from "npm:@supabase/supabase-js@2.116.0";
 
 const REPO = "urpito/BisontesDUX";
 const BRANCH = "main";
-const ALLOWED_ORIGINS = ["https://urpito.github.io", "http://localhost:8765"];
+const ALLOWED_ORIGINS = ["https://bisontesdux.es", "https://www.bisontesdux.es", "https://urpito.github.io", "http://localhost:8765"];
 const ALLOWED_PATH = /^(data\/[a-z]+\.js|assets\/(uploads|sponsors|blog)\/[a-z0-9-]+\.(webp|png|jpg))$/;
 
 function cors(origin: string | null) {

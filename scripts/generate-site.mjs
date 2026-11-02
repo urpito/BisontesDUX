@@ -4,8 +4,8 @@ import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const SITE_URL = 'https://urpito.github.io/BisontesDUX/';
-const SITE_PATH = '/BisontesDUX/';
+const SITE_URL = 'https://bisontesdux.es/';
+const SITE_PATH = '/';
 const TEAM_ID = `${SITE_URL}#team`;
 const TODAY = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Madrid' }).format(new Date());
 
