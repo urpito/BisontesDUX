@@ -526,7 +526,12 @@ async function handle(req, res) {
     const { clean, folder, file } = mediaPath(media[1], decodeURIComponent(media[2]));
     if (folder === 'privada' && !roleOf(currentUser(req))) throw new HttpError(403, 'permission denied');
     if (!fs.existsSync(file)) throw new HttpError(404, 'No existe');
-    const headers = { 'X-Accel-Redirect': `/_media/${folder}/${clean}`, 'Cache-Control': 'private, max-age=3600' };
+    const headers = {
+      'X-Accel-Redirect': `/_media/${folder}/${clean}`,
+      // El navegador no debe reutilizar una foto privada después de cerrar
+      // sesión ni conservar como rota una respuesta anterior sin permiso.
+      'Cache-Control': folder === 'privada' ? 'private, no-store' : 'public, max-age=3600'
+    };
     if (url.searchParams.get('download')) headers['Content-Disposition'] = `attachment; filename="${url.searchParams.get('download').replace(/[^A-Za-z0-9._-]/g, '_')}"`;
     res.writeHead(200, headers);
     return res.end();

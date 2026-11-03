@@ -11,6 +11,9 @@
 
   const API = '/api';
   const BUCKETS_PUBLIC = { 'galeria-publica': 'publica' };
+  // Cambia cuando haya que invalidar enlaces privados que algún navegador
+  // haya guardado como fallidos. No contiene ningún secreto ni token.
+  const PRIVATE_MEDIA_REV = 'urpilandia-20261103-1';
 
   /* Error con la forma que esperan las páginas ({ message, context.status, context.json() }). */
   function apiError(status, body) {
@@ -120,6 +123,11 @@
   function encodePath(p) {
     return String(p).split('/').map(encodeURIComponent).join('/');
   }
+  function privateMediaUrl(bucket, path, download) {
+    const params = new URLSearchParams({ v: PRIVATE_MEDIA_REV });
+    if (download) params.set('download', download === true ? path.split('/').pop() : download);
+    return `${location.origin}${API}/media/${bucket}/${encodePath(path)}?${params}`;
+  }
   function storageFrom(bucket) {
     return {
       upload(path, blob, opts = {}) {
@@ -133,17 +141,16 @@
       },
       getPublicUrl(path, opts = {}) {
         const folder = BUCKETS_PUBLIC[bucket];
-        const base = folder ? `${location.origin}/media/${folder}/${encodePath(path)}` : `${location.origin}${API}/media/${bucket}/${encodePath(path)}`;
-        const url = opts.download ? `${location.origin}${API}/media/${bucket}/${encodePath(path)}?download=${encodeURIComponent(opts.download === true ? path.split('/').pop() : opts.download)}` : base;
+        const base = folder ? `${location.origin}/media/${folder}/${encodePath(path)}` : privateMediaUrl(bucket, path);
+        const url = opts.download ? privateMediaUrl(bucket, path, opts.download) : base;
         return { data: { publicUrl: url } };
       },
       /* Las privadas se sirven con la cookie de sesión: la «firma» es la propia sesión. */
       async createSignedUrl(path, ttl, opts = {}) {
-        const download = opts.download ? `?download=${encodeURIComponent(opts.download === true ? path.split('/').pop() : opts.download)}` : '';
-        return { data: { signedUrl: `${location.origin}${API}/media/${bucket}/${encodePath(path)}${download}` }, error: null };
+        return { data: { signedUrl: privateMediaUrl(bucket, path, opts.download) }, error: null };
       },
       async createSignedUrls(paths) {
-        return { data: paths.map(p => ({ path: p, signedUrl: `${location.origin}${API}/media/${bucket}/${encodePath(p)}`, error: null })), error: null };
+        return { data: paths.map(p => ({ path: p, signedUrl: privateMediaUrl(bucket, p), error: null })), error: null };
       }
     };
   }

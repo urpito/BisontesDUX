@@ -68,6 +68,10 @@ try {
   assert.equal(upload.response.status, 200);
   assert.equal(fs.readFileSync(path.join(data, 'media/privada/prueba/pixel.png'), 'utf8'), 'png-test');
 
+  const privateMedia = await request('GET', '/api/media/galeria-privada/prueba/pixel.png', undefined, signup.cookie);
+  assert.equal(privateMedia.response.status, 200);
+  assert.equal(privateMedia.response.headers.get('cache-control'), 'private, no-store');
+
   const adminView = await request('POST', '/api/db', { op: 'select', table: 'gallery_photos', columns: '*', order: [['id', true, false]] }, signup.cookie);
   assert.equal(adminView.response.status, 200);
   assert.deepEqual(adminView.body.map(row => row.id), ['privada', 'publica']);
