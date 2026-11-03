@@ -89,10 +89,11 @@
       ]
     },
     {
-      "name": "Anton Alsonso Franco",
+      "name": "Antón Alsonso Franco",
       "url": "https://bisontesdux.es/jugadores/anton-alsonso-franco/",
       "position": "mediocentro",
       "dorsal": 8,
+      "image": "https://bisontesdux.es/assets/uploads/anton-alsonso-franco-1793693476908.webp",
       "nationalities": [
         "España"
       ],
@@ -269,6 +270,7 @@
       "url": "https://bisontesdux.es/jugadores/david-gonzalez/",
       "position": "defensa central",
       "dorsal": 33,
+      "image": "https://bisontesdux.es/assets/uploads/david-gonzalez-1793693454294.webp",
       "nationalities": [
         "España"
       ],
