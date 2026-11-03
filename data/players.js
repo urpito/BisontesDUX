@@ -228,7 +228,8 @@ const players = [
       "25/26–actualidad · Bisontes DUX"
     ],
     "nickname": "LuisDa",
-    "bio": "LuisDa es nuestro número 11 y juega tanto de lateral como de extremo. Lleva un par de años con la dirección del club y es de los que siempre se deja la piel por el escudo, ya sea en ataque o en defensa. Además, su primo Fran también forma parte de la plantilla."
+    "bio": "LuisDa es nuestro número 11 y juega tanto de lateral como de extremo. Lleva un par de años con la dirección del club y es de los que siempre se deja la piel por el escudo, ya sea en ataque o en defensa. Además, su primo Fran también forma parte de la plantilla.",
+    "photo": "assets/uploads/luis-daniel-salas-1793665237699.webp"
   },
   {
     "dorsal": 12,
