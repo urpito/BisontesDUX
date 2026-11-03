@@ -18,12 +18,12 @@ const site = {
   "about": {
     "title": "Una nueva manera de vivir el fútbol",
     "paragraphs": [
-      "Bisontes DUX nació en 2025 aquí, en Madrid. Somos **la manada**: jugadores que venimos de distintos equipos de la ciudad y que nos juntamos para jugar la liga municipal de Orcasur.",
+      "Bisontes DUX nació en 2025 aquí, en Madrid. Somos jugadores que venimos de distintos equipos de la ciudad y que nos juntamos para jugar la liga municipal de Orcasur.",
       "Nacimos para dar respuesta a algo que echábamos de menos: un equipo donde el fútbol encaje en tu vida, y no al revés. Sin agendas imposibles ni presión de más; venimos porque nos apetece y porque aquí se está a gusto.",
       "Creemos que el fútbol tiene que ser divertido, no un curro ni una obligación más. Aun así, cuando suena el silbato damos la cara: competimos por los puestos altos de nuestra liga.",
       "Nos mueven tres ideas: diversión, equipo y respeto. Lo que pasa en el campo se queda en el campo; lo que se lleva uno a casa son los amigos.",
       "En la camiseta llevamos a [Todos Juegan](https://todosjuegan.org/), nuestro patrocinador principal: una asociación que conecta a jóvenes en riesgo de exclusión social con equipos deportivos para promover la inclusión social. Nos acompañan también Fratelli D'Italia, Alcze, ISOS y PcFactory.",
-      "Somos un club abierto: si quieres jugar con nosotros, apoyarnos como empresa o simplemente seguir a la manada, aquí tienes tu sitio."
+      "Somos un club abierto: si quieres jugar con nosotros, apoyarnos como empresa o simplemente seguirnos, aquí tienes tu sitio."
     ],
     "facts": [
       {
@@ -79,11 +79,11 @@ const site = {
   },
   "sponsors": {
     "title": "Nos apoyan",
-    "intro": "Las marcas y asociaciones que van con la manada."
+    "intro": "Las marcas y asociaciones que van con los valores de nuestro club."
   },
   "instagram": {
     "title": "El día a día en Instagram",
-    "text": "Información del club, momentos del vestuario y lo mejor de cada partido: todo lo que pasa en la manada lo contamos en Instagram."
+    "text": "Información del club, momentos del vestuario y lo mejor de cada partido: todo lo que pasa lo contamos en Instagram."
   },
   "join": {
     "title": "Quiero jugar",
