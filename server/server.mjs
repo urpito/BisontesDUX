@@ -464,6 +464,10 @@ async function handle(req, res) {
     const body = await readJson(req);
     if (String(body.password || '').length < 8) throw new HttpError(400, 'Password should be at least 8 characters');
     db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run(hashPassword(String(body.password)), user.id);
+    // Una contraseña nueva invalida el resto de dispositivos. La sesión actual
+    // se sustituye inmediatamente para no expulsar a quien hizo el cambio.
+    db.prepare('DELETE FROM sessions WHERE user_id = ?').run(user.id);
+    startSession(req, res, user.id);
     return send(res, 200, { ok: true });
   }
 

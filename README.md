@@ -32,7 +32,7 @@ Las entradas están en `data/blog.js` (instrucciones dentro del archivo). Tras a
 
 ## Galería
 
-`galeria/` (pública, con las fotos destacadas) y `galeria/privada/` (con cuenta: todas las fotos, filtro por jugador, subida y accesos para admins) se generan con `npm run build`, pero las fotos y las cuentas no están en el repositorio: viven en Supabase. Puesta en marcha, uso y límites: [`supabase/README.md`](supabase/README.md). La conexión está en `js/galeria-config.js`; la lógica, en `js/galeria-comun.js`, `js/galeria.js` y `js/galeria-privada.js`.
+`galeria/` (pública, con las fotos destacadas) y `galeria/privada/` (con cuenta: todas las fotos, filtro por jugador, subida y accesos para admins) se generan con `npm run build`. Las cuentas, sesiones, fotos y vídeos no están en el repositorio: viven en el servidor propio de Urpilandia. El navegador usa `js/bisontes-api.js`; la lógica está en `js/galeria-comun.js`, `js/galeria.js` y `js/galeria-privada.js`. La carpeta `supabase/` se conserva únicamente como referencia de la instalación anterior y como ayuda para una reversión controlada durante la migración.
 
 No hay dependencias de npm ni servidor: Node solo se usa para regenerar HTML estático. Los enlaces internos principales utilizan explícitamente el subdirectorio la raíz (`/`) de GitHub Pages.
 
@@ -133,4 +133,26 @@ node --no-warnings server/cuentas.mjs clave correo@ejemplo.com
 node --no-warnings server/migrar-supabase.mjs --solo-ver
 ```
 
-`migrar-supabase.mjs` copia cuentas (con su contraseña), accesos, fotos y archivos desde Supabase. Necesita `SUPABASE_DB_URL` y `SUPABASE_SERVICE_KEY` en el archivo de llaves y `postgresql-client`. Las contraseñas de Supabase se aceptan tal cual y se recifran al primer inicio de sesión.
+`migrar-supabase.mjs` copia cuentas (con su hash de contraseña), accesos, fotos y archivos desde Supabase. Necesita `SUPABASE_DB_URL` y `SUPABASE_SERVICE_KEY` en el archivo de llaves y `postgresql-client`. Los hashes bcrypt se conservan tal cual y se recifran al primer inicio de sesión correcto; nunca se leen ni se muestran contraseñas en texto claro.
+
+### Migración segura desde Supabase
+
+La migración es aditiva y repetible: no borra nada de Supabase ni reemplaza cuentas locales que entren en conflicto. El orden obligatorio es:
+
+```bash
+node --no-warnings server/backup.mjs
+node --no-warnings server/migrar-supabase.mjs --solo-ver
+node --no-warnings server/migrar-supabase.mjs
+node --no-warnings server/migrar-supabase.mjs --verificar
+node --no-warnings server/backup.mjs
+```
+
+Los hashes bcrypt se conservan sin conocer ni mostrar las contraseñas. Al primer inicio correcto se convierten a scrypt. Las sesiones de Supabase no se copian: cada persona debe volver a iniciar sesión; solo haría falta un restablecimiento individual si un hash concreto no fuese compatible.
+
+No se debe eliminar el proyecto de Supabase ni cambiar la rama publicada hasta comprobar los conteos, abrir fotos y vídeos desde una cuenta autorizada y confirmar el plan de vuelta atrás.
+
+### Copias y vuelta atrás
+
+`server/backup.mjs` crea una copia consistente de SQLite, una instantánea incremental de todos los medios y un `manifest.json` con la comprobación de integridad y los conteos. El temporizador `server/systemd/bisontesdux-backup.timer` lo ejecuta a diario a las 03:20 y conserva 14 instantáneas en `/srv/bisontesdux-backups`.
+
+Para volver atrás, primero se detiene la API, se aparta la carpeta de datos actual, se restaura `bisontesdux.db` y `media/` desde una instantánea verificada y se arranca la API. Una restauración sustituye datos y requiere autorización expresa. Estas instantáneas están en el mismo disco físico: protegen frente a errores lógicos, pero hasta añadir una copia cifrada fuera de Urpilandia no protegen frente a la pérdida del disco.

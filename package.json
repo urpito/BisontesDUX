@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "build": "node scripts/generate-site.mjs",
-    "check": "node scripts/check-site.mjs && node scripts/check-seo.mjs",
-    "check:live": "node scripts/check-seo.mjs --live"
+    "check": "node scripts/check-site.mjs && node scripts/check-seo.mjs && node --check server/server.mjs && node --check server/migrar-supabase.mjs && node --check server/backup.mjs",
+    "check:live": "node scripts/check-seo.mjs --live",
+    "test:server": "node --no-warnings server/test-server.mjs"
   }
 }

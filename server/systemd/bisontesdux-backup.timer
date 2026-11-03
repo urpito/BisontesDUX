@@ -1,0 +1,10 @@
+[Unit]
+Description=Bisontes DUX: backup diario
+
+[Timer]
+OnCalendar=*-*-* 03:20:00 Europe/Madrid
+Persistent=true
+RandomizedDelaySec=10m
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,15 @@
+[Unit]
+Description=Bisontes DUX: backup consistente de base de datos y medios
+After=local-fs.target
+
+[Service]
+Type=oneshot
+User=urpi
+WorkingDirectory=/home/urpi/bisontesdux-web
+Environment=BDX_DATA=/srv/bisontesdux
+Environment=BDX_BACKUP=/srv/bisontesdux-backups
+Environment=BDX_BACKUP_KEEP=14
+ExecStart=/usr/bin/node --no-warnings /home/urpi/bisontesdux-web/server/backup.mjs
+Nice=10
+IOSchedulingClass=idle
+UMask=0077
