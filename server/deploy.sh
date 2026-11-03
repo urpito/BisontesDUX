@@ -36,7 +36,9 @@ flock 9
 write_marker() {
   local commit parent deployed_at temporary
   commit="${COMMIT_OVERRIDE:-$(git rev-parse HEAD)}"
-  parent="$(git rev-parse "${commit}^" 2>/dev/null || true)"
+  # En una publicación inmediata el commit todavía puede no existir en el
+  # clon local; en ese caso no inventar un padre para el marcador.
+  parent="$(git rev-parse --verify "${commit}^" 2>/dev/null || true)"
   deployed_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   temporary="$(mktemp "$WEB/.bisontes-deploy.XXXXXX")"
   printf '{"commit":"%s","parent":"%s","branch":"%s","deployed_at":"%s"}\n' "$commit" "$parent" "$BRANCH" "$deployed_at" > "$temporary"
