@@ -8,15 +8,25 @@ WEB=/var/www/bisontesdux
 BRANCH="$(cat "$HOME/.bisontesdux-branch" 2>/dev/null || echo main)"
 MARKER="$WEB/bisontes-deploy.json"
 BUILD_NOW=false
+LOCAL_BUILD=false
 FORCE=false
+COMMIT_OVERRIDE=""
 
-for arg in "$@"; do
-  case "$arg" in
+while [ "$#" -gt 0 ]; do
+  case "$1" in
     --build) BUILD_NOW=true ;;
+    --local-build) BUILD_NOW=true; LOCAL_BUILD=true ;;
     --force) FORCE=true ;;
-    *) echo "Uso: $0 [--build] [--force]" >&2; exit 64 ;;
+    --commit) shift; COMMIT_OVERRIDE="${1:-}" ;;
+    *) echo "Uso: $0 [--build|--local-build] [--commit SHA] [--force]" >&2; exit 64 ;;
   esac
+  shift
 done
+
+if "$LOCAL_BUILD" && ! [[ "$COMMIT_OVERRIDE" =~ ^[0-9a-f]{40}$ ]]; then
+  echo "--local-build requiere --commit SHA" >&2
+  exit 64
+fi
 
 # El temporizador y una publicación inmediata pueden coincidir. Una sola
 # ejecución escribe la web cada vez, evitando archivos a medio copiar.
@@ -25,8 +35,8 @@ flock 9
 
 write_marker() {
   local commit parent deployed_at temporary
-  commit="$(git rev-parse HEAD)"
-  parent="$(git rev-parse HEAD^ 2>/dev/null || true)"
+  commit="${COMMIT_OVERRIDE:-$(git rev-parse HEAD)}"
+  parent="$(git rev-parse "${commit}^" 2>/dev/null || true)"
   deployed_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   temporary="$(mktemp "$WEB/.bisontes-deploy.XXXXXX")"
   printf '{"commit":"%s","parent":"%s","branch":"%s","deployed_at":"%s"}\n' "$commit" "$parent" "$BRANCH" "$deployed_at" > "$temporary"
@@ -35,20 +45,21 @@ write_marker() {
 }
 
 cd "$REPO"
-git fetch -q origin "$BRANCH"
-target="$(git rev-parse "origin/$BRANCH")"
 current="$(git rev-parse HEAD)"
-if [ "$current" = "$target" ] && ! "$FORCE" && ! "$BUILD_NOW"; then
-  [ -f "$MARKER" ] || write_marker
-  exit 0
-fi
-
 old_api="$(git rev-parse HEAD:server 2>/dev/null || true)"
-git checkout -q -B "$BRANCH" "origin/$BRANCH"
-git reset -q --hard "origin/$BRANCH"
+if ! "$LOCAL_BUILD"; then
+  git fetch -q origin "$BRANCH"
+  target="$(git rev-parse "origin/$BRANCH")"
+  if [ "$current" = "$target" ] && ! "$FORCE" && ! "$BUILD_NOW"; then
+    [ -f "$MARKER" ] || write_marker
+    exit 0
+  fi
+  git checkout -q -B "$BRANCH" "origin/$BRANCH"
+  git reset -q --hard "origin/$BRANCH"
+fi
 if "$BUILD_NOW"; then
-  # Los datos recién guardados ya están en GitHub: generar aquí evita la
-  # espera de la Action y deja GitHub como segunda publicación/verificación.
+  # En publicación inmediata el API ya ha escrito los datos en este árbol.
+  # Así evitamos esperar a que GitHub esté disponible para el git fetch.
   npm run build
 fi
 rsync -a --delete \
@@ -68,4 +79,4 @@ if [ "$old_api" != "$new_api" ] || "$FORCE"; then
 fi
 
 write_marker
-echo "$(date -Is) publicado $(git rev-parse --short HEAD) ($BRANCH)"
+echo "$(date -Is) publicado ${COMMIT_OVERRIDE:-$(git rev-parse --short HEAD)} ($BRANCH)"

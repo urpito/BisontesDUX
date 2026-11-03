@@ -34,6 +34,7 @@ const REPO = 'urpito/BisontesDUX';
 const BRANCH = process.env.BDX_BRANCH || 'main';
 const WEB = process.env.BDX_WEB || '/var/www/bisontesdux';
 const PUBLISHER = process.env.BDX_PUBLISHER || path.join(process.env.HOME || '/home/urpi', 'bisontesdux-deploy.sh');
+const WORKTREE = process.env.BDX_REPO_DIR || path.resolve(process.cwd(), '..');
 const MEDIA = path.join(DATA, 'media');
 const TMP = path.join(DATA, 'tmp');
 const BUCKETS = { 'galeria-publica': 'publica', 'galeria-privada': 'privada' };
@@ -368,21 +369,22 @@ async function github(file, init = {}) {
   });
   return { status: res.status, data: await res.json().catch(() => ({})) };
 }
-async function writeLiveFile(file, content) {
+async function writeFileAtomically(root, file, content) {
   // Solo se llama después de que GitHub haya aceptado el mismo contenido y
   // sobre una ruta ya validada por ALLOWED_PATH. El renombrado es atómico:
   // quien visite la web nunca recibe un JS o una imagen a medio escribir.
-  const destination = path.join(WEB, file);
+  const destination = path.join(root, file);
   const temporary = `${destination}.new-${crypto.randomUUID()}`;
   await fsp.mkdir(path.dirname(destination), { recursive: true });
   await fsp.writeFile(temporary, content, { mode: 0o644 });
   await fsp.rename(temporary, destination);
 }
-function publishImmediately() {
+function publishImmediately(commit) {
   // No se espera a la generación: la respuesta de Guardar sigue siendo ágil.
   // deploy.sh usa flock, así que varias imágenes guardadas seguidas se
   // publican ordenadamente y la última siempre acaba siendo la visible.
-  const child = spawn(PUBLISHER, ['--build'], { detached: true, stdio: 'ignore' });
+  if (!/^[0-9a-f]{40}$/i.test(commit || '')) return;
+  const child = spawn(PUBLISHER, ['--local-build', '--commit', commit], { detached: true, stdio: 'ignore' });
   child.unref();
 }
 async function fnAdminGithub(req, body) {
@@ -409,9 +411,13 @@ async function fnAdminGithub(req, body) {
       body: JSON.stringify({ message: `${body.message || `admin: actualiza ${file}`} (${user.email})`, content: body.content, branch: BRANCH, ...(body.sha ? { sha: body.sha } : {}) })
     });
     if (status !== 200 && status !== 201) throw new HttpError(status, `GitHub ${status}: ${data.message || ''}`);
-    await writeLiveFile(file, decoded);
-    publishImmediately();
-    return { sha: data.content && data.content.sha, commit: data.commit && data.commit.sha, unchanged: false };
+    const commit = data.commit && data.commit.sha;
+    await writeFileAtomically(WEB, file, decoded);
+    // El árbol local es solo un área de generación: GitHub continúa siendo la
+    // fuente de respaldo y el temporizador lo deja limpio en el siguiente ciclo.
+    await writeFileAtomically(WORKTREE, file, decoded);
+    publishImmediately(commit);
+    return { sha: data.content && data.content.sha, commit, unchanged: false };
   }
   throw new HttpError(400, 'Acción desconocida');
 }
