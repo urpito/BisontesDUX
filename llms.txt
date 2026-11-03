@@ -25,6 +25,7 @@ Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identif
 - [Filip Gabriel Tekiela](https://bisontesdux.es/jugadores/filip-gabriel-tekiela/): delantero centro, dorsal 10.
 - [Luis Daniel Salas](https://bisontesdux.es/jugadores/luis-daniel-salas/): extremo derecho, dorsal 11.
 - [Josshua Javier Garcia Villalba](https://bisontesdux.es/jugadores/josshua-javier-garcia-villalba/): extremo derecho, dorsal 12.
+- [Samir x](https://bisontesdux.es/jugadores/samir-x/): defensa central, dorsal 13.
 - [Carlos Raul Rivera Puente](https://bisontesdux.es/jugadores/carlos-raul-rivera-puente/): portero, dorsal 14.
 - [Arturo Constantine Padilla](https://bisontesdux.es/jugadores/arturo-constantine-padilla/): extremo izquierdo, dorsal 15.
 - [Cristhofer Alejandro Chavez Guzman](https://bisontesdux.es/jugadores/cristhofer-alejandro-chavez-guzman/): extremo derecho, dorsal 17.
@@ -38,7 +39,6 @@ Bisontes DUX fue fundado en 2025. Los perfiles enlazados a continuación identif
 - [Santiago Lopez Lopez](https://bisontesdux.es/jugadores/santiago-lopez-lopez/): mediocentro, dorsal 67.
 - [Mateo Gonzalez Riagada](https://bisontesdux.es/jugadores/mateo-gonzalez-riagada/): extremo derecho, dorsal 69.
 - [Diego Arrufat Belloso](https://bisontesdux.es/jugadores/diego-arrufat-belloso/): mediocentro ofensivo, dorsal 99.
-- [Samir x](https://bisontesdux.es/jugadores/samir-x/): defensa central, dorsal 13.
 
 ## Cuerpo técnico
 
