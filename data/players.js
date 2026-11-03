@@ -171,7 +171,7 @@ const players = [
   },
   {
     "dorsal": 8,
-    "name": "Alsonso Franco, Anton",
+    "name": "Alsonso Franco, Antón",
     "position": "MC",
     "nationalities": [
       "España"
@@ -181,8 +181,9 @@ const players = [
       "RCD Espanyol de Madrid",
       "26/27–actualidad · Bisontes DUX"
     ],
-    "nickname": "Anton",
-    "bio": "Anton es uno de los nuevos fichajes del Bisontes Dux. Tenemos muchas ganas de que se incorpore al equipo en las próximas semanas."
+    "nickname": "Antón",
+    "bio": "Anton es uno de los nuevos fichajes del Bisontes Dux. Tenemos muchas ganas de que se incorpore al equipo en las próximas semanas.",
+    "photo": "assets/uploads/anton-alsonso-franco-1793693476908.webp"
   },
   {
     "dorsal": 9,
@@ -366,7 +367,8 @@ const players = [
       "26/27–actualidad · Bisontes DUX"
     ],
     "nickname": "Coronel",
-    "bio": "Coronel es un central contundente que vuelve a ponerse las botas después de un año sin jugar. Va con todo y tiene una entrada muy fuerte. Se reincorpora así con su cuerpo técnico y sus antiguos compañeros. Fuera del campo es rapero y se le conoce por su nombre artístico, Glesh."
+    "bio": "Coronel es un central contundente que vuelve a ponerse las botas después de un año sin jugar. Va con todo y tiene una entrada muy fuerte. Se reincorpora así con su cuerpo técnico y sus antiguos compañeros. Fuera del campo es rapero y se le conoce por su nombre artístico, Glesh.",
+    "photo": "assets/uploads/david-gonzalez-1793693454294.webp"
   },
   {
     "dorsal": 42,
