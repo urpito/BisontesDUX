@@ -250,8 +250,8 @@ const players = [
   },
   {
     "dorsal": 13,
-    "name": "x, Samir",
-    "position": "DFC",
+    "name": "Khaiali Amiri Lorestani, Samir",
+    "position": "LD",
     "nickname": "Samir",
     "nationalities": [
       "España"
