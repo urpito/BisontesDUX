@@ -1,0 +1,12 @@
+[Unit]
+Description=Bisontes DUX: publica cambios de GitHub en Urpilandia
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=urpi
+WorkingDirectory=/home/urpi/bisontesdux-web
+ExecStart=/home/urpi/bisontesdux-deploy.sh
+Nice=5
+UMask=0022

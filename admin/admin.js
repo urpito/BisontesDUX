@@ -4,7 +4,7 @@
    guarda los archivos de data/ en GitHub a través de la función
    admin-github de Supabase, que guarda la llave de GitHub y solo
    deja pasar a los admins. Al guardar, la GitHub Action "Generar
-   web" regenera las páginas y GitHub Pages publica en 1-2 minutos.
+   web" regenera las páginas y Urpilandia las publica normalmente en alrededor de un minuto.
    ============================================================ */
 (function () {
   'use strict';
@@ -200,11 +200,10 @@
   }
 
   /* ---------------- barra de publicación ----------------
-     Pregunta a GitHub (API pública de Actions) por las tareas lanzadas desde que se guardó:
-     «Generar web» regenera las páginas y «pages build and deployment» las publica.
-     La barra avanza con una estimación (~2,5 min) y solo llega al 100 % cuando GitHub
-     confirma que la última publicación ha terminado bien. */
-  const PUBLISH_ESTIMATE = 150000;
+     GitHub Actions regenera las páginas. Después, el publicador de Urpilandia escribe
+     bisontes-deploy.json con el commit que está sirviendo. La barra solo llega al 100 %
+     cuando ambas partes coinciden; ya no depende del antiguo GitHub Pages. */
+  const PUBLISH_ESTIMATE = 90000;
   let publishTimer = null;
 
   function publishBar(percent, text, kind = '') {
@@ -230,6 +229,13 @@
     return (await res.json()).workflow_runs || [];
   }
 
+  async function deployedCommit() {
+    const res = await fetch(`/bisontes-deploy.json?t=${Date.now()}`, { cache: 'no-store' });
+    if (!res.ok) return null;
+    const info = await res.json();
+    return info.commit || null;
+  }
+
   function trackPublish(since) {
     clearTimeout(publishTimer);
     const started = Date.now();
@@ -240,22 +246,24 @@
       let text = 'Preparando la publicación…';
       try {
         const runs = await runsSince(since);
-        if (runs.length) seenRuns = true;
-        const build = runs.filter(run => run.name === 'Generar web');
-        const deploys = runs.filter(run => run.name === 'pages build and deployment')
+        const build = runs.filter(run => run.name === 'Generar web')
           .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        const active = runs.some(run => run.status !== 'completed');
+        if (build.length) seenRuns = true;
+        const active = build.some(run => run.status !== 'completed');
         if (build.some(run => run.conclusion === 'failure')) {
           publishBar(100, 'Ha fallado la regeneración de la web. Avisa a quien mantiene la web (los datos sí están guardados).', 'err');
           return;
         }
-        if (seenRuns && !active && deploys[0] && deploys[0].conclusion === 'success') {
-          publishBar(100, '¡Publicado! Ya se ve en la web (si no, recarga con Ctrl+F5).', 'ok');
-          return;
+        if (seenRuns && !active) {
+          const successful = build.filter(run => run.conclusion === 'success');
+          const live = await deployedCommit();
+          if (live && successful.some(run => run.head_sha === live)) {
+            publishBar(100, '¡Publicado en Urpilandia! Ya se ve en la web (si no, recarga con Ctrl+F5).', 'ok');
+            return;
+          }
         }
         if (build.some(run => run.status !== 'completed')) text = 'Regenerando las páginas…';
-        else if (deploys.some(run => run.status !== 'completed')) text = 'Publicando en la web…';
-        else if (seenRuns) text = 'Terminando…';
+        else if (seenRuns) text = 'Enviando a Urpilandia…';
       } catch (error) {
         text = 'Publicando… (no se puede consultar el progreso exacto)';
       }
@@ -263,10 +271,10 @@
         publishBar(100, 'Está tardando más de lo normal. Recarga la web en unos minutos; si no aparece, avisa.', 'err');
         return;
       }
-      publishBar(estimate, `${text} Suele tardar 2-3 minutos.`);
+      publishBar(estimate, `${text} Suele tardar alrededor de 1 minuto.`);
       publishTimer = setTimeout(tick, 12000);
     };
-    publishBar(2, 'Preparando la publicación… Suele tardar 2-3 minutos.');
+    publishBar(2, 'Preparando la publicación… Suele tardar alrededor de 1 minuto.');
     publishTimer = setTimeout(tick, 4000);
   }
 

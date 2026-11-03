@@ -1,0 +1,11 @@
+[Unit]
+Description=Bisontes DUX: comprueba cambios en GitHub cada 15 segundos
+
+[Timer]
+OnBootSec=20s
+OnUnitActiveSec=15s
+AccuracySec=2s
+Unit=bisontesdux-deploy.service
+
+[Install]
+WantedBy=timers.target

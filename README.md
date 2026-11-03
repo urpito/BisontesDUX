@@ -117,7 +117,7 @@ Hasta que esté conectado, el panel funciona igual y las historias se comparten 
 
 La web se sirve en `https://bisontesdux.es` desde urpilandia, con nginx y una configuración propia, independiente de SillaMC:
 
-- **Web:** `/var/www/bisontesdux`. El temporizador `bisontesdux-deploy.timer` mira GitHub cada minuto y copia la rama publicada (`~/.bisontesdux-branch`, normalmente `main`) con `~/bisontesdux-deploy.sh`. Si cambia `server/`, reinicia la API.
+- **Web:** `/var/www/bisontesdux`. El temporizador `bisontesdux-deploy.timer` mira GitHub cada 15 segundos y copia la rama publicada (`~/.bisontesdux-branch`, normalmente `main`) con `~/bisontesdux-deploy.sh`. Si cambia `server/`, reinicia la API y verifica su salud antes de marcar el commit como publicado en `bisontes-deploy.json`.
 - **API:** `server/server.mjs` (servicio `bisontesdux-api`, solo en `127.0.0.1:8810`, publicado en `/api`). Lleva las cuentas y sesiones, los accesos de la galería, las fotos y vídeos, el guardado en GitHub del admin y la publicación de historias en Instagram. Usa Node 22 sin dependencias.
 - **Datos:** `/srv/bisontesdux`, con la base de datos `bisontesdux.db` y `media/publica` y `media/privada`. Cuando se conecte el disco nuevo, se mueve esa carpeta y se cambia `BDX_DATA` en el servicio y la ruta en `/etc/nginx/snippets/bisontesdux-site.conf`.
 - **Vídeos:** se suben por trozos (hasta 4 GB) y `ffmpeg` los pasa a MP4 H.264 con miniatura. Se ven con avance y retroceso.
