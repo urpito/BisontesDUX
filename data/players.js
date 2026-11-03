@@ -249,6 +249,16 @@ const players = [
     "photo": "assets/uploads/josshua-javier-garcia-villalba-1793693794298.webp"
   },
   {
+    "dorsal": 13,
+    "name": "x, Samir",
+    "position": "DFC",
+    "nickname": "Samir",
+    "nationalities": [
+      "España"
+    ],
+    "photo": "assets/uploads/samir-x-1793694271418.webp"
+  },
+  {
     "dorsal": 14,
     "name": "Rivera Puente, Carlos Raul",
     "position": "POR",
@@ -428,15 +438,5 @@ const players = [
     ],
     "nickname": "Diego",
     "bio": "Diego es uno de nuestros capitanes y lleva el número 99 a la espalda. Es un mediocampista con mucha visión de juego que reparte muy bien el balóny, cuando más falta hace, es capaz de sacarse la jugada. Además, es un gran líder dentro del campo: organiza al equipo desde el mediocampo y sabe cómo sacar lo mejor de cada uno de sus compañeros."
-  },
-  {
-    "dorsal": 13,
-    "name": "x, Samir",
-    "position": "DFC",
-    "nickname": "Samir",
-    "nationalities": [
-      "España"
-    ],
-    "photo": "assets/uploads/samir-x-1793694271418.webp"
   }
 ];
