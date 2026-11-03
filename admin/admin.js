@@ -229,11 +229,10 @@
     return (await res.json()).workflow_runs || [];
   }
 
-  async function deployedCommit() {
+  async function deployedVersion() {
     const res = await fetch(`/bisontes-deploy.json?t=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) return null;
-    const info = await res.json();
-    return info.commit || null;
+    return res.json();
   }
 
   function trackPublish(since) {
@@ -256,8 +255,11 @@
         }
         if (seenRuns && !active) {
           const successful = build.filter(run => run.conclusion === 'success');
-          const live = await deployedCommit();
-          if (live && successful.some(run => run.head_sha === live)) {
+          const live = await deployedVersion();
+          // La tarea puede crear un segundo commit con los HTML generados. En ese
+          // caso el commit que lanzó la tarea es el padre del que sirve Urpilandia.
+          const published = live && [live.commit, live.parent].filter(Boolean);
+          if (published && successful.some(run => published.includes(run.head_sha))) {
             publishBar(100, '¡Publicado en Urpilandia! Ya se ve en la web (si no, recarga con Ctrl+F5).', 'ok');
             return;
           }

@@ -9,11 +9,12 @@ BRANCH="$(cat "$HOME/.bisontesdux-branch" 2>/dev/null || echo main)"
 MARKER="$WEB/bisontes-deploy.json"
 
 write_marker() {
-  local commit deployed_at temporary
+  local commit parent deployed_at temporary
   commit="$(git rev-parse HEAD)"
+  parent="$(git rev-parse HEAD^ 2>/dev/null || true)"
   deployed_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   temporary="$(mktemp "$WEB/.bisontes-deploy.XXXXXX")"
-  printf '{"commit":"%s","branch":"%s","deployed_at":"%s"}\n' "$commit" "$BRANCH" "$deployed_at" > "$temporary"
+  printf '{"commit":"%s","parent":"%s","branch":"%s","deployed_at":"%s"}\n' "$commit" "$parent" "$BRANCH" "$deployed_at" > "$temporary"
   chmod 0644 "$temporary"
   mv "$temporary" "$MARKER"
 }
