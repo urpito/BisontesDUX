@@ -377,12 +377,20 @@ async function fnAdminGithub(req, body) {
   }
   if (body.action === 'write') {
     if (typeof body.content !== 'string' || !body.content) throw new HttpError(400, 'Falta el contenido');
+    const decoded = Buffer.from(body.content.replace(/\s/g, ''), 'base64');
+    const blobSha = crypto.createHash('sha1')
+      .update(Buffer.from(`blob ${decoded.length}\0`))
+      .update(decoded)
+      .digest('hex');
+    // GitHub crea un commit vacío incluso si se guarda exactamente el mismo
+    // contenido. Evitarlo impide publicaciones fantasma y barras eternas.
+    if (body.sha && blobSha === body.sha) return { sha: body.sha, unchanged: true };
     const { status, data } = await github(file, {
       method: 'PUT',
       body: JSON.stringify({ message: `${body.message || `admin: actualiza ${file}`} (${user.email})`, content: body.content, branch: BRANCH, ...(body.sha ? { sha: body.sha } : {}) })
     });
     if (status !== 200 && status !== 201) throw new HttpError(status, `GitHub ${status}: ${data.message || ''}`);
-    return { sha: data.content && data.content.sha };
+    return { sha: data.content && data.content.sha, commit: data.commit && data.commit.sha, unchanged: false };
   }
   throw new HttpError(400, 'Acción desconocida');
 }

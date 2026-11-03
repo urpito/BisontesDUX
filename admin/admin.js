@@ -128,7 +128,7 @@
   }
   async function writeFile(path, base64, message, sha) {
     const data = await callGithub({ action: 'write', path, content: base64, message, sha });
-    return { content: { sha: data.sha } };
+    return { content: { sha: data.sha }, unchanged: Boolean(data.unchanged) };
   }
 
   /* data/*.js son JavaScript: se separa el comentario de cabecera y se evalúa la variable. */
@@ -161,14 +161,17 @@
 
   /* ---------------- guardar ---------------- */
   async function uploadPending(kind) {
+    let changed = false;
     for (const [item, pending] of state.pendingUploads) {
       if (pending.kind !== kind) continue;
       const path = `${FILES[kind].folder}/${pending.name}`;
       setStatus(`Subiendo imagen ${pending.name}…`);
-      await writeFile(path, await blobToB64(pending.blob), `admin: imagen ${pending.name}`);
+      const result = await writeFile(path, await blobToB64(pending.blob), `admin: imagen ${pending.name}`);
+      if (!result.unchanged) changed = true;
       item[pending.field] = path;
       state.pendingUploads.delete(item);
     }
+    return changed;
   }
 
   const VALIDATORS = { players: validatePlayers, site: validateSite, sponsors: validateSponsors, blog: validatePosts };
@@ -181,7 +184,7 @@
     try {
       const problem = VALIDATORS[kind](store.data);
       if (problem) throw new Error(problem);
-      if (file.folder) await uploadPending(kind);
+      const uploaded = file.folder ? await uploadPending(kind) : false;
       setStatus('Guardando…');
       const savedAt = Date.now() - 5000;
       const text = serializeDataFile(store.header, file.variable, store.data);
@@ -190,7 +193,7 @@
       store.dirty = false;
       renderAll();
       setStatus('Guardado ✓ No hace falta volver a guardar.', 'ok');
-      trackPublish(savedAt);
+      if (!result.unchanged || uploaded) trackPublish(savedAt);
     } catch (error) {
       if (error.status === 409) setStatus('Alguien cambió el archivo mientras editabas. Recarga la página y vuelve a aplicar los cambios.', 'err');
       else setStatus(`No se pudo guardar: ${error.message}`, 'err');
