@@ -7,6 +7,21 @@ REPO="$HOME/bisontesdux-web"
 WEB=/var/www/bisontesdux
 BRANCH="$(cat "$HOME/.bisontesdux-branch" 2>/dev/null || echo main)"
 MARKER="$WEB/bisontes-deploy.json"
+BUILD_NOW=false
+FORCE=false
+
+for arg in "$@"; do
+  case "$arg" in
+    --build) BUILD_NOW=true ;;
+    --force) FORCE=true ;;
+    *) echo "Uso: $0 [--build] [--force]" >&2; exit 64 ;;
+  esac
+done
+
+# El temporizador y una publicación inmediata pueden coincidir. Una sola
+# ejecución escribe la web cada vez, evitando archivos a medio copiar.
+exec 9>/tmp/bisontesdux-publish.lock
+flock 9
 
 write_marker() {
   local commit parent deployed_at temporary
@@ -23,7 +38,7 @@ cd "$REPO"
 git fetch -q origin "$BRANCH"
 target="$(git rev-parse "origin/$BRANCH")"
 current="$(git rev-parse HEAD)"
-if [ "$current" = "$target" ] && [ "${1:-}" != "--force" ]; then
+if [ "$current" = "$target" ] && ! "$FORCE" && ! "$BUILD_NOW"; then
   [ -f "$MARKER" ] || write_marker
   exit 0
 fi
@@ -31,6 +46,11 @@ fi
 old_api="$(git rev-parse HEAD:server 2>/dev/null || true)"
 git checkout -q -B "$BRANCH" "origin/$BRANCH"
 git reset -q --hard "origin/$BRANCH"
+if "$BUILD_NOW"; then
+  # Los datos recién guardados ya están en GitHub: generar aquí evita la
+  # espera de la Action y deja GitHub como segunda publicación/verificación.
+  npm run build
+fi
 rsync -a --delete \
   --exclude ".git" --exclude ".github" --exclude ".claude" --exclude ".impeccable" \
   --exclude "supabase" --exclude "server" --exclude "scripts" --exclude "node_modules" --exclude "newsletter" \
@@ -38,7 +58,7 @@ rsync -a --delete \
   "$REPO/" "$WEB/"
 
 new_api="$(git rev-parse HEAD:server 2>/dev/null || true)"
-if [ "$old_api" != "$new_api" ] || [ "${1:-}" = "--force" ]; then
+if [ "$old_api" != "$new_api" ] || "$FORCE"; then
   sudo -n systemctl restart bisontesdux-api
   for _ in {1..20}; do
     if curl -fsS http://127.0.0.1:8810/api/health >/dev/null; then break; fi

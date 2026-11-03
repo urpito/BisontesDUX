@@ -2,9 +2,9 @@
    BISONTES DUX — panel de admin
    Se entra con la cuenta de la galería (Supabase Auth). Lee y
    guarda los archivos de data/ en GitHub a través de la función
-   admin-github de Supabase, que guarda la llave de GitHub y solo
-   deja pasar a los admins. Al guardar, la GitHub Action "Generar
-   web" regenera las páginas y Urpilandia las publica normalmente en alrededor de un minuto.
+   admin-github de Supabase, que guarda la llave de GitHub y solo deja
+   pasar a los admins. Al guardar, Urpilandia genera la versión pública
+   directamente; GitHub conserva la misma modificación como respaldo.
    ============================================================ */
 (function () {
   'use strict';
@@ -128,7 +128,7 @@
   }
   async function writeFile(path, base64, message, sha) {
     const data = await callGithub({ action: 'write', path, content: base64, message, sha });
-    return { content: { sha: data.sha }, unchanged: Boolean(data.unchanged) };
+    return { content: { sha: data.sha }, commit: data.commit || null, unchanged: Boolean(data.unchanged) };
   }
 
   /* data/*.js son JavaScript: se separa el comentario de cabecera y se evalúa la variable. */
@@ -162,16 +162,17 @@
   /* ---------------- guardar ---------------- */
   async function uploadPending(kind) {
     let changed = false;
+    let commit = null;
     for (const [item, pending] of state.pendingUploads) {
       if (pending.kind !== kind) continue;
       const path = `${FILES[kind].folder}/${pending.name}`;
       setStatus(`Subiendo imagen ${pending.name}…`);
       const result = await writeFile(path, await blobToB64(pending.blob), `admin: imagen ${pending.name}`);
-      if (!result.unchanged) changed = true;
+      if (!result.unchanged) { changed = true; commit = result.commit || commit; }
       item[pending.field] = path;
       state.pendingUploads.delete(item);
     }
-    return changed;
+    return { changed, commit };
   }
 
   const VALIDATORS = { players: validatePlayers, site: validateSite, sponsors: validateSponsors, blog: validatePosts };
@@ -184,7 +185,7 @@
     try {
       const problem = VALIDATORS[kind](store.data);
       if (problem) throw new Error(problem);
-      const uploaded = file.folder ? await uploadPending(kind) : false;
+      const uploaded = file.folder ? await uploadPending(kind) : { changed: false, commit: null };
       setStatus('Guardando…');
       const savedAt = Date.now() - 5000;
       const text = serializeDataFile(store.header, file.variable, store.data);
@@ -193,7 +194,8 @@
       store.dirty = false;
       renderAll();
       setStatus('Guardado ✓ No hace falta volver a guardar.', 'ok');
-      if (!result.unchanged || uploaded) trackPublish(savedAt);
+      const commit = result.commit || uploaded.commit;
+      if (commit) trackPublish(commit, savedAt);
     } catch (error) {
       if (error.status === 409) setStatus('Alguien cambió el archivo mientras editabas. Recarga la página y vuelve a aplicar los cambios.', 'err');
       else setStatus(`No se pudo guardar: ${error.message}`, 'err');
@@ -203,10 +205,10 @@
   }
 
   /* ---------------- barra de publicación ----------------
-     GitHub Actions regenera las páginas. Después, el publicador de Urpilandia escribe
-     bisontes-deploy.json con el commit que está sirviendo. La barra solo llega al 100 %
-     cuando ambas partes coinciden; ya no depende del antiguo GitHub Pages. */
-  const PUBLISH_ESTIMATE = 90000;
+     Urpilandia genera la web directamente y escribe bisontes-deploy.json con
+     el commit que está sirviendo. GitHub vuelve a generar una copia después,
+     pero no bloquea la publicación que ve el visitante. */
+  const PUBLISH_ESTIMATE = 12000;
   let publishTimer = null;
 
   function publishBar(percent, text, kind = '') {
@@ -238,7 +240,7 @@
     return res.json();
   }
 
-  function trackPublish(since) {
+  function trackPublish(commit, since) {
     clearTimeout(publishTimer);
     const started = Date.now();
     let seenRuns = false;
@@ -247,6 +249,11 @@
       const estimate = Math.min(95, (elapsed / PUBLISH_ESTIMATE) * 100);
       let text = 'Preparando la publicación…';
       try {
+        const live = await deployedVersion();
+        if (live && [live.commit, live.parent].filter(Boolean).includes(commit)) {
+          publishBar(100, '¡Publicado en Urpilandia! Ya se ve en la web; recarga la página para verlo.', 'ok');
+          return;
+        }
         const runs = await runsSince(since);
         const build = runs.filter(run => run.name === 'Generar web')
           .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
@@ -258,7 +265,6 @@
         }
         if (seenRuns && !active) {
           const successful = build.filter(run => run.conclusion === 'success');
-          const live = await deployedVersion();
           // La tarea puede crear un segundo commit con los HTML generados. En ese
           // caso el commit que lanzó la tarea es el padre del que sirve Urpilandia.
           const published = live && [live.commit, live.parent].filter(Boolean);
@@ -276,11 +282,11 @@
         publishBar(100, 'Está tardando más de lo normal. Recarga la web en unos minutos; si no aparece, avisa.', 'err');
         return;
       }
-      publishBar(estimate, `${text} Suele tardar alrededor de 1 minuto.`);
-      publishTimer = setTimeout(tick, 12000);
+      publishBar(estimate, `${text} Suele tardar unos segundos.`);
+      publishTimer = setTimeout(tick, 2500);
     };
-    publishBar(2, 'Preparando la publicación… Suele tardar alrededor de 1 minuto.');
-    publishTimer = setTimeout(tick, 4000);
+    publishBar(2, 'Preparando la publicación… Suele tardar unos segundos.');
+    publishTimer = setTimeout(tick, 1000);
   }
 
   function markDirty(kind) {
