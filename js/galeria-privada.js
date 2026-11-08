@@ -132,14 +132,16 @@
     return data.signedUrl;
   }
 
+  /* Se descarga el original (máxima calidad, para redes) si existe; si no, la foto grande. */
   async function download(photo) {
-    const extension = photo.full_path.split('.').pop();
+    const source = photo.original_path || photo.full_path;
+    const extension = source.split('.').pop();
     const name = `bisontes-dux-${G.slugify(photo.event || 'foto') || 'foto'}-${photo.id.slice(0, 8)}.${extension}`;
     let url;
-    if (photo.is_public) {
+    if (photo.is_public && !photo.original_path) {
       url = client.storage.from(G.BUCKETS.public).getPublicUrl(photo.full_path, { download: name }).data.publicUrl;
     } else {
-      const { data, error } = await client.storage.from(G.BUCKETS.private).createSignedUrl(photo.full_path, 120, { download: name });
+      const { data, error } = await client.storage.from(G.BUCKETS.private).createSignedUrl(source, 120, { download: name });
       if (error) { window.alert(G.errorMessage(error)); return; }
       url = data.signedUrl;
     }
@@ -465,8 +467,14 @@
     const extension = blob => (blob.type === 'image/webp' ? 'webp' : 'jpg');
     const fullPath = `${id}/full.${extension(full.blob)}`;
     const thumbPath = `${id}/thumb.${extension(thumb.blob)}`;
+    /* El archivo original se guarda sin tocar (solo en la privada): es el que va a redes. */
+    const originalExt = (file.name.match(/\.([A-Za-z0-9]{1,5})$/) || [])[1]?.toLowerCase() || extension(full.blob);
+    const originalPath = `${id}/original.${originalExt}`;
     const uploaded = { [G.BUCKETS.private]: [], [G.BUCKETS.public]: [] };
     try {
+      const { error: originalError } = await client.storage.from(G.BUCKETS.private).upload(originalPath, file, { contentType: file.type || 'image/jpeg', cacheControl: '31536000', upsert: false });
+      if (originalError) throw originalError;
+      uploaded[G.BUCKETS.private].push(originalPath);
       for (const bucket of meta.is_public ? [G.BUCKETS.private, G.BUCKETS.public] : [G.BUCKETS.private]) {
         for (const [path, item] of [[fullPath, full], [thumbPath, thumb]]) {
           const { error } = await client.storage.from(bucket).upload(path, item.blob, { contentType: item.blob.type, cacheControl: '31536000', upsert: false });
@@ -475,7 +483,7 @@
         }
       }
       const { data, error } = await client.from('gallery_photos').insert({
-        id, full_path: fullPath, thumb_path: thumbPath, width: full.width, height: full.height,
+        id, full_path: fullPath, thumb_path: thumbPath, original_path: originalPath, width: full.width, height: full.height,
         event: meta.event, taken_on: meta.taken_on, caption: meta.caption, players: meta.players, is_public: meta.is_public
       }).select().single();
       if (error) throw error;
@@ -625,7 +633,7 @@
       const { error } = await client.from('gallery_photos').delete().eq('id', photo.id);
       if (error) { setStatus(status, G.errorMessage(error), 'err'); return; }
       const paths = [photo.full_path, photo.thumb_path];
-      await removeFiles(G.BUCKETS.private, paths);
+      await removeFiles(G.BUCKETS.private, photo.original_path ? [...paths, photo.original_path] : paths);
       await removeFiles(G.BUCKETS.public, paths);
       state.photos = state.photos.filter(item => item.id !== photo.id);
       editor.close();
