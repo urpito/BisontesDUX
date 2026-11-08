@@ -45,7 +45,7 @@ const MAX_VIDEO = 4 * 1024 * 1024 * 1024;
 const CHUNK = 8 * 1024 * 1024;
 const ALLOWED_PATH = /^(data\/[a-z]+\.js|assets\/(uploads|sponsors|blog|historias)\/[a-z0-9-]+\.(webp|png|jpg))$/;
 
-for (const dir of [DATA, path.join(MEDIA, 'publica'), path.join(MEDIA, 'privada'), TMP]) fs.mkdirSync(dir, { recursive: true });
+for (const dir of [DATA, path.join(MEDIA, 'publica'), path.join(MEDIA, 'privada'), path.join(MEDIA, 'redes'), TMP]) fs.mkdirSync(dir, { recursive: true });
 
 function secrets() {
   const out = {};
@@ -57,6 +57,14 @@ function secrets() {
   } catch { /* sin archivo: las funciones que lo necesitan avisan */ }
   return out;
 }
+
+/* «Para redes» (/admin/redes/): enlaces firmados con una llave propia que se crea sola. */
+const SHARE_DAYS = 7;
+const SHARE_KEY_FILE = path.join(DATA, 'share.key');
+if (!fs.existsSync(SHARE_KEY_FILE)) fs.writeFileSync(SHARE_KEY_FILE, crypto.randomBytes(32).toString('hex'), { mode: 0o600 });
+const SHARE_KEY = fs.readFileSync(SHARE_KEY_FILE, 'utf8').trim();
+const shareSig = (id, exp) => crypto.createHmac('sha256', SHARE_KEY).update(`${id}.${exp}`).digest('base64url').slice(0, 32);
+const REDES_STATUS = ['pendiente', 'programado', 'publicado'];
 
 /* ---------------- base de datos ---------------- */
 const db = new DatabaseSync(path.join(DATA, 'bisontesdux.db'));
@@ -85,6 +93,11 @@ db.exec(`
     uploaded_by TEXT, created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
   );
   CREATE INDEX IF NOT EXISTS photos_public ON photos (is_public, taken_on);
+  CREATE TABLE IF NOT EXISTS redes (
+    id TEXT PRIMARY KEY, file TEXT NOT NULL, name TEXT, size INTEGER, mime TEXT, caption TEXT,
+    publish_on TEXT, status TEXT NOT NULL DEFAULT 'pendiente', uploaded_by TEXT,
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+  );
   CREATE TABLE IF NOT EXISTS uploads (
     id TEXT PRIMARY KEY, user_id TEXT NOT NULL, size INTEGER NOT NULL, received INTEGER NOT NULL DEFAULT 0,
     next_index INTEGER NOT NULL DEFAULT 0, name TEXT, created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
@@ -580,6 +593,63 @@ async function handle(req, res) {
     };
     if (url.searchParams.get('download')) headers['Content-Disposition'] = `attachment; filename="${url.searchParams.get('download').replace(/[^A-Za-z0-9._-]/g, '_')}"`;
     res.writeHead(200, headers);
+    return res.end();
+  }
+
+  // --- «Para redes»: archivos originales solo para admins (se suben con /videos/start y sus trozos) ---
+  if (route === '/redes' && method === 'GET') {
+    requireAdmin(req);
+    return send(res, 200, db.prepare('SELECT r.*, u.email AS uploaded_by_email FROM redes r LEFT JOIN users u ON u.id = r.uploaded_by ORDER BY r.created_at DESC').all());
+  }
+  const redesFinish = route.match(/^\/redes\/([0-9a-f-]{36})\/finish$/);
+  if (redesFinish && method === 'POST') {
+    const user = requireAdmin(req);
+    const upload = db.prepare('SELECT * FROM uploads WHERE id = ?').get(redesFinish[1]);
+    if (!upload) throw new HttpError(404, 'Subida no encontrada');
+    if (upload.received !== upload.size) throw new HttpError(409, 'El archivo no ha llegado entero. Vuelve a subirlo.');
+    const meta = await readJson(req);
+    const file = `${upload.id}/original.${extensionOf(upload.name)}`;
+    await fsp.mkdir(path.join(MEDIA, 'redes', upload.id), { recursive: true });
+    const input = path.join(TMP, `${upload.id}.upload`);
+    await fsp.rename(input, path.join(MEDIA, 'redes', file)).catch(() => fsp.copyFile(input, path.join(MEDIA, 'redes', file)).then(() => fsp.rm(input, { force: true })));
+    db.prepare('INSERT INTO redes (id, file, name, size, mime, caption, publish_on, uploaded_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+      .run(upload.id, file, upload.name, upload.size, String(meta.mime || '').slice(0, 60), meta.caption || null, meta.publish_on || null, user.id);
+    db.prepare('DELETE FROM uploads WHERE id = ?').run(upload.id);
+    return send(res, 200, db.prepare('SELECT * FROM redes WHERE id = ?').get(upload.id));
+  }
+  const redesItem = route.match(/^\/redes\/([0-9a-f-]{36})(\/file|\/link)?$/);
+  if (redesItem) {
+    requireAdmin(req);
+    const item = db.prepare('SELECT * FROM redes WHERE id = ?').get(redesItem[1]);
+    if (!item) throw new HttpError(404, 'No existe');
+    if (redesItem[2] === '/file' && (method === 'GET' || method === 'HEAD')) {
+      res.writeHead(200, { 'X-Accel-Redirect': `/_media/redes/${item.file}`, 'Cache-Control': 'private, max-age=3600' });
+      return res.end();
+    }
+    // Enlace directo y temporal al original, para Metricool («Desde URL»).
+    if (redesItem[2] === '/link' && method === 'POST') {
+      const exp = Math.floor(Date.now() / 1000) + SHARE_DAYS * 86400;
+      return send(res, 200, { url: `${ORIGIN}/api/share/${item.id}/${exp}/${shareSig(item.id, exp)}/bisontes-dux-${item.id.slice(0, 8)}.${item.file.split('.').pop()}`, expires_at: new Date(exp * 1000).toISOString() });
+    }
+    if (!redesItem[2] && method === 'PATCH') {
+      const body = await readJson(req);
+      if ('status' in body && !REDES_STATUS.includes(body.status)) throw new HttpError(400, 'Estado no válido');
+      for (const column of ['caption', 'publish_on', 'status']) if (column in body) db.prepare(`UPDATE redes SET ${column} = ? WHERE id = ?`).run(body[column] || (column === 'status' ? 'pendiente' : null), item.id);
+      return send(res, 200, db.prepare('SELECT * FROM redes WHERE id = ?').get(item.id));
+    }
+    if (!redesItem[2] && method === 'DELETE') {
+      await fsp.rm(path.join(MEDIA, 'redes', item.id), { recursive: true, force: true });
+      db.prepare('DELETE FROM redes WHERE id = ?').run(item.id);
+      return send(res, 200, { ok: true });
+    }
+  }
+  const share = route.match(/^\/share\/([0-9a-f-]{36})\/(\d+)\/([A-Za-z0-9_-]{32})\/[A-Za-z0-9._-]+$/);
+  if (share && (method === 'GET' || method === 'HEAD')) {
+    const [, id, exp, sig] = share;
+    if (Number(exp) < Date.now() / 1000 || !crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(shareSig(id, exp)))) throw new HttpError(403, 'Enlace caducado o no válido');
+    const item = db.prepare('SELECT file FROM redes WHERE id = ?').get(id);
+    if (!item) throw new HttpError(404, 'No existe');
+    res.writeHead(200, { 'X-Accel-Redirect': `/_media/redes/${item.file}`, 'Cache-Control': 'public, max-age=3600' });
     return res.end();
   }
 
