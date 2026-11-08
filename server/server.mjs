@@ -40,6 +40,7 @@ const TMP = path.join(DATA, 'tmp');
 const BUCKETS = { 'galeria-publica': 'publica', 'galeria-privada': 'privada' };
 const SESSION_DAYS = 60;
 const MAX_IMAGE = 15 * 1024 * 1024;
+const MAX_ORIGINAL = 80 * 1024 * 1024; // foto original tal cual sale de la cámara
 const MAX_VIDEO = 4 * 1024 * 1024 * 1024;
 const CHUNK = 8 * 1024 * 1024;
 const ALLOWED_PATH = /^(data\/[a-z]+\.js|assets\/(uploads|sponsors|blog|historias)\/[a-z0-9-]+\.(webp|png|jpg))$/;
@@ -89,6 +90,8 @@ db.exec(`
     next_index INTEGER NOT NULL DEFAULT 0, name TEXT, created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
   );
 `);
+// Original sin tocar (máxima calidad para redes); bases de datos anteriores no la tienen.
+if (!db.prepare('PRAGMA table_info(photos)').all().some(c => c.name === 'original_path')) db.exec('ALTER TABLE photos ADD COLUMN original_path TEXT');
 const now = () => new Date().toISOString();
 db.prepare('DELETE FROM sessions WHERE expires_at < ?').run(now());
 
@@ -208,8 +211,8 @@ const TABLES = {
   gallery_members: { table: 'members', key: 'user_id', columns: ['user_id', 'email', 'name', 'player_slug', 'role', 'expires_at', 'created_at'], editable: ['name', 'player_slug', 'role', 'expires_at'] },
   gallery_photos: {
     table: 'photos', key: 'id',
-    columns: ['id', 'full_path', 'thumb_path', 'width', 'height', 'event', 'taken_on', 'caption', 'players', 'is_public', 'media_type', 'status', 'duration', 'uploaded_by', 'created_at'],
-    editable: ['full_path', 'thumb_path', 'width', 'height', 'event', 'taken_on', 'caption', 'players', 'is_public']
+    columns: ['id', 'full_path', 'thumb_path', 'width', 'height', 'event', 'taken_on', 'caption', 'players', 'is_public', 'media_type', 'status', 'duration', 'uploaded_by', 'created_at', 'original_path'],
+    editable: ['full_path', 'thumb_path', 'original_path', 'width', 'height', 'event', 'taken_on', 'caption', 'players', 'is_public']
   }
 };
 function rowOut(name, row) {
@@ -293,6 +296,10 @@ function mediaPath(bucket, relative) {
   return { file: path.join(MEDIA, folder, clean), clean, folder };
 }
 const IMAGE_TYPES = ['image/jpeg', 'image/webp', 'image/png'];
+const ORIGINAL_TYPES = [...IMAGE_TYPES, 'image/heic', 'image/heif'];
+const isOriginal = clean => /\/original\.[a-z0-9]+$/.test(clean);
+// Extensión segura del archivo subido (el original se guarda con ella).
+const extensionOf = name => (String(name || '').match(/\.([A-Za-z0-9]{1,5})$/) || [])[1]?.toLowerCase() || 'mp4';
 
 /* ---------------- vídeos ---------------- */
 function run(command, args) {
@@ -320,7 +327,7 @@ async function processVideos() {
   }
   videoBusy = false;
 }
-async function processVideo({ id, input, isPublic }) {
+async function processVideo({ id, input, isPublic, ext = 'mp4' }) {
   const probe = JSON.parse(await run('ffprobe', ['-v', 'error', '-print_format', 'json', '-show_streams', '-show_format', input]));
   const video = (probe.streams || []).find(s => s.codec_type === 'video');
   const audio = (probe.streams || []).find(s => s.codec_type === 'audio');
@@ -342,14 +349,16 @@ async function processVideo({ id, input, isPublic }) {
   const info = JSON.parse(await run('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height', '-print_format', 'json', out]));
   let { width, height } = info.streams[0];
   if (Math.abs(rotation) === 90 || Math.abs(rotation) === 270) [width, height] = [height, width];
-  await fsp.rm(input, { force: true });
+  // El original se guarda tal cual: video.mp4 solo sirve para verlo en la web.
+  const original = `original.${ext}`;
+  await fsp.rename(input, path.join(dir, original)).catch(() => fsp.copyFile(input, path.join(dir, original)).then(() => fsp.rm(input, { force: true })));
   if (isPublic) {
     await fsp.mkdir(path.join(MEDIA, 'publica', id), { recursive: true });
     await fsp.copyFile(out, path.join(MEDIA, 'publica', id, 'video.mp4'));
     await fsp.copyFile(poster, path.join(MEDIA, 'publica', id, 'thumb.jpg'));
   }
-  db.prepare("UPDATE photos SET full_path = ?, thumb_path = ?, width = ?, height = ?, duration = ?, status = 'ready' WHERE id = ?")
-    .run(`${id}/video.mp4`, `${id}/thumb.jpg`, width, height, duration, id);
+  db.prepare("UPDATE photos SET full_path = ?, thumb_path = ?, original_path = ?, width = ?, height = ?, duration = ?, status = 'ready' WHERE id = ?")
+    .run(`${id}/video.mp4`, `${id}/thumb.jpg`, `${id}/${original}`, width, height, duration, id);
 }
 // Vídeos que quedaron a medias si se reinició el servicio.
 for (const row of db.prepare("SELECT id FROM photos WHERE status = 'processing'").all()) {
@@ -525,11 +534,13 @@ async function handle(req, res) {
   const storage = route.match(/^\/storage\/([a-z-]+)\/(.+)$/);
   if (storage && method === 'PUT') {
     requireAdmin(req);
-    const { file } = mediaPath(storage[1], decodeURIComponent(storage[2]));
+    const { file, clean, folder } = mediaPath(storage[1], decodeURIComponent(storage[2]));
     const type = String(req.headers['content-type'] || '').split(';')[0];
-    if (!IMAGE_TYPES.includes(type)) throw new HttpError(400, 'Solo se admiten imágenes JPG, WebP o PNG.');
+    const original = isOriginal(clean);
+    if (original && folder !== 'privada') throw new HttpError(400, 'El original solo se guarda en la galería privada.');
+    if (!(original ? ORIGINAL_TYPES : IMAGE_TYPES).includes(type)) throw new HttpError(400, 'Solo se admiten imágenes JPG, WebP o PNG.');
     if (fs.existsSync(file) && req.headers['x-upsert'] !== 'true') throw new HttpError(409, 'The resource already exists');
-    const body = await readBody(req, MAX_IMAGE);
+    const body = await readBody(req, original ? MAX_ORIGINAL : MAX_IMAGE);
     await fsp.mkdir(path.dirname(file), { recursive: true });
     await fsp.writeFile(file, body);
     return send(res, 200, { path: decodeURIComponent(storage[2]) });
@@ -606,7 +617,7 @@ async function handle(req, res) {
       VALUES (?, '', '', ?, ?, ?, ?, ?, 'video', 'processing', ?)`)
       .run(upload.id, meta.event || null, meta.taken_on || null, meta.caption || null, JSON.stringify(meta.players || []), meta.is_public ? 1 : 0, user.id);
     db.prepare('DELETE FROM uploads WHERE id = ?').run(upload.id);
-    videoQueue.push({ id: upload.id, input: path.join(TMP, `${upload.id}.upload`), isPublic: Boolean(meta.is_public) });
+    videoQueue.push({ id: upload.id, input: path.join(TMP, `${upload.id}.upload`), isPublic: Boolean(meta.is_public), ext: extensionOf(upload.name) });
     processVideos();
     return send(res, 200, rowOut('gallery_photos', db.prepare('SELECT * FROM photos WHERE id = ?').get(upload.id)));
   }
