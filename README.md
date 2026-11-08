@@ -113,6 +113,10 @@ Para usar vuestra plantilla de Canva en las historias, exportad el fondo de cada
 
 Hasta que esté conectado, el panel funciona igual y las historias se comparten a mano.
 
+## Para redes (`/admin/redes/`)
+
+Solo admins, con la misma cuenta que el resto del admin. Se suben vídeos y fotos **originales** (se guardan byte a byte, sin comprimir) en `media/redes/`, con copy, fecha prevista y estado (pendiente, programado, publicado). «Copiar enlace» da un enlace directo y firmado que caduca a los 7 días, para Metricool → Añadir → *Desde URL*. La llave de firma se crea sola en `BDX_DATA/share.key`.
+
 ## Servidor propio (urpilandia) — sustituye a Supabase
 
 La web se sirve en `https://bisontesdux.es` desde urpilandia, con nginx y una configuración propia, independiente de SillaMC:
