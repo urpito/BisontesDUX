@@ -40,6 +40,7 @@ const players = [
   {
     "role": "entrenador",
     "name": "Gunduz, Ben",
+    "photo": "assets/staff-ben.png",
     "position": "ENTRENADOR",
     "nickname": "Ben",
     "nationalities": [
@@ -55,6 +56,7 @@ const players = [
   {
     "role": "entrenador",
     "name": "Arrufat, Jose Ignacio",
+    "photo": "assets/staff-jose.png",
     "position": "ENTRENADOR",
     "nationalities": [
       "España"
@@ -86,6 +88,7 @@ const players = [
   {
     "dorsal": 1,
     "name": "Copa Moreno, Omar Alejandro",
+    "photo": "assets/jugador1.png",
     "position": "POR",
     "trajectory": [
       "Malasaña",
@@ -98,6 +101,7 @@ const players = [
   {
     "dorsal": 3,
     "name": "Navas Moreno, Bruno",
+    "photo": "assets/jugador3.png",
     "position": "DFC",
     "captain": true,
     "nationalities": [
@@ -143,6 +147,7 @@ const players = [
   {
     "dorsal": 6,
     "name": "Arrango Guerra, Jose Anthony",
+    "photo": "assets/jugador6.png",
     "position": "MC",
     "nationalities": [
       "España"
@@ -159,6 +164,7 @@ const players = [
   {
     "dorsal": 7,
     "name": "Gálvez Patiño, Alan",
+    "photo": "assets/jugador7.png",
     "position": "EI",
     "nationalities": [
       "Colombia"
@@ -204,6 +210,7 @@ const players = [
   {
     "dorsal": 10,
     "name": "Tekiela, Filip Gabriel",
+    "photo": "assets/jugador10.png",
     "position": "DC",
     "captain": true,
     "nationalities": [
@@ -278,6 +285,7 @@ const players = [
   {
     "dorsal": 15,
     "name": "Constantine Padilla, Arturo",
+    "photo": "assets/jugador15.png",
     "position": "EI",
     "nickname": "Arturito",
     "trajectory": [
@@ -289,6 +297,7 @@ const players = [
   {
     "dorsal": 17,
     "name": "Chavez Guzman, Cristhofer Alejandro",
+    "photo": "assets/jugador17.png",
     "position": "ED",
     "trajectory": [
       "CD Tajamar",
@@ -316,6 +325,7 @@ const players = [
   {
     "dorsal": 21,
     "name": "Naharro Idec, Elías",
+    "photo": "assets/jugador21.png",
     "position": "LI",
     "nationalities": [
       "España"
@@ -344,6 +354,7 @@ const players = [
   {
     "dorsal": 24,
     "name": "Molina Diaz, Francisco Javier",
+    "photo": "assets/jugador25.png",
     "position": "DFC",
     "nationalities": [
       "Venezuela"
@@ -384,6 +395,7 @@ const players = [
   {
     "dorsal": 42,
     "name": "Floria Sanchez, Daniel",
+    "photo": "assets/jugador42.png",
     "position": "DFC",
     "nationalities": [
       "España"
@@ -399,6 +411,7 @@ const players = [
   {
     "dorsal": 67,
     "name": "Lopez Lopez, Santiago",
+    "photo": "assets/jugador67.png",
     "position": "MC",
     "nationalities": [
       "España"
@@ -413,6 +426,7 @@ const players = [
   {
     "dorsal": 69,
     "name": "Gonzalez Riagada, Mateo",
+    "photo": "assets/jugador69.png",
     "position": "ED",
     "nationalities": [
       "España"
@@ -427,6 +441,7 @@ const players = [
   {
     "dorsal": 99,
     "name": "Arrufat Belloso, Diego",
+    "photo": "assets/jugador99.png",
     "position": "MCO",
     "captain": true,
     "nationalities": [
